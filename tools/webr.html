@@ -4,6 +4,8 @@ When the JS module loads (pkgdown site), the toggle is flipped and it shows the 
 On GitHub, the JS never runs, so nothing is displayed.
 -->
 
+<!--- CSS -->
+
 <style>
 /* WebR Editor Styles */
 #webr-container {
@@ -93,6 +95,9 @@ On GitHub, the JS never runs, so nothing is displayed.
 }
 </style>
 
+<!--- UI -->
+<!--- Can't indent, otherwise it gets treated as markdown -->
+
 <div id="webr-toggle" style="display: none;">
 <h3>Try it</h3>
 <div id="webr-container">
@@ -107,6 +112,8 @@ On GitHub, the JS never runs, so nothing is displayed.
 
 </div>
 </div>
+
+<!--- JavaScript -->
 
 <script type="module">
   // This module only runs on the pkgdown site (not GitHub) because GitHub
