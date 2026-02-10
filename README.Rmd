@@ -78,6 +78,9 @@ pak::pak("tidyverse/dplyr")
 ```
 
 ```{r, echo=FALSE, results='asis'}
+# Must strip out blank lines otherwise the ones in `<script type="module">`
+# will end up with the ASCII for a line feed in the emitted `README.md`. This
+# is apparently a pandoc thing.
 lines <- readLines("tools/webr.html")
 lines <- lines[lines != ""]
 cat(lines, sep = "\n")
