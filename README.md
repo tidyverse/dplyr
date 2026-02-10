@@ -264,13 +264,34 @@ Run Code
         const code = editorEl.value;
         let shelter = await new webR.Shelter();
         try {
-          let capture = await shelter.captureR(code, { withAutoprint: true, captureConditions: false });
-          // Extract output divs, color errors red
-          const elements = capture.output.map((val) => {
+          let capture = await shelter.captureR(
+            code,
+            {
+              withAutoprint: true,
+              // This gives us an R object in `val.data` when `val.type` is `"error"` or `"warning"`
+              // so that we can recall `conditionMessage()`
+              throwJsException: false
+            }
+          );
+          // Extract output divs
+          const elements = capture.output.map(async (val) => {
+            // webr doesn't use `captureCondition()` correctly yet, so we manually
+            // handle error and warning cases by calling `conditionMessage()` ourselves
+            // https://github.com/r-wasm/webr/issues/281
             const element = document.createElement('div');
-            element.textContent = val.data;
-            if (val.type === 'stderr') {
+            if (val.type === 'stdout') {
+              element.textContent = val.data;
+            } else if (val.type === 'stderr') {
               element.style.color = 'red';
+              element.textContent = val.data;
+            } else if (val.type === 'error') {
+              element.style.color = 'red';
+              const message = await webR.evalRString(`conditionMessage(cnd)`, { env: { cnd: val.data }});
+              element.textContent = message.includes("\n") ? `Error:\n${message}` : `Error: ${message}`;
+            }else if (val.type === 'warning') {
+              element.style.color = 'orange';
+              const message = await webR.evalRString(`conditionMessage(cnd)`, { env: { cnd: val.data }});
+              element.textContent = message.includes("\n") ? `Warning:\n${message}` : `Warning: ${message}`;
             }
             return element;
           });
@@ -278,7 +299,8 @@ Run Code
           outputEl.textContent = null;
           // Show output if we have any, or remove output div entirely if no output
           if (elements.length > 0) {
-            outputEl.append(...elements);
+            const outputs = await Promise.all(elements);
+            outputEl.append(...outputs);
           } else {
             outputEl.style.display = 'none';
           }
