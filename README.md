@@ -233,6 +233,12 @@ Run Code
     const outputEl = container.querySelector('.webr-output');
     const outputPlotEl = container.querySelector('.webr-output-plot');
     const runBtn = container.querySelector('.webr-run-btn');
+    // Set canvas dimensions to 2x the image, since webR's graphics device
+    // renders at 2x resolution
+    const webrPlotHeight = 400;
+    const webrPlotWidth = webrPlotHeight * 1.618;
+    outputPlotEl.height = webrPlotHeight * 2;
+    outputPlotEl.width = webrPlotWidth * 2;
     const updateStatus = (msg, loading = true) => {
       if (statusEl) {
         statusEl.innerHTML = loading
@@ -270,7 +276,11 @@ Run Code
               withAutoprint: true,
               // This gives us an R object in `val.data` when `val.type` is `"error"` or `"warning"`
               // so that we can recall `conditionMessage()`
-              throwJsException: false
+              throwJsException: false,
+              captureGraphics: {
+                height: webrPlotHeight,
+                width: webrPlotWidth
+              }
             }
           );
           // Extract output divs
@@ -310,9 +320,6 @@ Run Code
             outputPlotEl.style.display = 'block';
             // Use the last image (most recent plot)
             const image = capture.images[capture.images.length - 1];
-            // Set canvas dimensions to match the image
-            outputPlotEl.width = image.width;
-            outputPlotEl.height = image.height;
             outputPlotEl.getContext('2d').drawImage(image, 0, 0);
           }
         } finally {
