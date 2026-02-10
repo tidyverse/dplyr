@@ -173,13 +173,21 @@ Try it
 
 <div id="webr-container">
 
-    <div class="webr-status"></div>
-    <button class="webr-run-btn" disabled>Run Code</button>
-    <textarea class="webr-editor">starwars |>
-      filter(species == "Human") |>
-      select(name, homeworld) |>
-      arrange(name)</textarea>
-    <pre class="webr-output" style="display: none;"></pre>
+<div class="webr-status">
+
+</div>
+
+<button class="webr-run-btn" disabled>
+
+Run Code
+</button>
+
+<textarea class="webr-editor">starwars |>
+  filter(species == "Human") |>
+  select(name, homeworld) |>
+  arrange(name)</textarea>
+
+<pre class="webr-output" style="display: none;"></pre>
 
 </div>
 

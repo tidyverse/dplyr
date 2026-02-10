@@ -95,24 +95,18 @@ On GitHub, the JS never runs, so nothing is displayed.
 </style>
 
 <div id="webr-toggle" style="display: none;">
+<h3>Try it</h3>
+<div id="webr-container">
 
-  <h3>Try it</h3>
+<div class="webr-status"></div>
+<button class="webr-run-btn" disabled>Run Code</button>
+<textarea class="webr-editor">starwars |>
+  filter(species == "Human") |>
+  select(name, homeworld) |>
+  arrange(name)</textarea>
+<pre class="webr-output" style="display: none;"></pre>
 
-  <div id="webr-container">
-
-    <div class="webr-status"></div>
-
-    <button class="webr-run-btn" disabled>Run Code</button>
-
-    <textarea class="webr-editor">starwars |>
-      filter(species == "Human") |>
-      select(name, homeworld) |>
-      arrange(name)</textarea>
-
-    <pre class="webr-output" style="display: none;"></pre>
-
-  </div>
-
+</div>
 </div>
 
 <script type="module">
