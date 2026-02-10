@@ -152,6 +152,13 @@ On GitHub, the JS never runs, so nothing is displayed.
   border-radius: 0.25rem;
   box-sizing: border-box;
 }
+.webr-output-plot {
+  max-width: 100%;
+  margin: 0.75rem auto 0 auto;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
 .webr-fallback {
   padding: 1rem;
   text-align: center;
@@ -275,12 +282,16 @@ Run Code
           } else {
             outputEl.style.display = 'none';
           }
-          // Show images if we have any
+          // Show last image if we have any.
+          // Doesn't make much sense to try and show multiple.
           if (capture.images.length > 0) {
             outputPlotEl.style.display = 'block';
-            capture.images.forEach((image) => {
-              outputPlotEl.getContext('2d').drawImage(image, 0, 0);
-            });
+            // Use the last image (most recent plot)
+            const image = capture.images[capture.images.length - 1];
+            // Set canvas dimensions to match the image
+            outputPlotEl.width = image.width;
+            outputPlotEl.height = image.height;
+            outputPlotEl.getContext('2d').drawImage(image, 0, 0);
           }
         } finally {
           runBtn.disabled = false;
