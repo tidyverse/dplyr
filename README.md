@@ -121,7 +121,7 @@ On GitHub, the JS never runs, so nothing is displayed.
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
-.webr-run-btn {
+.webr-run-button {
   margin-bottom: 0.75rem;
   padding: 0.5rem 1.5rem;
   font-size: 0.9rem;
@@ -133,10 +133,10 @@ On GitHub, the JS never runs, so nothing is displayed.
   cursor: pointer;
   transition: background-color 0.15s ease-in-out;
 }
-.webr-run-btn:hover:not(:disabled) {
+.webr-run-button:hover:not(:disabled) {
   background-color: #375a7a;
 }
-.webr-run-btn:disabled {
+.webr-run-button:disabled {
   opacity: 0.65;
   cursor: not-allowed;
 }
@@ -190,7 +190,7 @@ Try it
 
 </div>
 
-<button class="webr-run-btn" disabled>
+<button class="webr-run-button" disabled>
 
 Run Code
 </button>
@@ -228,20 +228,20 @@ Run Code
     if (!container) {
       return;
     }
-    const statusEl = container.querySelector('.webr-status');
-    const editorEl = container.querySelector('.webr-editor');
-    const outputEl = container.querySelector('.webr-output');
-    const outputPlotEl = container.querySelector('.webr-output-plot');
-    const runBtn = container.querySelector('.webr-run-btn');
+    const statusElement = container.querySelector('.webr-status');
+    const editorElement = container.querySelector('.webr-editor');
+    const outputElement = container.querySelector('.webr-output');
+    const outputPlotElement = container.querySelector('.webr-output-plot');
+    const runButton = container.querySelector('.webr-run-button');
     // Set canvas dimensions to 2x the image, since webR's graphics device
     // renders at 2x resolution
     const webrPlotHeight = 400;
     const webrPlotWidth = webrPlotHeight * 1.618;
-    outputPlotEl.height = webrPlotHeight * 2;
-    outputPlotEl.width = webrPlotWidth * 2;
+    outputPlotElement.height = webrPlotHeight * 2;
+    outputPlotElement.width = webrPlotWidth * 2;
     const updateStatus = (msg, loading = true) => {
-      if (statusEl) {
-        statusEl.innerHTML = loading
+      if (statusElement) {
+        statusElement.innerHTML = loading
         ? '<span class="spinner-border spinner-border-sm me-2"></span>' + msg
         : msg;
       }
@@ -254,20 +254,20 @@ Run Code
       await webR.installPackages(['dplyr'], { quiet: true });
       updateStatus('Loading dplyr...');
       await webR.evalRVoid('library(dplyr)');
-      if (statusEl) {
+      if (statusElement) {
         // Finished with status updates
-        statusEl.style.display = 'none';
+        statusElement.style.display = 'none';
       }
-      runBtn.disabled = false;
-      runBtn.addEventListener('click', async () => {
-        runBtn.disabled = true;
+      runButton.disabled = false;
+      runButton.addEventListener('click', async () => {
+        runButton.disabled = true;
         // About to run code, show `Running...` to the user
-        outputEl.style.display = 'block';
-        outputEl.textContent = 'Running...';
+        outputElement.style.display = 'block';
+        outputElement.textContent = 'Running...';
         // Clear previous plots and hide the plot canvas
-        outputPlotEl.style.display = 'none';
-        outputPlotEl.textContent = null;
-        const code = editorEl.value;
+        outputPlotElement.style.display = 'none';
+        outputPlotElement.textContent = null;
+        const code = editorElement.value;
         let shelter = await new webR.Shelter();
         try {
           let capture = await shelter.captureR(
@@ -306,24 +306,24 @@ Run Code
             return element;
           });
           // Clear last output, or initial `Running...`
-          outputEl.textContent = null;
+          outputElement.textContent = null;
           // Show output if we have any, or remove output div entirely if no output
           if (elements.length > 0) {
             const outputs = await Promise.all(elements);
-            outputEl.append(...outputs);
+            outputElement.append(...outputs);
           } else {
-            outputEl.style.display = 'none';
+            outputElement.style.display = 'none';
           }
           // Show last image if we have any.
           // Doesn't make much sense to try and show multiple.
           if (capture.images.length > 0) {
-            outputPlotEl.style.display = 'block';
+            outputPlotElement.style.display = 'block';
             // Use the last image (most recent plot)
             const image = capture.images[capture.images.length - 1];
-            outputPlotEl.getContext('2d').drawImage(image, 0, 0);
+            outputPlotElement.getContext('2d').drawImage(image, 0, 0);
           }
         } finally {
-          runBtn.disabled = false;
+          runButton.disabled = false;
           shelter.purge();
         }
       });
