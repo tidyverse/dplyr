@@ -85,6 +85,8 @@ When the JS module loads (pkgdown site), the toggle is flipped and it shows the 
 On GitHub, the JS never runs, so nothing is displayed.
 -->
 
+<!--- CSS -->
+
 <style>
 /* WebR Editor Styles */
 #webr-container {
@@ -164,6 +166,10 @@ On GitHub, the JS never runs, so nothing is displayed.
 }
 </style>
 
+<!--- UI -->
+
+<!--- Can't indent, otherwise it gets treated as markdown -->
+
 <div id="webr-toggle" style="display: none;">
 
 <h3>
@@ -189,9 +195,15 @@ Run Code
 
 <pre class="webr-output" style="display: none;"></pre>
 
+<canvas class="webr-output-plot" style="display: none;">
+
+</canvas>
+
 </div>
 
 </div>
+
+<!--- JavaScript -->
 
 <script type="module">
   // This module only runs on the pkgdown site (not GitHub) because GitHub
@@ -199,15 +211,20 @@ Run Code
   // nothing is displayed. This script shows the container on pkgdown.
   import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
   document.addEventListener('DOMContentLoaded', async () => {
-    // Show the container (hidden by default for GitHub)
+    // Toggle the container on (hidden by default for GitHub)
     const toggle = document.getElementById('webr-toggle');
-    if (!toggle) return;
+    if (!toggle) {
+      return;
+    }
     toggle.style.display = 'block';
     const container = document.getElementById('webr-container');
-    if (!container) return;
+    if (!container) {
+      return;
+    }
     const statusEl = container.querySelector('.webr-status');
     const editorEl = container.querySelector('.webr-editor');
     const outputEl = container.querySelector('.webr-output');
+    const outputPlotEl = container.querySelector('.webr-output-plot');
     const runBtn = container.querySelector('.webr-run-btn');
     const updateStatus = (msg, loading = true) => {
       if (statusEl) {
@@ -224,43 +241,50 @@ Run Code
       await webR.installPackages(['dplyr'], { quiet: true });
       updateStatus('Loading dplyr...');
       await webR.evalRVoid('library(dplyr)');
-      if (statusEl) statusEl.style.display = 'none';
+      if (statusEl) {
+        // Finished with status updates
+        statusEl.style.display = 'none';
+      }
       runBtn.disabled = false;
       runBtn.addEventListener('click', async () => {
-        const code = editorEl.value;
+        runBtn.disabled = true;
+        // About to run code, show `Running...` to the user
         outputEl.style.display = 'block';
         outputEl.textContent = 'Running...';
-        runBtn.disabled = true;
+        // Clear previous plots and hide the plot canvas
+        outputPlotEl.style.display = 'none';
+        outputPlotEl.textContent = null;
+        const code = editorEl.value;
+        let shelter = await new webR.Shelter();
         try {
-          await webR.objs.globalEnv.bind('.webr_code', code);
-          await webR.evalRVoid(`
-        .webr_output <- capture.output({
-          .webr_result <- tryCatch(
-            {
-              res <- withVisible(eval(parse(text = .webr_code)))
-              list(value = res, error = NULL)
-            },
-            error = function(e) list(value = NULL, error = e)
-          )
-          if (!is.null(.webr_result$error)) {
-            cat("Error:\n", conditionMessage(.webr_result$error), "\n", sep = "")
-          } else if (.webr_result$value$visible) {
-            print(.webr_result$value$value)
-          }
-        }, type = "output")
-      `);
-          const result = await webR.evalR('.webr_output');
-          const output = await result.toArray();
-          const outputText = output.join('\n');
-          if (outputText) {
-            outputEl.textContent = outputText;
+          let capture = await shelter.captureR(code, { withAutoprint: true, captureConditions: false });
+          // Extract output divs, color errors red
+          const elements = capture.output.map((val) => {
+            const element = document.createElement('div');
+            element.textContent = val.data;
+            if (val.type === 'stderr') {
+              element.style.color = 'red';
+            }
+            return element;
+          });
+          // Clear last output, or initial `Running...`
+          outputEl.textContent = null;
+          // Show output if we have any, or remove output div entirely if no output
+          if (elements.length > 0) {
+            outputEl.append(...elements);
           } else {
             outputEl.style.display = 'none';
           }
-        } catch (e) {
-          outputEl.textContent = 'Error: ' + e.message;
+          // Show images if we have any
+          if (capture.images.length > 0) {
+            outputPlotEl.style.display = 'block';
+            capture.images.forEach((image) => {
+              outputPlotEl.getContext('2d').drawImage(image, 0, 0);
+            });
+          }
         } finally {
           runBtn.disabled = false;
+          shelter.purge();
         }
       });
     } catch (e) {
