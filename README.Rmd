@@ -78,7 +78,9 @@ pak::pak("tidyverse/dplyr")
 ```
 
 ```{r, echo=FALSE, results='asis'}
-cat(readLines("pkgdown/assets/webr-readme.html"), sep = "\n")
+lines <- readLines("pkgdown/assets/webr-readme.html")
+lines <- lines[lines != ""]
+cat(lines, sep = "\n")
 ```
 
 ## Cheat Sheet

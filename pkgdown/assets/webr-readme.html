@@ -4,23 +4,203 @@ When the JS module loads (pkgdown site), the toggle is flipped and it shows the 
 On GitHub, the JS never runs, so nothing is displayed.
 -->
 
+<style>
+/* WebR Editor Styles */
+#webr-container {
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #f8f9fa;
+}
+
+.webr-status {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #e7f1ff;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  color: #0c5460;
+}
+
+.webr-editor {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  font-family: 'Source Code Pro', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875rem;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.webr-editor:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.webr-run-btn {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: #447099;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.webr-run-btn:hover:not(:disabled) {
+  background-color: #375a7a;
+}
+
+.webr-run-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.webr-output {
+  width: 100%;
+  margin: 0.75rem 0 0 0;
+  padding: 0.75rem;
+  font-family: 'Source Code Pro', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875rem;
+  background-color: #ffffff;
+  color: #212529;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+.webr-fallback {
+  padding: 1rem;
+  text-align: center;
+  color: #6c757d;
+}
+
+.webr-fallback a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.webr-fallback a:hover {
+  text-decoration: underline;
+}
+
+</style>
+
 <div id="webr-toggle" style="display: none;">
 
-<h3>Try it</h3>
+  <h3>Try it</h3>
 
-<div id="webr-container">
+  <div id="webr-container">
 
-<div class="webr-status"></div>
+    <div class="webr-status"></div>
 
-<button class="webr-run-btn" disabled>Run Code</button>
+    <button class="webr-run-btn" disabled>Run Code</button>
 
-<textarea class="webr-editor">starwars |>
-  filter(species == "Human") |>
-  select(name, homeworld) |>
-  arrange(name)</textarea>
+    <textarea class="webr-editor">starwars |>
+      filter(species == "Human") |>
+      select(name, homeworld) |>
+      arrange(name)</textarea>
 
-<pre class="webr-output" style="display: none;"></pre>
+    <pre class="webr-output" style="display: none;"></pre>
+
+  </div>
 
 </div>
 
-</div>
+<script type="module">
+  // This module only runs on the pkgdown site (not GitHub) because GitHub
+  // doesn't execute JS. The container is hidden by default, so on GitHub
+  // nothing is displayed. This script shows the container on pkgdown.
+  import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Show the container (hidden by default for GitHub)
+    const toggle = document.getElementById('webr-toggle');
+    if (!toggle) return;
+    toggle.style.display = 'block';
+
+    const container = document.getElementById('webr-container');
+    if (!container) return;
+
+    const statusEl = container.querySelector('.webr-status');
+    const editorEl = container.querySelector('.webr-editor');
+    const outputEl = container.querySelector('.webr-output');
+    const runBtn = container.querySelector('.webr-run-btn');
+
+    const updateStatus = (msg, loading = true) => {
+      if (statusEl) {
+        statusEl.innerHTML = loading
+        ? '<span class="spinner-border spinner-border-sm me-2"></span>' + msg
+        : msg;
+      }
+    };
+
+    updateStatus('Initializing WebR...');
+
+    try {
+      const webR = new WebR();
+      await webR.init();
+
+      updateStatus('Installing dplyr (this may take a moment)...');
+      await webR.installPackages(['dplyr'], { quiet: true });
+
+      updateStatus('Loading dplyr...');
+      await webR.evalRVoid('library(dplyr)');
+
+      if (statusEl) statusEl.style.display = 'none';
+
+      runBtn.disabled = false;
+      runBtn.addEventListener('click', async () => {
+        const code = editorEl.value;
+        outputEl.style.display = 'block';
+        outputEl.textContent = 'Running...';
+        runBtn.disabled = true;
+
+        try {
+          await webR.objs.globalEnv.bind('.webr_code', code);
+          await webR.evalRVoid(`
+        .webr_output <- capture.output({
+          .webr_result <- tryCatch(
+            {
+              res <- withVisible(eval(parse(text = .webr_code)))
+              list(value = res, error = NULL)
+            },
+            error = function(e) list(value = NULL, error = e)
+          )
+          if (!is.null(.webr_result$error)) {
+            cat("Error:\n", conditionMessage(.webr_result$error), "\n", sep = "")
+          } else if (.webr_result$value$visible) {
+            print(.webr_result$value$value)
+          }
+        }, type = "output")
+      `);
+
+          const result = await webR.evalR('.webr_output');
+          const output = await result.toArray();
+          const outputText = output.join('\n');
+          if (outputText) {
+            outputEl.textContent = outputText;
+          } else {
+            outputEl.style.display = 'none';
+          }
+        } catch (e) {
+          outputEl.textContent = 'Error: ' + e.message;
+        } finally {
+          runBtn.disabled = false;
+        }
+      });
+
+    } catch (e) {
+      updateStatus('Failed to initialize WebR: ' + e.message, false);
+      console.error('WebR initialization failed:', e);
+    }
+  });
+</script>
