@@ -82,12 +82,11 @@ test_that("works with dbplyr", {
   skip_if_not_installed("dbplyr")
   skip_if_not_installed("RSQLite")
 
-  db <- copy_to(
-    dbplyr::src_memdb(),
-    tibble(x = c(1, 1, 1, 2, 2)),
-    name = "dplyr_test_count",
-    overwrite = TRUE
+  db <- dbplyr::local_memdb_frame(
+    "dplyr_test_count",
+    x = c(1, 1, 1, 2, 2)
   )
+
   df1 <- db |> count(x) |> as_tibble()
   expect_equal(df1, tibble(x = c(1, 2), n = c(3, 2)))
 
@@ -99,11 +98,10 @@ test_that("dbplyr `count()` method has transient internal grouping (#6338, tidyv
   skip_if_not_installed("dbplyr")
   skip_if_not_installed("RSQLite")
 
-  db <- copy_to(
-    dbplyr::src_memdb(),
-    tibble(x = c(1, 1, 1, 2, 2), y = c("a", "a", "b", "c", "c")),
-    name = "dplyr_test_count_transient_grouping",
-    overwrite = TRUE
+  db <- dbplyr::local_memdb_frame(
+    "dplyr_test_count_transient_grouping",
+    x = c(1, 1, 1, 2, 2),
+    y = c("a", "a", "b", "c", "c")
   )
 
   df <- db |>
