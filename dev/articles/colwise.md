@@ -125,8 +125,8 @@ a named list of functions or lambda functions in the second argument:
 
 ``` r
 min_max <- list(
-  min = ~min(.x, na.rm = TRUE),
-  max = ~max(.x, na.rm = TRUE)
+  min = ~ min(.x, na.rm = TRUE),
+  max = ~ max(.x, na.rm = TRUE)
 )
 starwars |> summarise(across(where(is.numeric), min_max))
 #> # A tibble: 1 × 6
@@ -144,12 +144,22 @@ Control how the names are created with the `.names` argument which takes
 a [glue](https://glue.tidyverse.org/) spec:
 
 ``` r
-starwars |> summarise(across(where(is.numeric), min_max, .names = "{.fn}.{.col}"))
+starwars |>
+  summarise(across(
+    where(is.numeric),
+    min_max,
+    .names = "{.fn}.{.col}"
+  ))
 #> # A tibble: 1 × 6
 #>   min.height max.height min.mass max.mass min.birth_year max.birth_year
 #>        <int>      <int>    <dbl>    <dbl>          <dbl>          <dbl>
 #> 1         66        264       15     1358              8            896
-starwars |> summarise(across(c(height, mass, birth_year), min_max, .names = "{.fn}.{.col}"))
+starwars |>
+  summarise(across(
+    c(height, mass, birth_year),
+    min_max,
+    .names = "{.fn}.{.col}"
+  ))
 #> # A tibble: 1 × 6
 #>   min.height max.height min.mass max.mass min.birth_year max.birth_year
 #>        <int>      <int>    <dbl>    <dbl>          <dbl>          <dbl>
@@ -160,10 +170,19 @@ If you’d prefer all summaries with the same function to be grouped
 together, you’ll have to expand the calls yourself:
 
 ``` r
-starwars |> summarise(
-  across(c(height, mass, birth_year), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
-  across(c(height, mass, birth_year), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
-)
+starwars |>
+  summarise(
+    across(
+      c(height, mass, birth_year),
+      ~ min(.x, na.rm = TRUE),
+      .names = "min_{.col}"
+    ),
+    across(
+      c(height, mass, birth_year),
+      ~ max(.x, na.rm = TRUE),
+      .names = "max_{.col}"
+    )
+  )
 #> # A tibble: 1 × 6
 #>   min_height min_mass min_birth_year max_height max_mass max_birth_year
 #>        <int>    <dbl>          <dbl>      <int>    <dbl>          <dbl>
@@ -184,12 +203,13 @@ We can work around this by combining both calls to
 single expression that returns a tibble:
 
 ``` r
-starwars |> summarise(
-  tibble(
-    across(where(is.numeric), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
-    across(where(is.numeric), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
+starwars |>
+  summarise(
+    tibble(
+      across(where(is.numeric), ~ min(.x, na.rm = TRUE), .names = "min_{.col}"),
+      across(where(is.numeric), ~ max(.x, na.rm = TRUE), .names = "max_{.col}")
+    )
   )
-)
 #> # A tibble: 1 × 6
 #>   min_height min_mass min_birth_year max_height max_mass max_birth_year
 #>        <int>    <dbl>          <dbl>      <int>    <dbl>          <dbl>
@@ -221,7 +241,8 @@ transformation that’s already encoded in a vector:
 df <- tibble(x = 1:3, y = 3:5, z = 5:7)
 mult <- list(x = 1, y = 10, z = 100)
 
-df |> mutate(across(all_of(names(mult)), ~ .x * mult[[cur_column()]]))
+df |>
+  mutate(across(all_of(names(mult)), ~ .x * mult[[cur_column()]]))
 #> # A tibble: 3 × 3
 #>       x     y     z
 #>   <dbl> <dbl> <dbl>
@@ -274,9 +295,7 @@ single expression that returns a tibble:
 
 ``` r
 df |>
-  summarise(
-    tibble(n = n(), across(where(is.numeric), sd))
-  )
+  summarise(tibble(n = n(), across(where(is.numeric), sd)))
 #>   n x        y
 #> 1 3 1 4.041452
 ```
@@ -500,9 +519,9 @@ code to use
 For example:
 
 ``` r
-df |> mutate_if(is.numeric, ~mean(.x, na.rm = TRUE))
+df |> mutate_if(is.numeric, ~ mean(.x, na.rm = TRUE))
 # ->
-df |> mutate(across(where(is.numeric), ~mean(.x, na.rm = TRUE)))
+df |> mutate(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 
 df |> mutate_at(vars(c(x, starts_with("y"))), mean)
 # ->

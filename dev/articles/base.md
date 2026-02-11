@@ -258,7 +258,7 @@ You can also use `[` but this also requires the use of
 [`which()`](https://rdrr.io/r/base/which.html) to remove `NA`s:
 
 ``` r
-starwars[which(starwars$species == "Human"), , drop = FALSE]
+starwars[which(starwars$species == "Human"), ]
 #> # A tibble: 35 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
 #>   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>
@@ -269,14 +269,14 @@ starwars[which(starwars$species == "Human"), , drop = FALSE]
 #> # ℹ 31 more rows
 #> # ℹ 6 more variables: gender <chr>, homeworld <chr>, species <chr>,
 #> #   films <list>, vehicles <list>, starships <list>
-starwars[which(starwars$mass > 1000), , drop = FALSE]
+starwars[which(starwars$mass > 1000), ]
 #> # A tibble: 1 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
 #>   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>
 #> 1 Jabba …    175  1358 NA         green-tan… orange           600 herm…
 #> # ℹ 6 more variables: gender <chr>, homeworld <chr>, species <chr>,
 #> #   films <list>, vehicles <list>, starships <list>
-starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), , drop = FALSE]
+starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), ]
 #> # A tibble: 9 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
 #>   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>
@@ -295,7 +295,7 @@ starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), ,
 creates new variables from existing variables:
 
 ``` r
-df |> mutate(z = x + y, z2 = z ^ 2)
+df |> mutate(z = x + y, z2 = z^2)
 #> # A tibble: 100 × 4
 #>       x     y     z    z2
 #>   <int> <int> <int> <dbl>
@@ -311,7 +311,7 @@ The closest base equivalent is
 cannot use freshly created variables:
 
 ``` r
-head(transform(df, z = x + y, z2 = (x + y) ^ 2))
+head(transform(df, z = x + y, z2 = (x + y)^2))
 #>   x y  z  z2
 #> 1 7 4 11 121
 #> 2 5 2  7  49
@@ -351,7 +351,8 @@ To replicate this in base R, you can use
 [`ave()`](https://rdrr.io/r/stats/ave.html):
 
 ``` r
-transform(gf,
+transform(
+  gf,
   x_mean = ave(x, g, FUN = mean),
   x_rank = ave(x, g, FUN = rank)
 )
@@ -668,7 +669,9 @@ do.call(rbind, mtcars_by)
 to providing an elegant answer:
 
 ``` r
-agg <- aggregate(disp ~ cyl, mtcars, function(x) c(mean = mean(x), n = length(x)))
+agg <- aggregate(disp ~ cyl, mtcars, function(x) {
+  c(mean = mean(x), n = length(x))
+})
 agg
 #>   cyl disp.mean   disp.n
 #> 1   4  105.1364  11.0000

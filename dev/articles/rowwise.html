@@ -523,7 +523,7 @@ model per row:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8 <span style="color: #949494;">&lt;tibble [14 × 10]&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   <span style="color: #949494;">&lt;dbl [14]&gt;</span></span></span></code></pre></div>
 <p>You could then summarise the model in a variety of ways:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mods</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>rmse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">pred</span> <span class="op">-</span> <span class="va">data</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mods</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>rmse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">pred</span> <span class="op">-</span> <span class="va">data</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has converted the output from a rowwise data frame to a</span></span>
 <span><span class="co">#&gt; grouped data frame.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summaries were computed rowwise.</span></span>
@@ -596,10 +596,10 @@ frame that describes the properties of 3 samples from the uniform
 distribution:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>  <span class="op">~</span> <span class="va">n</span>, <span class="op">~</span> <span class="va">min</span>, <span class="op">~</span> <span class="va">max</span>,</span>
-<span>    <span class="fl">1</span>,     <span class="fl">0</span>,     <span class="fl">1</span>,</span>
-<span>    <span class="fl">2</span>,    <span class="fl">10</span>,   <span class="fl">100</span>,</span>
-<span>    <span class="fl">3</span>,   <span class="fl">100</span>,  <span class="fl">1000</span>,</span>
+<span>  <span class="op">~</span><span class="va">n</span> , <span class="op">~</span><span class="va">min</span> , <span class="op">~</span><span class="va">max</span> ,</span>
+<span>   <span class="fl">1</span> ,    <span class="fl">0</span> ,    <span class="fl">1</span> ,</span>
+<span>   <span class="fl">2</span> ,   <span class="fl">10</span> ,  <span class="fl">100</span> ,</span>
+<span>   <span class="fl">3</span> ,  <span class="fl">100</span> , <span class="fl">1000</span> ,</span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>You can supply these parameters to <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif()</a></code> by using
 <code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
@@ -663,10 +663,10 @@ regular. But it’s still possible, and it’s a natural place to use
 <code><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call()</a></code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>   <span class="op">~</span><span class="va">rng</span>,     <span class="op">~</span><span class="va">params</span>,</span>
-<span>   <span class="st">"runif"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
-<span>   <span class="st">"rnorm"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,</span>
-<span>   <span class="st">"rpois"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, lambda <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  <span class="op">~</span><span class="va">rng</span>    , <span class="op">~</span><span class="va">params</span>                  ,</span>
+<span>  <span class="st">"runif"</span> , <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>             ,</span>
+<span>  <span class="st">"rnorm"</span> , <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>             ,</span>
+<span>  <span class="st">"rpois"</span> , <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, lambda <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> ,</span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>

@@ -53,7 +53,7 @@ refer to variables with `$`, leading to code that repeats the name of
 the data frame many times:
 
 ``` r
-starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", ,]
+starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", , ]
 ```
 
 The dplyr equivalent of this code is more concise because data masking
@@ -289,11 +289,12 @@ user-supplied expression in multiple places:
 
 ``` r
 my_summarise2 <- function(data, expr) {
-  data |> summarise(
-    mean = mean({{ expr }}),
-    sum = sum({{ expr }}),
-    n = n()
-  )
+  data |>
+    summarise(
+      mean = mean({{ expr }}),
+      sum = sum({{ expr }}),
+      n = n()
+    )
 }
 ```
 
@@ -312,11 +313,12 @@ the variable name on the left-hand side of `:=` with `{{`:
 
 ``` r
 my_summarise4 <- function(data, expr) {
-  data |> summarise(
-    "mean_{{expr}}" := mean({{ expr }}),
-    "sum_{{expr}}" := sum({{ expr }}),
-    "n_{{expr}}" := n()
-  )
+  data |>
+    summarise(
+      "mean_{{expr}}" := mean({{ expr }}),
+      "sum_{{expr}}" := sum({{ expr }}),
+      "n_{{expr}}" := n()
+    )
 }
 my_summarise5 <- function(data, mean_var, sd_var) {
   data |>
@@ -339,7 +341,10 @@ a [`mutate()`](https://dplyr.tidyverse.org/dev/reference/mutate.md).
 my_summarise <- function(.data, ...) {
   .data |>
     group_by(...) |>
-    summarise(mass = mean(mass, na.rm = TRUE), height = mean(height, na.rm = TRUE))
+    summarise(
+      mass = mean(mass, na.rm = TRUE),
+      height = mean(height, na.rm = TRUE)
+    )
 }
 
 starwars |> my_summarise(homeworld)

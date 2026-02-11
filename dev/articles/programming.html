@@ -155,7 +155,7 @@ don’t apply to it.&lt;/p&gt;'><sup>1</sup></a>) base R functions you need to r
 variables with <code>$</code>, leading to code that repeats the name of
 the data frame many times:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span><span class="op">[</span><span class="va">starwars</span><span class="op">$</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span>, ,<span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">starwars</span><span class="op">[</span><span class="va">starwars</span><span class="op">$</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span>, , <span class="op">]</span></span></code></pre></div>
 <p>The dplyr equivalent of this code is more concise because data
 masking allows you to need to type <code>starwars</code> once:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -380,11 +380,12 @@ argument:</p>
 user-supplied expression in multiple places:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>    mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    sum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>      mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      sum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>If you want the user to provide multiple expressions, embrace each of
 them:</p>
@@ -398,11 +399,12 @@ embrace the variable name on the left-hand side of <code>:=</code> with
 <code>{{</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise4</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>    <span class="st">"mean_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    <span class="st">"sum_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    <span class="st">"n_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>      <span class="st">"mean_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      <span class="st">"sum_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      <span class="st">"n_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="va">my_summarise5</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">mean_var</span>, <span class="va">sd_var</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
@@ -423,7 +425,10 @@ the user full control over a single part of the pipeline, like a
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">.data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>      mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span></span>

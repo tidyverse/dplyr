@@ -515,7 +515,8 @@ at once. You either have to do it step-by-step:
 ``` r
 a1 <- group_by(starwars, species, sex)
 a2 <- select(a1, height, mass)
-a3 <- summarise(a2,
+a3 <- summarise(
+  a2,
   height = mean(height, na.rm = TRUE),
   mass = mean(mass, na.rm = TRUE)
 )
@@ -528,7 +529,8 @@ the function calls inside each other:
 summarise(
   select(
     group_by(starwars, species, sex),
-    height, mass
+    height,
+    mass
   ),
   height = mean(height, na.rm = TRUE),
   mass = mean(mass, na.rm = TRUE)

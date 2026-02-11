@@ -95,7 +95,7 @@ of existing variables. This is equivalent to performing a
 bmi_breaks <- c(0, 18.5, 25, 30, Inf)
 
 starwars |>
-  group_by(bmi_cat = cut(mass/(height/100)^2, breaks=bmi_breaks)) |>
+  group_by(bmi_cat = cut(mass / (height / 100)^2, breaks = bmi_breaks)) |>
   tally()
 #> # A tibble: 5 × 2
 #>   bmi_cat       n

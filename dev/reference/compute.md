@@ -69,7 +69,7 @@ remote <- mtcars2 |>
 # Compute query and save in remote table
 compute(remote)
 #> # Source:   table<`dbplyr_yFTywINVDl`> [?? x 5]
-#> # Database: sqlite 3.51.1 [:memory:]
+#> # Database: sqlite 3.51.2 [:memory:]
 #>      mpg   cyl  disp    hp  drat
 #>    <dbl> <dbl> <dbl> <dbl> <dbl>
 #>  1  18.7     8  360    175  3.15
@@ -110,7 +110,7 @@ collect(remote)
 # Creates a fresh query based on the generated SQL
 collapse(remote)
 #> # Source:   SQL [?? x 5]
-#> # Database: sqlite 3.51.1 [:memory:]
+#> # Database: sqlite 3.51.2 [:memory:]
 #>      mpg   cyl  disp    hp  drat
 #>    <dbl> <dbl> <dbl> <dbl> <dbl>
 #>  1  18.7     8  360    175  3.15
