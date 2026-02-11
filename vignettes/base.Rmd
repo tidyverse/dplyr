@@ -140,9 +140,9 @@ subset(starwars, hair_color == "none" & eye_color == "black")
 You can also use `[` but this also requires the use of `which()` to remove `NA`s:
 
 ```{r}
-starwars[which(starwars$species == "Human"), , drop = FALSE]
-starwars[which(starwars$mass > 1000), , drop = FALSE]
-starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), , drop = FALSE]
+starwars[which(starwars$species == "Human"), ]
+starwars[which(starwars$mass > 1000), ]
+starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), ]
 ```
 
 ## `mutate()`: Create or transform variables
@@ -150,14 +150,15 @@ starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), ,
 `dplyr::mutate()` creates new variables from existing variables:
 
 ```{r}
-df |> mutate(z = x + y, z2 = z ^ 2)
+df |> mutate(z = x + y, z2 = z^2)
 ```
 
 The closest base equivalent is `transform()`, but note that it cannot use freshly created variables:
 
 ```{r}
-head(transform(df, z = x + y, z2 = (x + y) ^ 2))
+head(transform(df, z = x + y, z2 = (x + y)^2))
 ```
+
 Alternatively, you can use `$<-`:
 
 ```{r}
@@ -177,7 +178,8 @@ gf |>
 To replicate this in base R, you can use `ave()`:
 
 ```{r}
-transform(gf,
+transform(
+  gf,
   x_mean = ave(x, g, FUN = mean),
   x_rank = ave(x, g, FUN = rank)
 )
@@ -317,7 +319,9 @@ do.call(rbind, mtcars_by)
 `aggregate()` comes very close to providing an elegant answer:
 
 ```{r}
-agg <- aggregate(disp ~ cyl, mtcars, function(x) c(mean = mean(x), n = length(x)))
+agg <- aggregate(disp ~ cyl, mtcars, function(x) {
+  c(mean = mean(x), n = length(x))
+})
 agg
 ```
 

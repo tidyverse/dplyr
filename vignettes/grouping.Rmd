@@ -55,13 +55,14 @@ by_species |> tally()
 
 by_sex_gender |> tally(sort = TRUE)
 ```
+
 As well as grouping by existing variables, you can group by any function of existing variables. This is equivalent to performing a `mutate()` **before** the `group_by()`:
 
 ```{r group_by_with_expression}
 bmi_breaks <- c(0, 18.5, 25, 30, Inf)
 
 starwars |>
-  group_by(bmi_cat = cut(mass/(height/100)^2, breaks=bmi_breaks)) |>
+  group_by(bmi_cat = cut(mass / (height / 100)^2, breaks = bmi_breaks)) |>
   tally()
 ```
 
@@ -86,6 +87,7 @@ And which rows each group contains with `group_rows()`:
 ```{r}
 by_species |> group_rows() |> head()
 ```
+
 Use `group_vars()` if you just want the names of the grouping variables:
 
 ```{r}
