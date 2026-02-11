@@ -2,16 +2,25 @@
 % Please edit documentation in R/compat-dbplyr.R
 \name{sql}
 \alias{sql}
-\title{SQL escaping.}
+\title{Literal SQL escaping}
 \usage{
 sql(...)
 }
 \arguments{
-\item{...}{Character vectors that will be combined into a single SQL
-expression.}
+\item{...}{Character vectors that will be combined into a single SQL vector.}
 }
 \description{
-These functions are critical when writing functions that translate R
-functions to sql functions. Typically a conversion function should escape
-all its inputs and return an sql object.
+Use \code{sql()} to declare that a string is literal SQL and should be used
+as is, without quoting.
+}
+\examples{
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+# sql() just adds a class
+sql("x + 1")
+dbplyr::is.sql(sql("x + 1"))
+
+# You can use it when you need to insert some literal SQL in a query
+db <- dbplyr::memdb_frame(x = 1:3)
+db |> mutate(y = sql("CAST(x as VARCHAR)"))
+\dontshow{\}) # examplesIf}
 }
