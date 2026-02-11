@@ -50,7 +50,7 @@ In most (but not all[^1]) base R functions you need to refer to variables with `
     `subset()` provides data masking, but not with tidy evaluation, so the techniques described in this chapter don't apply to it.
 
 ```{r, results = FALSE}
-starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", ,]
+starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", , ]
 ```
 
 The dplyr equivalent of this code is more concise because data masking allows you to need to type `starwars` once:
@@ -228,11 +228,12 @@ This generalises in a straightforward way if you want to use one user-supplied e
 
 ```{r}
 my_summarise2 <- function(data, expr) {
-  data |> summarise(
-    mean = mean({{ expr }}),
-    sum = sum({{ expr }}),
-    n = n()
-  )
+  data |>
+    summarise(
+      mean = mean({{ expr }}),
+      sum = sum({{ expr }}),
+      n = n()
+    )
 }
 ```
 
@@ -249,11 +250,12 @@ If you want to use the name of a variable in the output, you can embrace the var
 
 ```{r}
 my_summarise4 <- function(data, expr) {
-  data |> summarise(
-    "mean_{{expr}}" := mean({{ expr }}),
-    "sum_{{expr}}" := sum({{ expr }}),
-    "n_{{expr}}" := n()
-  )
+  data |>
+    summarise(
+      "mean_{{expr}}" := mean({{ expr }}),
+      "sum_{{expr}}" := sum({{ expr }}),
+      "n_{{expr}}" := n()
+    )
 }
 my_summarise5 <- function(data, mean_var, sd_var) {
   data |>
@@ -273,7 +275,10 @@ This is most often useful when you want to give the user full control over a sin
 my_summarise <- function(.data, ...) {
   .data |>
     group_by(...) |>
-    summarise(mass = mean(mass, na.rm = TRUE), height = mean(height, na.rm = TRUE))
+    summarise(
+      mass = mean(mass, na.rm = TRUE),
+      height = mean(height, na.rm = TRUE)
+    )
 }
 
 starwars |> my_summarise(homeworld)
