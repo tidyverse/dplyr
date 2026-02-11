@@ -86,8 +86,8 @@ You can transform each variable with more than one function by supplying a named
 
 ```{r}
 min_max <- list(
-  min = ~min(.x, na.rm = TRUE),
-  max = ~max(.x, na.rm = TRUE)
+  min = ~ min(.x, na.rm = TRUE),
+  max = ~ max(.x, na.rm = TRUE)
 )
 starwars |> summarise(across(where(is.numeric), min_max))
 starwars |> summarise(across(c(height, mass, birth_year), min_max))
@@ -96,17 +96,36 @@ starwars |> summarise(across(c(height, mass, birth_year), min_max))
 Control how the names are created with the `.names` argument which takes a [glue](https://glue.tidyverse.org/) spec:
 
 ```{r}
-starwars |> summarise(across(where(is.numeric), min_max, .names = "{.fn}.{.col}"))
-starwars |> summarise(across(c(height, mass, birth_year), min_max, .names = "{.fn}.{.col}"))
+starwars |>
+  summarise(across(
+    where(is.numeric),
+    min_max,
+    .names = "{.fn}.{.col}"
+  ))
+starwars |>
+  summarise(across(
+    c(height, mass, birth_year),
+    min_max,
+    .names = "{.fn}.{.col}"
+  ))
 ```
 
 If you'd prefer all summaries with the same function to be grouped together, you'll have to expand the calls yourself:
 
 ```{r}
-starwars |> summarise(
-  across(c(height, mass, birth_year), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
-  across(c(height, mass, birth_year), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
-)
+starwars |>
+  summarise(
+    across(
+      c(height, mass, birth_year),
+      ~ min(.x, na.rm = TRUE),
+      .names = "min_{.col}"
+    ),
+    across(
+      c(height, mass, birth_year),
+      ~ max(.x, na.rm = TRUE),
+      .names = "max_{.col}"
+    )
+  )
 ```
 
 (One day this might become an argument to `across()` but we're not yet sure how it would work.)
@@ -117,12 +136,13 @@ would pick up the variables that were newly created ("min_height", "min_mass" an
 We can work around this by combining both calls to `across()` into a single expression that returns a tibble:
 
 ```{r}
-starwars |> summarise(
-  tibble(
-    across(where(is.numeric), ~min(.x, na.rm = TRUE), .names = "min_{.col}"),
-    across(where(is.numeric), ~max(.x, na.rm = TRUE), .names = "max_{.col}")
+starwars |>
+  summarise(
+    tibble(
+      across(where(is.numeric), ~ min(.x, na.rm = TRUE), .names = "min_{.col}"),
+      across(where(is.numeric), ~ max(.x, na.rm = TRUE), .names = "max_{.col}")
+    )
   )
-)
 ```
 
 Alternatively we could reorganize results with `relocate()`:
@@ -141,7 +161,8 @@ If you need to, you can access the name of the "current" column inside by callin
 df <- tibble(x = 1:3, y = 3:5, z = 5:7)
 mult <- list(x = 1, y = 10, z = 100)
 
-df |> mutate(across(all_of(names(mult)), ~ .x * mult[[cur_column()]]))
+df |>
+  mutate(across(all_of(names(mult)), ~ .x * mult[[cur_column()]]))
 ```
 
 ### Gotchas
@@ -174,9 +195,7 @@ expression that returns a tibble:
 
 ```{r}
 df |>
-  summarise(
-    tibble(n = n(), across(where(is.numeric), sd))
-  )
+  summarise(tibble(n = n(), across(where(is.numeric), sd)))
 ```
 
 
@@ -296,9 +315,9 @@ Fortunately, it's generally straightforward to translate your existing code to u
 For example:
 
 ```{r, results = FALSE}
-df |> mutate_if(is.numeric, ~mean(.x, na.rm = TRUE))
+df |> mutate_if(is.numeric, ~ mean(.x, na.rm = TRUE))
 # ->
-df |> mutate(across(where(is.numeric), ~mean(.x, na.rm = TRUE)))
+df |> mutate(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 
 df |> mutate_at(vars(c(x, starts_with("y"))), mean)
 # ->
