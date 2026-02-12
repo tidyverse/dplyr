@@ -1,9 +1,5 @@
 # dplyr (development version)
 
-* Fixed an issue preventing `devtools::test()` from being able to run twice in a row interactively (#7809).
-
-* Updates related to dbplyr 2.6.0 (#7809).
-
 # dplyr 1.2.0
 
 ## New features
