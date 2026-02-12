@@ -27,7 +27,7 @@
 #'   frame and uploads it to the remote source.
 #' @export
 #' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
-#' mtcars2 <- dbplyr::memdb() |>
+#' mtcars2 <- dbplyr::src_memdb() |>
 #'   copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
 #'
 #' remote <- mtcars2 |>

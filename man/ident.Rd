@@ -10,17 +10,18 @@ ident(...)
 \item{...}{A character vector, or name-value pairs.}
 }
 \description{
-\code{ident()} marks strings as database identifiers (e.g. table or column names)
-quoting them using the identifier rules for your database. It is used
-primarily in \code{\link[dbplyr:translate_sql]{translate_sql()}} to label variables as identifiers; use
-elsewhere should be regarded with suspicion.
+\code{ident()} takes strings and turns them as database identifiers (e.g. table
+or column names) quoting them using the identifer rules for your database.
+\code{ident_q()} does the same, but assumes the names have already been
+quoted, preventing them from being quoted again.
 
-\code{ident()} is for internal use only; if you need to supply an table name that
-is qualified with schema or catalog use \code{I()}.
+These are generally for internal use only; if you need to supply an
+table name that is qualified with schema or catalog, or has already been
+quoted for some other reason, use \code{I()}.
 }
 \examples{
-\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Identifiers are escaped with "
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 ident("x")
 \dontshow{\}) # examplesIf}
 }

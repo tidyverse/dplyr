@@ -58,14 +58,6 @@ utils::globalVariables("!<-")
 
 #' @inherit dbplyr::sql
 #' @export
-#' @examplesIf requireNamespace("dbplyr", quietly = TRUE)
-#' # sql() just adds a class
-#' sql("x + 1")
-#' dbplyr::is.sql(sql("x + 1"))
-#'
-#' # You can use it when you need to insert some literal SQL in a query
-#' db <- dbplyr::memdb_frame(x = 1:3)
-#' db |> mutate(y = sql("CAST(x as VARCHAR)"))
 sql <- function(...) {
   check_dbplyr()
   dbplyr::sql(...)
@@ -73,8 +65,9 @@ sql <- function(...) {
 
 #' @inherit dbplyr::ident
 #' @export
-#' @examplesIf requireNamespace("dbplyr", quietly = TRUE)
+#' @examples
 #' # Identifiers are escaped with "
+#' @examplesIf requireNamespace("dbplyr", quietly = TRUE)
 #' ident("x")
 ident <- function(...) {
   check_dbplyr()

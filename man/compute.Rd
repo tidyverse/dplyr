@@ -44,7 +44,7 @@ Methods available in currently loaded packages:
 
 \examples{
 \dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) withAutoprint(\{ # examplesIf}
-mtcars2 <- dbplyr::memdb() |>
+mtcars2 <- dbplyr::src_memdb() |>
   copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
 
 remote <- mtcars2 |>
