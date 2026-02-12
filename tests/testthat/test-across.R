@@ -1927,14 +1927,18 @@ test_that("across() evaluates ... with promise semantics (#5813)", {
 test_that("arguments in dots are evaluated once per group", {
   options(lifecycle_verbosity = "quiet")
 
-  set.seed(0)
+  counter <- 0L
+
   out <- data.frame(g = 1:3, var = NA) |>
     group_by(g) |>
-    mutate(across(var, function(x, y) y, rnorm(1))) |>
+    mutate(across(var, function(x, y) y, {
+      counter <<- counter + 1L
+      counter
+    })) |>
     pull(var)
 
-  set.seed(0)
-  expect_equal(out, rnorm(3))
+  expect_identical(counter, 3L)
+  expect_identical(out, c(1L, 2L, 3L))
 })
 
 test_that("group variables are in scope when passed in dots (#5832)", {
