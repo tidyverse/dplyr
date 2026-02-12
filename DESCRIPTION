@@ -39,7 +39,7 @@ Suggests:
     broom,
     covr,
     DBI,
-    dbplyr (>= 2.5.1.9000),
+    dbplyr (>= 2.2.1),
     ggplot2,
     knitr,
     Lahman,
@@ -61,5 +61,3 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Remotes:
-    tidyverse/dbplyr
