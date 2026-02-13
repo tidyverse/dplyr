@@ -100,15 +100,16 @@ starwars |>
   arrange(desc(mass))
 
 starwars |>
-  group_by(species) |>
   summarise(
     n = n(),
-    mass = mean(mass, na.rm = TRUE)
+    mass = mean(mass, na.rm = TRUE),
+    .by = species
   ) |>
   filter(
     n > 1,
     mass > 50
-  )
+  ) |> 
+  arrange(species)
 ```
 
 ## Getting help
