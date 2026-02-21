@@ -118,10 +118,17 @@ count.data.frame <- function(
 #' @rdname count
 tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   result <- check_tally_dots(
-    ..., wt = enquo(wt), sort = sort, name = name, fn = "tally"
+    ...,
+    wt = enquo(wt),
+    sort = sort,
+    name = name,
+    fn = "tally"
   )
   tally_dispatch(
-    x, wt = !!result$wt, sort = result$sort, name = result$name
+    x,
+    wt = !!result$wt,
+    sort = result$sort,
+    name = result$name
   )
 }
 
@@ -230,10 +237,17 @@ add_count_impl <- function(
 #' @export
 add_tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   result <- check_tally_dots(
-    ..., wt = enquo(wt), sort = sort, name = name, fn = "add_tally"
+    ...,
+    wt = enquo(wt),
+    sort = sort,
+    name = name,
+    fn = "add_tally"
   )
   add_tally_impl(
-    x, wt = !!result$wt, sort = result$sort, name = result$name
+    x,
+    wt = !!result$wt,
+    sort = result$sort,
+    name = result$name
   )
 }
 
