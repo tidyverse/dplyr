@@ -296,7 +296,7 @@ collect_tally_args <- function(
 ) {
   if (...length() > 0L) {
     cli::cli_abort(
-      "Extra arguments passed to `{.fn}()` via `...`.",
+      "Extra arguments passed to `{(.fn)}()` via `...`.",
       call = .error_call
     )
   }
@@ -309,9 +309,9 @@ collect_tally_args <- function(
       lifecycle::deprecate_warn(
         when = "1.3.0",
         what = I(
-          glue("Passing `{arg}` as an unnamed argument to `{.fn}()`")
+          glue("Passing `{arg}` as an unnamed argument to `{(.fn)}()`")
         ),
-        with = I(glue("`{.fn}({arg} = )`")),
+        with = I(glue("`{(.fn)}({arg} = )`")),
         env = .error_call,
         user_env = caller_env(2)
       )

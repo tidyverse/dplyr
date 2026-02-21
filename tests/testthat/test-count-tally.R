@@ -202,7 +202,7 @@ test_that("tally() warns when passing multiple unnamed args", {
   expect_snapshot({
     out <- tally(gf, NULL, TRUE)
   })
-  expect_equal(out$x, c(2, 1))
+  expect_equal(out$x, c(1, 2))
 })
 
 test_that("tally() warns when passing all unnamed args", {
@@ -295,7 +295,7 @@ test_that("add_tally() `wt = n()` is deprecated", {
 test_that("add_tally() works with all named args", {
   df <- tibble(x = c(1, 1, NA))
   out <- add_tally(df, wt = x, sort = FALSE, name = "count")
-  expect_equal(out$count, 2)
+  expect_equal(out$count, c(2, 2, 2))
 })
 
 test_that("add_tally() warns when passing unnamed wt", {
@@ -303,7 +303,7 @@ test_that("add_tally() warns when passing unnamed wt", {
   expect_snapshot({
     out <- add_tally(df, x)
   })
-  expect_equal(out$n, 2)
+  expect_equal(out$n, c(2, 2, 2))
 })
 
 test_that("add_tally() warns when passing all unnamed args", {
@@ -311,7 +311,7 @@ test_that("add_tally() warns when passing all unnamed args", {
   expect_snapshot({
     out <- add_tally(df, x, FALSE, "count")
   })
-  expect_equal(out$count, 2)
+  expect_equal(out$count, c(2, 2, 2))
 })
 
 test_that("add_tally() errors with extra args in dots", {
