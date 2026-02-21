@@ -158,7 +158,7 @@ test_that("tally can sort output", {
 
 test_that("weighted tally drops NAs (#1145)", {
   df <- tibble(x = c(1, 1, NA))
-  expect_equal(tally(df, wt = x)$n, 2)
+  expect_equal(tally(df, x)$n, 2)
 })
 
 test_that("tally() drops last group (#5199) ", {
@@ -179,51 +179,6 @@ test_that("tally() `wt = n()` is deprecated", {
 
   expect_snapshot({
     tally(df, wt = n())
-  })
-})
-
-test_that("tally() works with all named args", {
-  df <- tibble(x = c(1, 1, NA))
-  out <- tally(df, wt = x, sort = FALSE, name = "count")
-  expect_equal(out$count, 2)
-})
-
-test_that("tally() warns when passing unnamed wt", {
-  df <- tibble(x = c(1, 1, NA))
-  expect_snapshot({
-    out <- tally(df, x)
-  })
-  expect_equal(out$n, 2)
-})
-
-test_that("tally() warns when passing multiple unnamed args", {
-  df <- tibble(x = c(2, 1, 1))
-  gf <- group_by(df, x)
-  expect_snapshot({
-    out <- tally(gf, NULL, TRUE)
-  })
-  expect_equal(out$x, c(2, 1))
-})
-
-test_that("tally() warns when passing all unnamed args", {
-  df <- tibble(x = c(1, 1, NA))
-  expect_snapshot({
-    out <- tally(df, x, FALSE, "count")
-  })
-  expect_equal(out$count, 2)
-})
-
-test_that("tally() errors with named args in dots", {
-  df <- tibble(x = 1)
-  expect_snapshot(error = TRUE, {
-    tally(df, foo = 1)
-  })
-})
-
-test_that("tally() errors with too many unnamed args", {
-  df <- tibble(x = 1)
-  expect_snapshot(error = TRUE, {
-    tally(df, 1, 2, 3, 4)
   })
 })
 
@@ -296,41 +251,5 @@ test_that("add_tally() `wt = n()` is deprecated", {
 
   expect_snapshot({
     add_tally(df, wt = n())
-  })
-})
-
-test_that("add_tally() works with all named args", {
-  df <- tibble(x = c(1, 1, NA))
-  out <- add_tally(df, wt = x, sort = FALSE, name = "count")
-  expect_equal(out$count, 2)
-})
-
-test_that("add_tally() warns when passing unnamed wt", {
-  df <- tibble(x = c(1, 1, NA))
-  expect_snapshot({
-    out <- add_tally(df, x)
-  })
-  expect_equal(out$n, 2)
-})
-
-test_that("add_tally() warns when passing all unnamed args", {
-  df <- tibble(x = c(1, 1, NA))
-  expect_snapshot({
-    out <- add_tally(df, x, FALSE, "count")
-  })
-  expect_equal(out$count, 2)
-})
-
-test_that("add_tally() errors with named args in dots", {
-  df <- tibble(x = 1)
-  expect_snapshot(error = TRUE, {
-    add_tally(df, foo = 1)
-  })
-})
-
-test_that("add_tally() errors with too many unnamed args", {
-  df <- tibble(x = 1)
-  expect_snapshot(error = TRUE, {
-    add_tally(df, 1, 2, 3, 4)
   })
 })
