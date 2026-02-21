@@ -127,7 +127,7 @@ tally.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
     wt = enquo(wt),
     sort = sort,
     name = name,
-    .fn_name = "tally"
+    fn_name = "tally"
   )
   tally_impl(x, wt = !!result$wt, sort = result$sort, name = result$name)
 }
@@ -236,7 +236,7 @@ add_tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
     wt = enquo(wt),
     sort = sort,
     name = name,
-    .fn_name = "add_tally"
+    fn_name = "add_tally"
   )
   add_tally_impl(x, wt = !!result$wt, sort = result$sort, name = result$name)
 }
@@ -264,7 +264,7 @@ check_tally_dots <- function(
   wt,
   sort,
   name,
-  .fn_name,
+  fn_name,
   .call = caller_env()
 ) {
   dots <- enquos(...)
@@ -292,7 +292,7 @@ check_tally_dots <- function(
 
   if (length(unnamed_dots) > length(arg_names)) {
     cli::cli_abort(
-      "Too many unnamed arguments passed to `{.fn_name}()`.",
+      "Too many unnamed arguments passed to `{fn_name}()`.",
       call = .call
     )
   }
@@ -302,9 +302,9 @@ check_tally_dots <- function(
     lifecycle::deprecate_warn(
       when = "1.3.0",
       what = I(
-        glue("Passing `{nm}` as an unnamed argument to `{.fn_name}()`")
+        glue("Passing `{nm}` as an unnamed argument to `{fn_name}()`")
       ),
-      with = I(glue("`{.fn_name}({nm} = )`")),
+      with = I(glue("`{fn_name}({nm} = )`")),
       env = .call,
       user_env = caller_env(2)
     )
