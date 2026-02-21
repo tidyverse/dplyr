@@ -117,6 +117,8 @@ count.data.frame <- function(
 #' @export
 #' @rdname count
 tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
+  dplyr_local_error_call()
+
   result <- check_tally_dots(
     ...,
     wt = enquo(wt),
@@ -138,9 +140,10 @@ tally_dispatch <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  name <- check_n_name(name, group_vars(x))
+  error_call <- dplyr_error_call()
+  name <- check_n_name(name, group_vars(x), call = error_call)
 
-  dplyr_local_error_call()
+  dplyr_local_error_call(error_call)
 
   wt <- compat_wt(enquo(wt))
   n <- tally_n(x, wt)
@@ -236,6 +239,8 @@ add_count_impl <- function(
 #' @rdname count
 #' @export
 add_tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
+  dplyr_local_error_call()
+
   result <- check_tally_dots(
     ...,
     wt = enquo(wt),
@@ -252,9 +257,10 @@ add_tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 }
 
 add_tally_impl <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  name <- check_n_name(name, tbl_vars(x))
+  error_call <- dplyr_error_call()
+  name <- check_n_name(name, tbl_vars(x), call = error_call)
 
-  dplyr_local_error_call()
+  dplyr_local_error_call(error_call)
 
   wt <- compat_wt(enquo(wt))
   n <- tally_n(x, wt)
