@@ -3,7 +3,7 @@
     Code
       count(df, x, name = 1)
     Condition
-      Error in `tally()`:
+      Error in `count()`:
       ! `name` must be a single string, not the number 1.
 
 ---
@@ -11,7 +11,7 @@
     Code
       count(df, x, name = letters)
     Condition
-      Error in `tally()`:
+      Error in `count()`:
       ! `name` must be a single string, not a character vector.
 
 # can only explicitly chain together multiple tallies
