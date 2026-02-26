@@ -147,15 +147,15 @@ records within each group. For example:
 
 ``` r
 filter(players, cume_dist(desc(G)) < 0.1)
-#> # A tibble: 1,604 × 7
-#> # Groups:   playerID [1,487]
+#> # A tibble: 1,631 × 7
+#> # Groups:   playerID [1,514]
 #>   playerID  yearID teamID     G    AB     R     H
 #>   <chr>      <int> <fct>  <int> <int> <int> <int>
 #> 1 aaronha01   1963 ML1      161   631   121   201
 #> 2 aaronha01   1968 ATL      160   606    84   174
 #> 3 aasedo01    1986 BAL       66     0     0     0
 #> 4 abbotji01   1991 CAL       34     0     0     0
-#> # ℹ 1,600 more rows
+#> # ℹ 1,627 more rows
 ```
 
 Finally, [`ntile()`](https://dplyr.tidyverse.org/dev/reference/ntile.md)
@@ -181,10 +181,10 @@ summarise(by_team_quartile, mean(G))
 #> # A tibble: 4 × 2
 #>   quartile `mean(G)`
 #>      <int>     <dbl>
-#> 1        1      18.1
-#> 2        2      70.6
-#> 3        3     191. 
-#> 4        4     764.
+#> 1        1      17.9
+#> 2        2      70.0
+#> 3        3     189. 
+#> 4        4     762.
 ```
 
 All ranking functions rank from lowest to highest so that small input
@@ -347,28 +347,28 @@ number of years a player has played since they entered the league:
 
 ``` r
 mutate(players, career_year = yearID - min(yearID) + 1)
-#> # A tibble: 32,112 × 8
-#> # Groups:   playerID [2,466]
+#> # A tibble: 32,623 × 8
+#> # Groups:   playerID [2,498]
 #>   playerID  yearID teamID     G    AB     R     H career_year
 #>   <chr>      <int> <fct>  <int> <int> <int> <int>       <dbl>
 #> 1 aaronha01   1954 ML1      122   468    58   131           1
 #> 2 aaronha01   1955 ML1      153   602   105   189           2
 #> 3 aaronha01   1956 ML1      153   609   106   200           3
 #> 4 aaronha01   1957 ML1      151   615   118   198           4
-#> # ℹ 32,108 more rows
+#> # ℹ 32,619 more rows
 ```
 
 Or, as in the introductory example, we could compute a z-score:
 
 ``` r
 mutate(players, G_z = (G - mean(G)) / sd(G))
-#> # A tibble: 32,112 × 8
-#> # Groups:   playerID [2,466]
+#> # A tibble: 32,623 × 8
+#> # Groups:   playerID [2,498]
 #>   playerID  yearID teamID     G    AB     R     H    G_z
 #>   <chr>      <int> <fct>  <int> <int> <int> <int>  <dbl>
 #> 1 aaronha01   1954 ML1      122   468    58   131 -1.16 
 #> 2 aaronha01   1955 ML1      153   602   105   189  0.519
 #> 3 aaronha01   1956 ML1      153   609   106   200  0.519
 #> 4 aaronha01   1957 ML1      151   615   118   198  0.411
-#> # ℹ 32,108 more rows
+#> # ℹ 32,619 more rows
 ```

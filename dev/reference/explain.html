@@ -148,7 +148,7 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused       detail</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2      0     182 SCAN Batting</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2      0     183 SCAN Batting</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The batting database has indices on all ID variables:</span></span></span>
 <span class="r-in"><span><span class="co"># SQLite automatically picks the most restrictive index</span></span></span>
@@ -160,7 +160,7 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  3      0     125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  3      0     117</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 detail</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 SEARCH Batting USING INDEX Batting_yearID (yearID=?)</span>
 <span class="r-in"><span></span></span>
@@ -177,7 +177,7 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  5      4       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 11      5     181</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 16      4       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 22     16     125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 22     16     117</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 detail</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                       MULTI-INDEX OR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                              INDEX 1</span>
@@ -267,11 +267,11 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  4      0     182</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  6      0      67</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  4      0     183</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  6      0      64</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                       detail</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                               SCAN Batting</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 SEARCH Teams USING INDEX Teams_yearID (yearID=?) LEFT-JOIN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 SEARCH Teams USING INDEX Teams_teamID (teamID=?) LEFT-JOIN</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
