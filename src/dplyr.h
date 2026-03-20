@@ -43,7 +43,7 @@ SEXP R_mapAttrib(SEXP x, SEXP (*FUN)(SEXP, SEXP, void *), void *data) {
 static inline
 SEXP env_get(SEXP env, SEXP sym) {
 #if R_VERSION >= R_Version(4, 5, 0)
-  return R_getVar(sym, env, TRUE);
+  return R_getVar(sym, env, FALSE);
 #else
   SEXP value = Rf_findVarInFrame3(env, sym, FALSE);
   if (value == R_UnboundValue) {
