@@ -121,7 +121,7 @@ static const R_CallMethodDef CallEntries[] = {
 
   {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 5},
   {"dplyr_make_mask_bindings", (DL_FUNC)& dplyr_make_mask_bindings, 2},
-  {"env_resolved", (DL_FUNC)& env_resolved, 2},
+  {"ffi_env_bindings_are_used", (DL_FUNC)& ffi_env_bindings_are_used, 2},
 
   {"dplyr_extract_chunks", (DL_FUNC)& dplyr_extract_chunks, 2},
 

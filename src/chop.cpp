@@ -121,23 +121,48 @@ SEXP dplyr_make_mask_bindings(SEXP env_chops, SEXP data) {
   return env_mask_bindings;
 }
 
-SEXP env_resolved(SEXP env, SEXP names) {
+static inline
+bool env_binding_is_delayed(SEXP env, SEXP sym) {
+#if (R_VERSION >= R_Version(4, 6, 0))
+  R_BindingType_t type = R_GetBindingType(sym, env);
+  if (type == R_BindingTypeUnbound) {
+    Rf_errorcall(R_NilValue, "Internal error: Unbound chops binding.");
+  }
+  return type == R_BindingTypeDelayed;
+#else
+  SEXP value = Rf_findVarInFrame3(env, sym, FALSE);
+  if (value == R_UnboundValue) {
+    Rf_errorcall(R_NilValue, "Internal error: Unbound chops binding.");
+  }
+  return TYPEOF(value) == PROMSXP && PRVALUE(value) == R_UnboundValue;
+#endif
+}
+
+// Detect "used" chops bindings
+//
+// We first require that the binding exists, otherwise that would
+// be an internal error on our part.
+//
+// Then we check to see if the binding is delayed. If it is, then it is
+// considered "unused".
+//
+// Used bindings include:
+// - Forced chop promises (i.e. if the user referenced an original column in an expression)
+// - Newly installed columns from a previous expression
+SEXP ffi_env_bindings_are_used(SEXP chops_env, SEXP names) {
   R_xlen_t n = XLENGTH(names);
   SEXP res = PROTECT(Rf_allocVector(LGLSXP, n));
 
   int* p_res = LOGICAL(res);
   const SEXP* p_names = STRING_PTR_RO(names);
 
-  for(R_xlen_t i = 0; i < n; i++) {
-    SEXP name = PROTECT(rlang::str_as_symbol(p_names[i]));
-    SEXP prom = PROTECT(Rf_findVarInFrame(env, name));
-    SEXP val = TYPEOF(prom) == PROMSXP ? PRVALUE(prom) : prom;
-    p_res[i] = val != R_UnboundValue;
-    UNPROTECT(2);
+  for (R_xlen_t i = 0; i < n; i++) {
+    SEXP sym = PROTECT(rlang::str_as_symbol(p_names[i]));
+    p_res[i] = !env_binding_is_delayed(chops_env, sym);
+    UNPROTECT(1);
   }
 
   Rf_namesgets(res, names);
   UNPROTECT(1);
   return res;
 }
-

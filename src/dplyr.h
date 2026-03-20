@@ -152,7 +152,7 @@ SEXP dplyr_mask_binding_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chun
 
 SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP env_current_group_info, SEXP ffi_grouped, SEXP ffi_rowwise);
 SEXP dplyr_make_mask_bindings(SEXP chops, SEXP data);
-SEXP env_resolved(SEXP env, SEXP names);
+SEXP ffi_env_bindings_are_used(SEXP env_chops, SEXP names);
 void add_mask_binding(SEXP name, SEXP env_mask_bindings, SEXP env_chops);
 
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
