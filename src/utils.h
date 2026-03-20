@@ -46,4 +46,18 @@ static inline void check_list_of_quosures(SEXP x) {
   }
 }
 
+static inline
+void env_bind_delayed(SEXP env, SEXP sym, SEXP expr, SEXP eval_env) {
+#if (R_VERSION >= R_Version(4, 6, 0))
+  R_MakeDelayedBinding(sym, expr, eval_env, env);
+#else
+  SEXP promise = PROTECT(Rf_allocSExp(PROMSXP));
+  SET_PRCODE(promise, expr);
+  SET_PRENV(promise, eval_env);
+  SET_PRVALUE(promise, R_UnboundValue);
+  Rf_defineVar(sym, promise, env);
+  UNPROTECT(1);
+#endif
+}
+
 #endif
