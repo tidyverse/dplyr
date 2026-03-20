@@ -46,7 +46,6 @@ SEXP symbols::current_group_id = Rf_install("dplyr:::current_group_id");
 SEXP symbols::current_group_size = Rf_install("dplyr:::current_group_size");
 SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
-SEXP symbols::caller = Rf_install("caller");
 SEXP symbols::current_data = Rf_install("current_data");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::dplyr_internal_error = Rf_install("dplyr_internal_error");

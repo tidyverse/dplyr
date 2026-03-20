@@ -1,4 +1,5 @@
 #include "dplyr.h"
+#include "utils.h"
 
 namespace dplyr {
 
@@ -98,7 +99,7 @@ bool filter_is_valid_lgl(SEXP x, bool first) {
 static
 SEXP eval_filter_one(SEXP quos,
                      SEXP mask,
-                     SEXP caller,
+                     SEXP env,
                      R_xlen_t n,
                      SEXP env_filter,
                      bool first) {
@@ -120,7 +121,7 @@ SEXP eval_filter_one(SEXP quos,
     SEXP current_expression = PROTECT(Rf_ScalarInteger(i + 1));
     Rf_defineVar(dplyr::symbols::current_expression, current_expression, env_filter);
 
-    SEXP res = PROTECT(rlang::eval_tidy(p_quos[i], mask, caller));
+    SEXP res = PROTECT(rlang::eval_tidy(p_quos[i], mask, env));
 
     const R_xlen_t res_size = vctrs::short_vec_size(res);
     if (res_size != n && res_size != 1) {
@@ -146,6 +147,13 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos,
                                 SEXP s_n,
                                 SEXP env_filter) {
   DPLYR_MASK_INIT();
+
+  // Ensure we pass a list of quosures, which forces `rlang::eval_tidy()` to
+  // extract the environment from the quosure rather than using `env`, so what
+  // we pass as `env` doesn't actually matter.
+  check_list_of_quosures(quos);
+  SEXP env = R_EmptyEnv;
+
   const SEXP* p_rows = VECTOR_PTR_RO(rows);
 
   const R_xlen_t n = Rf_asInteger(s_n);
@@ -165,7 +173,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos,
     SEXP result_i = PROTECT(eval_filter_one(
       quos,
       mask,
-      caller,
+      env,
       n_i,
       env_filter,
       first

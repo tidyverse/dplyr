@@ -69,7 +69,6 @@ struct symbols {
   static SEXP current_group_size;
   static SEXP current_expression;
   static SEXP rows;
-  static SEXP caller;
   static SEXP current_data;
   static SEXP dot_drop;
   static SEXP dplyr_internal_error;
@@ -162,7 +161,6 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
   SEXP rows = PROTECT(env_get(env_private, dplyr::symbols::rows));                                                   \
   const SEXP* v_rows = VECTOR_PTR_RO(rows);                                                                          \
   R_xlen_t ngroups = XLENGTH(rows);                                                                                  \
-  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));                                     \
   SEXP env_mask_bindings = PROTECT(env_get(env_private, dplyr::symbols::env_mask_bindings));                         \
   SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_mask_bindings));                                                 \
   SEXP env_current_group_info = PROTECT(env_get(env_private, dplyr::symbols::env_current_group_info));               \
@@ -174,7 +172,7 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
   *p_current_group_size = 0
 
 #define DPLYR_MASK_FINALISE()                                  \
-  UNPROTECT(7);                                                \
+  UNPROTECT(6);                                                \
   *p_current_group_id = 0;                                     \
   *p_current_group_size = 0
 
@@ -191,8 +189,8 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
   *p_current_group_id = INDEX + 1;                             \
   *p_current_group_size = Rf_xlength(v_rows[INDEX])
 
-#define DPLYR_MASK_EVAL(quo)                                   \
-  rlang::eval_tidy(quo, mask, caller)
+#define DPLYR_MASK_EVAL(quo, env)                              \
+  rlang::eval_tidy(quo, mask, env)
 
 #define DPLYR_ERROR_INIT(n)                                    \
   SEXP error_data = PROTECT(Rf_allocVector(VECSXP, n));              \
