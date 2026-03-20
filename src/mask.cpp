@@ -111,8 +111,8 @@ SEXP dplyr_mask_binding_remove(SEXP env_private, SEXP s_name) {
     SEXP chops = PROTECT(env_get(env_private, dplyr::symbols::chops));
     SEXP env_mask_bindings = PROTECT(env_get(env_private, dplyr::symbols::env_mask_bindings));
 
-    rlang::env_unbind(env_mask_bindings, sym_name);
-    rlang::env_unbind(chops, sym_name);
+    R_removeVarFromFrame(sym_name, env_mask_bindings);
+    R_removeVarFromFrame(sym_name, chops);
 
     UNPROTECT(5);
   }

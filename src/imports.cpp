@@ -9,7 +9,6 @@ struct rlang_api_ptrs_t {
   SEXP (*new_data_mask)(SEXP bottom, SEXP top);
   SEXP (*str_as_symbol)(SEXP str);
   SEXP (*quo_get_expr)(SEXP quo);
-  void (*env_unbind)(SEXP, SEXP);
 
   rlang_api_ptrs_t() {
     eval_tidy       = (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_eval_tidy");
@@ -17,7 +16,6 @@ struct rlang_api_ptrs_t {
     new_data_mask   = (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_data_mask_3.0.0");
     str_as_symbol   = (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_str_as_symbol");
     quo_get_expr    = (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_expr");
-    env_unbind      = (void (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_env_unbind");
   }
 };
 // *INDENT-ON*
@@ -41,10 +39,6 @@ SEXP new_data_mask(SEXP bottom, SEXP top) {
 
 SEXP str_as_symbol(SEXP str) {
   return rlang_api().str_as_symbol(str);
-}
-
-void env_unbind(SEXP env, SEXP sym) {
-  rlang_api().env_unbind(env, sym);
 }
 
 }

@@ -106,7 +106,6 @@ SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
 SEXP as_data_pronoun(SEXP x);
 SEXP new_data_mask(SEXP bottom, SEXP top);
 SEXP str_as_symbol(SEXP);
-void env_unbind(SEXP, SEXP);
 }
 
 namespace vctrs {
