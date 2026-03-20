@@ -1,4 +1,3 @@
-#include "Rinternals.h"
 #include "dplyr.h"
 #include "utils.h"
 
