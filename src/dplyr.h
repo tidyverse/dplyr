@@ -36,6 +36,23 @@ SEXP R_mapAttrib(SEXP x, SEXP (*FUN)(SEXP, SEXP, void *), void *data) {
 }
 #endif
 
+// Poorman's version of rlang's `r_env_get()`, which more faithfully handles
+// edge cases like active bindings, promises, and missing args. Only use this
+// for extracting a simple variable that you KNOW exists in the env, like
+// anything in our `private` envs.
+static inline
+SEXP env_get(SEXP env, SEXP sym) {
+#if R_VERSION >= R_Version(4, 5, 0)
+  return R_getVar(sym, env, TRUE);
+#else
+  SEXP value = Rf_findVarInFrame3(env, sym, FALSE);
+  if (value == R_UnboundValue) {
+    Rf_errorcall(R_NilValue, "object '%s' not found", CHAR(PRINTNAME(sym)));
+  }
+  return value;
+#endif
+}
+
 namespace dplyr {
 
 struct envs {
@@ -143,17 +160,17 @@ void add_mask_binding(SEXP name, SEXP env_mask_bindings, SEXP env_chops);
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
 
 #define DPLYR_MASK_INIT()                                                                                            \
-  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                                         \
+  SEXP rows = PROTECT(env_get(env_private, dplyr::symbols::rows));                                                   \
   const SEXP* v_rows = VECTOR_PTR_RO(rows);                                                                          \
   R_xlen_t ngroups = XLENGTH(rows);                                                                                  \
   SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));                                     \
-  SEXP env_mask_bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_mask_bindings));               \
+  SEXP env_mask_bindings = PROTECT(env_get(env_private, dplyr::symbols::env_mask_bindings));                         \
   SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_mask_bindings));                                                 \
-  SEXP env_current_group_info = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_current_group_info));     \
-  SEXP current_group_id = PROTECT(Rf_findVarInFrame(env_current_group_info, dplyr::symbols::current_group_id));      \
+  SEXP env_current_group_info = PROTECT(env_get(env_private, dplyr::symbols::env_current_group_info));               \
+  SEXP current_group_id = PROTECT(env_get(env_current_group_info, dplyr::symbols::current_group_id));                \
   int* p_current_group_id = INTEGER(current_group_id);                                                               \
   *p_current_group_id = 0;                                                                                           \
-  SEXP current_group_size = PROTECT(Rf_findVarInFrame(env_current_group_info, dplyr::symbols::current_group_size));  \
+  SEXP current_group_size = PROTECT(env_get(env_current_group_info, dplyr::symbols::current_group_size));            \
   int* p_current_group_size = INTEGER(current_group_size);                                                           \
   *p_current_group_size = 0
 

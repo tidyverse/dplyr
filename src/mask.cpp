@@ -45,7 +45,7 @@ SEXP dplyr_mask_binding_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chun
   SEXP name = STRING_ELT(s_name, 0);
 
   // we assume control over these
-  SEXP current_data = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::current_data));
+  SEXP current_data = PROTECT(env_get(env_private, dplyr::symbols::current_data));
   SEXP current_vars = PROTECT(Rf_getAttrib(current_data, R_NamesSymbol));
 
   // search for position of name
@@ -73,10 +73,10 @@ SEXP dplyr_mask_binding_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chun
   }
 
   SEXP sym_name = PROTECT(rlang::str_as_symbol(name));
-  SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
+  SEXP chops = PROTECT(env_get(env_private, dplyr::symbols::chops));
   Rf_defineVar(sym_name, chunks, chops);
 
-  SEXP env_mask_bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_mask_bindings));
+  SEXP env_mask_bindings = PROTECT(env_get(env_private, dplyr::symbols::env_mask_bindings));
   add_mask_binding(sym_name, env_mask_bindings, chops);
 
   UNPROTECT(5);
@@ -86,7 +86,7 @@ SEXP dplyr_mask_binding_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chun
 SEXP dplyr_mask_binding_remove(SEXP env_private, SEXP s_name) {
   SEXP name = STRING_ELT(s_name, 0);
 
-  SEXP current_data = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::current_data));
+  SEXP current_data = PROTECT(env_get(env_private, dplyr::symbols::current_data));
   SEXP current_vars = PROTECT(Rf_getAttrib(current_data, R_NamesSymbol));
 
   // search for position of name
@@ -108,8 +108,8 @@ SEXP dplyr_mask_binding_remove(SEXP env_private, SEXP s_name) {
 
     SEXP sym_name = PROTECT(rlang::str_as_symbol(name));
 
-    SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
-    SEXP env_mask_bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_mask_bindings));
+    SEXP chops = PROTECT(env_get(env_private, dplyr::symbols::chops));
+    SEXP env_mask_bindings = PROTECT(env_get(env_private, dplyr::symbols::env_mask_bindings));
 
     rlang::env_unbind(env_mask_bindings, sym_name);
     rlang::env_unbind(chops, sym_name);
