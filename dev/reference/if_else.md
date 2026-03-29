@@ -88,10 +88,10 @@ if_else(x < 0, "negative", "positive", missing = "missing")
 # Unlike `ifelse()`, `if_else()` preserves types
 x <- factor(sample(letters[1:5], 10, replace = TRUE))
 ifelse(x %in% c("a", "b", "c"), x, NA)
-#>  [1]  2  1  1  3 NA NA  1 NA  2  3
+#>  [1]  2 NA NA  2 NA  1  2 NA  2 NA
 if_else(x %in% c("a", "b", "c"), x, NA)
-#>  [1] b    a    a    c    <NA> <NA> a    <NA> b    c   
-#> Levels: a b c d e
+#>  [1] c    <NA> <NA> c    <NA> b    c    <NA> c    <NA>
+#> Levels: b c d
 
 # `if_else()` is often useful for creating new columns inside of `mutate()`
 starwars |>

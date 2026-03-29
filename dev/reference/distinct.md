@@ -67,68 +67,68 @@ df <- tibble(
 nrow(df)
 #> [1] 100
 nrow(distinct(df))
-#> [1] 62
+#> [1] 63
 nrow(distinct(df, x, y))
-#> [1] 62
+#> [1] 63
 
 distinct(df, x)
 #> # A tibble: 10 × 1
 #>        x
 #>    <int>
-#>  1     8
-#>  2     1
-#>  3     7
-#>  4    10
-#>  5     6
-#>  6     5
+#>  1    10
+#>  2     5
+#>  3     8
+#>  4     3
+#>  5     2
+#>  6     6
 #>  7     4
-#>  8     3
-#>  9     9
-#> 10     2
+#>  8     1
+#>  9     7
+#> 10     9
 distinct(df, y)
 #> # A tibble: 10 × 1
 #>        y
 #>    <int>
-#>  1     5
-#>  2     7
-#>  3    10
-#>  4     9
-#>  5     4
-#>  6     6
-#>  7     2
+#>  1     7
+#>  2    10
+#>  3     4
+#>  4     8
+#>  5     9
+#>  6     5
+#>  7     6
 #>  8     1
-#>  9     3
-#> 10     8
+#>  9     2
+#> 10     3
 
 # You can choose to keep all other variables as well
 distinct(df, x, .keep_all = TRUE)
 #> # A tibble: 10 × 2
 #>        x     y
 #>    <int> <int>
-#>  1     8     5
-#>  2     1     7
-#>  3     7     5
-#>  4    10     4
-#>  5     6     6
-#>  6     5     5
-#>  7     4     1
-#>  8     3     2
-#>  9     9     4
-#> 10     2     8
+#>  1    10     7
+#>  2     5    10
+#>  3     8     8
+#>  4     3     9
+#>  5     2     9
+#>  6     6     1
+#>  7     4    10
+#>  8     1    10
+#>  9     7     5
+#> 10     9     4
 distinct(df, y, .keep_all = TRUE)
 #> # A tibble: 10 × 2
 #>        x     y
 #>    <int> <int>
-#>  1     8     5
-#>  2     1     7
-#>  3     7    10
-#>  4     7     9
-#>  5    10     4
-#>  6     6     6
-#>  7     7     2
-#>  8    10     1
-#>  9     5     3
-#> 10     2     8
+#>  1    10     7
+#>  2     5    10
+#>  3     5     4
+#>  4     8     8
+#>  5     3     9
+#>  6    10     5
+#>  7    10     6
+#>  8     6     1
+#>  9     7     2
+#> 10     5     3
 
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))
@@ -136,15 +136,15 @@ distinct(df, diff = abs(x - y))
 #>     diff
 #>    <int>
 #>  1     3
-#>  2     6
-#>  3     2
+#>  2     5
+#>  3     1
 #>  4     0
-#>  5     5
-#>  6     9
+#>  5     6
+#>  6     7
 #>  7     4
-#>  8     1
-#>  9     8
-#> 10     7
+#>  8     9
+#>  9     2
+#> 10     8
 
 # Use `pick()` to select columns with tidy-select
 distinct(starwars, pick(contains("color")))

@@ -525,7 +525,7 @@ for (var in names(mtcars)) {
 
 This same technique works with for loop alternatives like the base R
 [`apply()`](https://rdrr.io/r/base/apply.html) family and the purrr
-[`map()`](https://purrr.tidyverse.org/reference/map.html) family:
+`map()` family:
 
 ``` r
 mtcars |>

@@ -95,11 +95,11 @@ arrange(wrong, year)
 #> # A tibble: 6 × 3
 #>    year value previous_year_value
 #>   <int> <dbl>               <dbl>
-#> 1  2000     0                   9
-#> 2  2001     1                  16
-#> 3  2002     4                  25
-#> 4  2003     9                  NA
-#> 5  2004    16                   4
+#> 1  2000     0                  16
+#> 2  2001     1                   4
+#> 3  2002     4                   9
+#> 4  2003     9                  25
+#> 5  2004    16                  NA
 #> 6  2005    25                   0
 
 right <- mutate(scrambled, previous_year_value = lag(value, order_by = year))

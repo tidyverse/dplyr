@@ -313,7 +313,7 @@ Or if you’re an experienced R programmer, you might know how to apply a
 function to each element of a list using
 [`sapply()`](https://rdrr.io/r/base/lapply.html),
 [`vapply()`](https://rdrr.io/r/base/lapply.html), or one of the purrr
-[`map()`](https://purrr.tidyverse.org/reference/map.html) functions:
+`map()` functions:
 
 ``` r
 df |> mutate(l = sapply(x, length))
@@ -685,8 +685,7 @@ df |>
 also questioning for quite some time, partly because I didn’t appreciate
 how many people needed the native ability to compute summaries across
 multiple variables for each row. As an alternative, we recommended
-performing row-wise operations with the purrr
-[`map()`](https://purrr.tidyverse.org/reference/map.html) functions.
+performing row-wise operations with the purrr `map()` functions.
 However, this was challenging because you needed to pick a map function
 based on the number of arguments that were varying and the type of
 result, which required quite some knowledge of purrr functions.

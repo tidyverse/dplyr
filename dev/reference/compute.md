@@ -68,7 +68,7 @@ remote <- mtcars2 |>
 
 # Compute query and save in remote table
 compute(remote)
-#> # Source:   table<`dbplyr_yFTywINVDl`> [?? x 5]
+#> # Source:   table<`dbplyr_me1YyZvyFT`> [?? x 5]
 #> # Database: sqlite 3.51.2 [:memory:]
 #>      mpg   cyl  disp    hp  drat
 #>    <dbl> <dbl> <dbl> <dbl> <dbl>

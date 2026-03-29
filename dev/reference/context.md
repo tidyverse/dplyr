@@ -76,24 +76,24 @@ gf |> summarise(n = n())
 gf |> mutate(id = cur_group_id())
 #> # A tibble: 6 × 4
 #> # Groups:   g [3]
-#>   g          x     y    id
-#>   <chr>  <dbl> <dbl> <int>
-#> 1 b     0.984  0.891     2
-#> 2 c     0.154  0.673     3
-#> 3 c     0.0910 0.737     3
-#> 4 c     0.142  0.521     3
-#> 5 a     0.690  0.660     1
-#> 6 b     0.619  0.822     2
+#>   g         x     y    id
+#>   <chr> <dbl> <dbl> <int>
+#> 1 a     0.721 0.648     1
+#> 2 b     0.142 0.320     2
+#> 3 c     0.549 0.308     3
+#> 4 b     0.954 0.220     2
+#> 5 c     0.585 0.369     3
+#> 6 c     0.405 0.984     3
 gf |> reframe(row = cur_group_rows())
 #> # A tibble: 6 × 2
 #>   g       row
 #>   <chr> <int>
-#> 1 a         5
-#> 2 b         1
-#> 3 b         6
-#> 4 c         2
-#> 5 c         3
-#> 6 c         4
+#> 1 a         1
+#> 2 b         2
+#> 3 b         4
+#> 4 c         3
+#> 5 c         5
+#> 6 c         6
 gf |> summarise(data = list(cur_group()))
 #> # A tibble: 3 × 2
 #>   g     data            
@@ -107,10 +107,10 @@ gf |> mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
 #> # Groups:   g [3]
 #>   g     x      y     
 #>   <chr> <chr>  <chr> 
-#> 1 b     x 0.98 y 0.89
-#> 2 c     x 0.15 y 0.67
-#> 3 c     x 0.09 y 0.74
-#> 4 c     x 0.14 y 0.52
-#> 5 a     x 0.69 y 0.66
-#> 6 b     x 0.62 y 0.82
+#> 1 a     x 0.72 y 0.65
+#> 2 b     x 0.14 y 0.32
+#> 3 c     x 0.55 y 0.31
+#> 4 b     x 0.95 y 0.22
+#> 5 c     x 0.59 y 0.37
+#> 6 c     x 0.4  y 0.98
 ```
