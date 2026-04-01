@@ -63,12 +63,12 @@ list(mean = mean, mean = ~ mean(.x, na.rm = TRUE))
 #> $mean
 #> function (x, ...) 
 #> UseMethod("mean")
-#> <bytecode: 0x563861d603d8>
+#> <bytecode: 0x55e660d463d8>
 #> <environment: namespace:base>
 #> 
 #> $mean
 #> ~mean(.x, na.rm = TRUE)
-#> <environment: 0x5638650b7260>
+#> <environment: 0x55e6640873b0>
 #> 
 
 funs(m1 = mean, m2 = "mean", m3 = mean(., na.rm = TRUE))
@@ -89,7 +89,7 @@ list(m1 = mean, m2 = "mean", m3 = ~ mean(.x, na.rm = TRUE))
 #> $m1
 #> function (x, ...) 
 #> UseMethod("mean")
-#> <bytecode: 0x563861d603d8>
+#> <bytecode: 0x55e660d463d8>
 #> <environment: namespace:base>
 #> 
 #> $m2
@@ -97,6 +97,6 @@ list(m1 = mean, m2 = "mean", m3 = ~ mean(.x, na.rm = TRUE))
 #> 
 #> $m3
 #> ~mean(.x, na.rm = TRUE)
-#> <environment: 0x5638650b7260>
+#> <environment: 0x55e6640873b0>
 #> 
 ```

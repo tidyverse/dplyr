@@ -2,6 +2,9 @@
 
 ## dplyr (development version)
 
+- dplyr is now fully compliant with the R C API
+  ([\#7819](https://github.com/tidyverse/dplyr/issues/7819)).
+
 ## dplyr 1.2.0
 
 CRAN release: 2026-02-03
