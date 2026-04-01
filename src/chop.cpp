@@ -1,4 +1,5 @@
 #include "dplyr.h"
+#include "utils.h"
 
 SEXP new_environment(int size, SEXP parent)  {
   SEXP call = PROTECT(Rf_lang4(dplyr::symbols::new_env, Rf_ScalarLogical(TRUE), parent, Rf_ScalarInteger(size)));
@@ -13,33 +14,41 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
 
   const SEXP* p_data = VECTOR_PTR_RO(data);
   const SEXP* p_names = STRING_PTR_RO(names);
+
+  SEXP eval_env = R_EmptyEnv;
+
   for (R_xlen_t i = 0; i < n; i++) {
-    SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
-    SET_PRENV(prom, R_EmptyEnv);
     SEXP column = p_data[i];
+    SEXP sym = PROTECT(rlang::str_as_symbol(p_names[i]));
 
     if (rowwise && vctrs::obj_is_list(column)) {
-      if (Rf_length(column) == 0) {
-        SEXP ptype = PROTECT(Rf_getAttrib(column, Rf_install("ptype")));
-        column = PROTECT(Rf_allocVector(VECSXP, 1));
-        if (ptype != R_NilValue) {
-          SET_VECTOR_ELT(column, 0, ptype);
-        } else {
-          // i.e. `vec_ptype_finalise(unspecified())` (#6369)
-          SET_VECTOR_ELT(column, 0, Rf_allocVector(LGLSXP, 0));
+      // Special handling of list-columns in rowwise mode
+      if (Rf_xlength(column) == 0) {
+        // List-col is empty, bind a length 1 list-col with either its `ptype`
+        // attribute (for list-of) or a fallback to `logical()` (i.e.
+        // `vec_ptype_finalise(unspecified())` as the sole element (#6369)).
+        SEXP ptype = Rf_getAttrib(column, Rf_install("ptype"));
+        if (ptype == R_NilValue) {
+          ptype = Rf_allocVector(LGLSXP, 0);
         }
-        SET_PRCODE(prom, column);
+        PROTECT(ptype);
+
+        column = PROTECT(Rf_allocVector(VECSXP, 1));
+        SET_VECTOR_ELT(column, 0, ptype);
+
+        env_bind_delayed(chops_env, sym, column, eval_env);
         UNPROTECT(2);
       } else {
-        SET_PRCODE(prom, column);
+        // List-col has length, bind it directly
+        env_bind_delayed(chops_env, sym, column, eval_env);
       }
     } else {
-      SET_PRCODE(prom, Rf_lang3(dplyr::functions::vec_chop, column, rows));
+      // Standard grouped case is to bind a delayed call to `vec_chop(column, rows)`
+      SEXP expr = PROTECT(Rf_lang3(dplyr::functions::vec_chop, column, rows));
+      env_bind_delayed(chops_env, sym, expr, eval_env);
+      UNPROTECT(1);
     }
 
-    SET_PRVALUE(prom, R_UnboundValue);
-
-    Rf_defineVar(rlang::str_as_symbol(p_names[i]), prom, chops_env);
     UNPROTECT(1);
   }
 
@@ -52,15 +61,16 @@ void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data) {
 
   const SEXP* p_data = VECTOR_PTR_RO(data);
   const SEXP* p_names = STRING_PTR_RO(names);
-  for (R_xlen_t i = 0; i < n; i++) {
-    SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
-    SET_PRENV(prom, R_EmptyEnv);
-    SET_PRCODE(prom, Rf_lang2(dplyr::functions::list, p_data[i]));
-    SET_PRVALUE(prom, R_UnboundValue);
 
-    SEXP symb = rlang::str_as_symbol(p_names[i]);
-    Rf_defineVar(symb, prom, chops_env);
-    UNPROTECT(1);
+  SEXP eval_env = R_EmptyEnv;
+
+  // Bind a delayed call to `list(column)`, i.e. 1 group containing the whole column
+  for (R_xlen_t i = 0; i < n; i++) {
+    SEXP column = p_data[i];
+    SEXP sym = PROTECT(rlang::str_as_symbol(p_names[i]));
+    SEXP expr = PROTECT(Rf_lang2(dplyr::functions::list, column));
+    env_bind_delayed(chops_env, sym, expr, eval_env);
+    UNPROTECT(2);
   }
 
   UNPROTECT(1);
@@ -121,23 +131,48 @@ SEXP dplyr_make_mask_bindings(SEXP env_chops, SEXP data) {
   return env_mask_bindings;
 }
 
-SEXP env_resolved(SEXP env, SEXP names) {
+static inline
+bool env_binding_is_delayed(SEXP env, SEXP sym) {
+#if (R_VERSION >= R_Version(4, 6, 0))
+  R_BindingType_t type = R_GetBindingType(sym, env);
+  if (type == R_BindingTypeUnbound) {
+    Rf_errorcall(R_NilValue, "Internal error: Unbound chops binding.");
+  }
+  return type == R_BindingTypeDelayed;
+#else
+  SEXP value = Rf_findVarInFrame3(env, sym, FALSE);
+  if (value == R_UnboundValue) {
+    Rf_errorcall(R_NilValue, "Internal error: Unbound chops binding.");
+  }
+  return TYPEOF(value) == PROMSXP && PRVALUE(value) == R_UnboundValue;
+#endif
+}
+
+// Detect "used" chops bindings
+//
+// We first require that the binding exists, otherwise that would
+// be an internal error on our part.
+//
+// Then we check to see if the binding is delayed. If it is, then it is
+// considered "unused".
+//
+// Used bindings include:
+// - Forced chop promises (i.e. if the user referenced an original column in an expression)
+// - Newly installed columns from a previous expression
+SEXP ffi_env_bindings_are_used(SEXP chops_env, SEXP names) {
   R_xlen_t n = XLENGTH(names);
   SEXP res = PROTECT(Rf_allocVector(LGLSXP, n));
 
   int* p_res = LOGICAL(res);
   const SEXP* p_names = STRING_PTR_RO(names);
 
-  for(R_xlen_t i = 0; i < n; i++) {
-    SEXP name = PROTECT(rlang::str_as_symbol(p_names[i]));
-    SEXP prom = PROTECT(Rf_findVarInFrame(env, name));
-    SEXP val = TYPEOF(prom) == PROMSXP ? PRVALUE(prom) : prom;
-    p_res[i] = val != R_UnboundValue;
-    UNPROTECT(2);
+  for (R_xlen_t i = 0; i < n; i++) {
+    SEXP sym = PROTECT(rlang::str_as_symbol(p_names[i]));
+    p_res[i] = !env_binding_is_delayed(chops_env, sym);
+    UNPROTECT(1);
   }
 
   Rf_namesgets(res, names);
   UNPROTECT(1);
   return res;
 }
-

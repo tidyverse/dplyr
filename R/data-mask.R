@@ -224,7 +224,11 @@ DataMask <- R6Class(
     },
 
     get_used = function() {
-      .Call(env_resolved, private$chops, names(private$current_data))
+      .Call(
+        ffi_env_bindings_are_used,
+        private$chops,
+        names(private$current_data)
+      )
     },
 
     unused_vars = function() {
