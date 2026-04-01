@@ -104,7 +104,8 @@ namespace rlang {
 SEXP eval_tidy(SEXP expr, SEXP data, SEXP env);
 SEXP as_data_pronoun(SEXP x);
 SEXP new_data_mask(SEXP bottom, SEXP top);
-SEXP str_as_symbol(SEXP);
+SEXP str_as_symbol(SEXP str);
+bool is_quosure(SEXP x);
 }
 
 namespace vctrs {
