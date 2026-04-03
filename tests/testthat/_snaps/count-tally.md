@@ -3,7 +3,7 @@
     Code
       count(df, x, name = 1)
     Condition
-      Error in `tally()`:
+      Error in `count()`:
       ! `name` must be a single string, not the number 1.
 
 ---
@@ -11,7 +11,7 @@
     Code
       count(df, x, name = letters)
     Condition
-      Error in `tally()`:
+      Error in `count()`:
       ! `name` must be a single string, not a character vector.
 
 # can only explicitly chain together multiple tallies
@@ -102,6 +102,50 @@
         <int>
       1     5
 
+# tally() warns when passing unnamed wt
+
+    Code
+      out <- tally(df, x)
+    Condition
+      Warning:
+      Passing `wt` as an unnamed argument to `tally()` was deprecated in dplyr 1.3.0.
+      i Please use `tally(wt = )` instead.
+
+# tally() warns when passing multiple unnamed args
+
+    Code
+      out <- tally(gf, NULL, TRUE)
+    Condition
+      Warning:
+      Passing `wt` as an unnamed argument to `tally()` was deprecated in dplyr 1.3.0.
+      i Please use `tally(wt = )` instead.
+      Warning:
+      Passing `sort` as an unnamed argument to `tally()` was deprecated in dplyr 1.3.0.
+      i Please use `tally(sort = )` instead.
+
+# tally() warns when passing all unnamed args
+
+    Code
+      out <- tally(df, x, FALSE, "count")
+    Condition
+      Warning:
+      Passing `wt` as an unnamed argument to `tally()` was deprecated in dplyr 1.3.0.
+      i Please use `tally(wt = )` instead.
+      Warning:
+      Passing `sort` as an unnamed argument to `tally()` was deprecated in dplyr 1.3.0.
+      i Please use `tally(sort = )` instead.
+      Warning:
+      Passing `name` as an unnamed argument to `tally()` was deprecated in dplyr 1.3.0.
+      i Please use `tally(name = )` instead.
+
+# tally() errors with extra args in dots
+
+    Code
+      tally(df, 1, 2, 3, 4)
+    Condition
+      Error in `tally()`:
+      ! Extra arguments passed to `tally()` via `...`.
+
 # `.drop` is defunct
 
     Code
@@ -175,4 +219,36 @@
       3     3     5
       4     4     5
       5     5     5
+
+# add_tally() warns when passing unnamed wt
+
+    Code
+      out <- add_tally(df, x)
+    Condition
+      Warning:
+      Passing `wt` as an unnamed argument to `add_tally()` was deprecated in dplyr 1.3.0.
+      i Please use `add_tally(wt = )` instead.
+
+# add_tally() warns when passing all unnamed args
+
+    Code
+      out <- add_tally(df, x, FALSE, "count")
+    Condition
+      Warning:
+      Passing `wt` as an unnamed argument to `add_tally()` was deprecated in dplyr 1.3.0.
+      i Please use `add_tally(wt = )` instead.
+      Warning:
+      Passing `sort` as an unnamed argument to `add_tally()` was deprecated in dplyr 1.3.0.
+      i Please use `add_tally(sort = )` instead.
+      Warning:
+      Passing `name` as an unnamed argument to `add_tally()` was deprecated in dplyr 1.3.0.
+      i Please use `add_tally(name = )` instead.
+
+# add_tally() errors with extra args in dots
+
+    Code
+      add_tally(df, 1, 2, 3, 4)
+    Condition
+      Error in `add_tally()`:
+      ! Extra arguments passed to `add_tally()` via `...`.
 
