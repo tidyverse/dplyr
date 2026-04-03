@@ -56,11 +56,11 @@ tbl <- new_grouped_df(
 # mean of each bootstrap sample
 summarise(tbl, x = mean(x))
 #> # A tibble: 5 × 1
-#>        x
-#>    <dbl>
-#> 1 -0.523
-#> 2 -0.147
-#> 3 -0.152
-#> 4 -0.103
-#> 5  0.507
+#>          x
+#>      <dbl>
+#> 1  0.177  
+#> 2  0.0262 
+#> 3  0.103  
+#> 4  0.202  
+#> 5 -0.00267
 ```

@@ -43,12 +43,12 @@ scrambled <- df[sample(nrow(df)), ]
 wrong <- mutate(scrambled, running = cumsum(value))
 arrange(wrong, year)
 #>   year value running
-#> 1 2000     0       4
-#> 2 2001     1      39
-#> 3 2002     4       4
-#> 4 2003     9      38
+#> 1 2000     0       0
+#> 2 2001     1      26
+#> 3 2002     4      39
+#> 4 2003     9      35
 #> 5 2004    16      55
-#> 6 2005    25      29
+#> 6 2005    25      25
 
 right <- mutate(scrambled, running = order_by(year, cumsum(value)))
 arrange(right, year)

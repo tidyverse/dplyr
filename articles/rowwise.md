@@ -311,7 +311,7 @@ Or if you’re an experienced R programmer, you might know how to apply a
 function to each element of a list using
 [`sapply()`](https://rdrr.io/r/base/lapply.html),
 [`vapply()`](https://rdrr.io/r/base/lapply.html), or one of the purrr
-[`map()`](https://purrr.tidyverse.org/reference/map.html) functions:
+`map()` functions:
 
 ``` r
 df |> mutate(l = sapply(x, length))
@@ -498,7 +498,7 @@ mods
 You could then summarise the model in a variety of ways:
 
 ``` r
-mods |> summarise(rmse = sqrt(mean((pred - data$mpg) ^ 2)))
+mods |> summarise(rmse = sqrt(mean((pred - data$mpg)^2)))
 #> `summarise()` has converted the output from a rowwise data frame to a
 #> grouped data frame.
 #> ℹ Summaries were computed rowwise.
@@ -576,10 +576,10 @@ distribution:
 
 ``` r
 df <- tribble(
-  ~ n, ~ min, ~ max,
-    1,     0,     1,
-    2,    10,   100,
-    3,   100,  1000,
+  ~n , ~min , ~max ,
+   1 ,    0 ,    1 ,
+   2 ,   10 ,  100 ,
+   3 ,  100 , 1000 ,
 )
 ```
 
@@ -657,10 +657,10 @@ But it’s still possible, and it’s a natural place to use
 
 ``` r
 df <- tribble(
-   ~rng,     ~params,
-   "runif",  list(n = 10),
-   "rnorm",  list(n = 20),
-   "rpois",  list(n = 10, lambda = 5),
+  ~rng    , ~params                  ,
+  "runif" , list(n = 10)             ,
+  "rnorm" , list(n = 20)             ,
+  "rpois" , list(n = 10, lambda = 5) ,
 ) |>
   rowwise()
 
@@ -683,8 +683,7 @@ df |>
 questioning for quite some time, partly because I didn’t appreciate how
 many people needed the native ability to compute summaries across
 multiple variables for each row. As an alternative, we recommended
-performing row-wise operations with the purrr
-[`map()`](https://purrr.tidyverse.org/reference/map.html) functions.
+performing row-wise operations with the purrr `map()` functions.
 However, this was challenging because you needed to pick a map function
 based on the number of arguments that were varying and the type of
 result, which required quite some knowledge of purrr functions.

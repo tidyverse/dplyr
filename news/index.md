@@ -1,5 +1,12 @@
 # Changelog
 
+## dplyr 1.2.1
+
+CRAN release: 2026-04-03
+
+- dplyr is now fully compliant with the R C API
+  ([\#7819](https://github.com/tidyverse/dplyr/issues/7819)).
+
 ## dplyr 1.2.0
 
 CRAN release: 2026-02-03
@@ -927,7 +934,7 @@ CRAN release: 2023-01-29
 
 - [`consecutive_id()`](https://dplyr.tidyverse.org/reference/consecutive_id.md)
   for creating groups based on contiguous runs of the same values, like
-  [`data.table::rleid()`](https://rdrr.io/pkg/data.table/man/rleid.html)
+  `data.table::rleid()`
   ([\#1534](https://github.com/tidyverse/dplyr/issues/1534)).
 
 - [`case_match()`](https://dplyr.tidyverse.org/reference/case_match.md)
@@ -985,10 +992,7 @@ CRAN release: 2023-01-29
   2020), are now defunct
   ([\#6387](https://github.com/tidyverse/dplyr/issues/6387)).
 
-- [`frame_data()`](https://tibble.tidyverse.org/reference/deprecated.html),
-  [`data_frame_()`](https://tibble.tidyverse.org/reference/deprecated.html),
-  [`lst_()`](https://tibble.tidyverse.org/reference/deprecated.html) and
-  [`tbl_sum()`](https://pillar.r-lib.org/reference/tbl_sum.html) are no
+- `frame_data()`, `data_frame_()`, `lst_()` and `tbl_sum()` are no
   longer re-exported from tibble
   ([\#6276](https://github.com/tidyverse/dplyr/issues/6276),
   [\#6277](https://github.com/tidyverse/dplyr/issues/6277),
@@ -1630,9 +1634,7 @@ CRAN release: 2022-02-08
   accepts 1-D arrays
   ([\#5557](https://github.com/tidyverse/dplyr/issues/5557)).
 
-- The deprecated
-  [`trunc_mat()`](https://tibble.tidyverse.org/reference/trunc_mat.html)
-  is no longer reexported from dplyr
+- The deprecated `trunc_mat()` is no longer reexported from dplyr
   ([\#6141](https://github.com/tidyverse/dplyr/issues/6141)).
 
 ## dplyr 1.0.7
@@ -3485,8 +3487,7 @@ CRAN release: 2017-06-09
   now imported from tibble
   ([\#2336](https://github.com/tidyverse/dplyr/issues/2336),
   [@chrMongeau](https://github.com/chrMongeau)); this is now preferred
-  to
-  [`frame_data()`](https://tibble.tidyverse.org/reference/deprecated.html).
+  to `frame_data()`.
 
 ### Deprecated and defunct
 
@@ -3694,9 +3695,9 @@ for backward compatibility).
   implements strict matching also for the `$` operator
   ([\#2591](https://github.com/tidyverse/dplyr/issues/2591)).)
 
-  The [`column()`](https://rdrr.io/pkg/shiny/man/column.html) and
-  `global()` functions have been removed. They were never documented
-  officially. Use the new `.data` and `.env` environments instead.
+  The `column()` and `global()` functions have been removed. They were
+  never documented officially. Use the new `.data` and `.env`
+  environments instead.
 
 - Expressions in verbs are now interpreted correctly in many cases that
   failed before (e.g., use of `$`,
@@ -4069,9 +4070,9 @@ for backward compatibility).
   ([\#2146](https://github.com/tidyverse/dplyr/issues/2146)).
 
 - Formatting of grouped data frames now works by overriding the
-  [`tbl_sum()`](https://pillar.r-lib.org/reference/tbl_sum.html) generic
-  instead of [`print()`](https://rdrr.io/r/base/print.html). This means
-  that the output is more consistent with tibble, and that
+  `tbl_sum()` generic instead of
+  [`print()`](https://rdrr.io/r/base/print.html). This means that the
+  output is more consistent with tibble, and that
   [`format()`](https://rdrr.io/r/base/format.html) is now supported also
   for SQL sources
   ([\#2781](https://github.com/tidyverse/dplyr/issues/2781)).
@@ -4213,8 +4214,7 @@ loaded, you’ll get a message reminding you to load dtplyr.
 
 Functions related to the creation and coercion of `tbl_df`s, now live in
 their own package: [tibble](https://posit.co/blog/tibble-1-0-0/). See
-[`vignette("tibble")`](https://tibble.tidyverse.org/articles/tibble.html)
-for more details.
+`vignette("tibble")` for more details.
 
 - `$` and `[[` methods that never do partial matching
   ([\#1504](https://github.com/tidyverse/dplyr/issues/1504)), and throw
@@ -4260,8 +4260,7 @@ for more details.
   check for `POSIXlt` columns, and tell you to use `POSIXct` instead
   ([\#813](https://github.com/tidyverse/dplyr/issues/813)).
 
-- [`frame_data()`](https://tibble.tidyverse.org/reference/deprecated.html)
-  properly constructs rectangular tables
+- `frame_data()` properly constructs rectangular tables
   ([\#1377](https://github.com/tidyverse/dplyr/issues/1377),
   [@kevinushey](https://github.com/kevinushey)), and supports list-cols.
 
@@ -4273,12 +4272,9 @@ for more details.
   ([\#1570](https://github.com/tidyverse/dplyr/issues/1570)).
 
 - [`lst()`](https://tibble.tidyverse.org/reference/lst.html) and
-  [`lst_()`](https://tibble.tidyverse.org/reference/deprecated.html)
-  which create lists in the same way that
+  `lst_()` which create lists in the same way that
   [`data_frame()`](https://tibble.tidyverse.org/reference/deprecated.html)
-  and
-  [`data_frame_()`](https://tibble.tidyverse.org/reference/deprecated.html)
-  create data frames
+  and `data_frame_()` create data frames
   ([\#1290](https://github.com/tidyverse/dplyr/issues/1290)).
 
 - `print.tbl_df()` is considerably faster if you have very wide data
@@ -4742,9 +4738,8 @@ version. This includes fixes to
 
 ### Other minor improvements and bug fixes
 
-- [`frame_data()`](https://tibble.tidyverse.org/reference/deprecated.html)
-  provides a means for constructing `data_frame`s using a simple
-  row-wise language.
+- `frame_data()` provides a means for constructing `data_frame`s using a
+  simple row-wise language.
   ([\#1358](https://github.com/tidyverse/dplyr/issues/1358),
   [@kevinushey](https://github.com/kevinushey))
 
@@ -5449,10 +5444,9 @@ CRAN release: 2014-10-04
 - `mutate(data, a = NULL)` removes the variable `a` from the returned
   dataset ([\#462](https://github.com/tidyverse/dplyr/issues/462)).
 
-- [`trunc_mat()`](https://tibble.tidyverse.org/reference/trunc_mat.html)
-  and hence `print.tbl_df()` and friends gets a `width` argument to
-  control the default output width. Set `options(dplyr.width = Inf)` to
-  always show all columns
+- `trunc_mat()` and hence `print.tbl_df()` and friends gets a `width`
+  argument to control the default output width. Set
+  `options(dplyr.width = Inf)` to always show all columns
   ([\#589](https://github.com/tidyverse/dplyr/issues/589)).
 
 - [`select()`](https://dplyr.tidyverse.org/reference/select.md) gains

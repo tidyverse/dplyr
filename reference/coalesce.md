@@ -52,7 +52,7 @@ of the vectors in `...`.
 # Replace missing values with a single value
 x <- sample(c(1:5, NA, NA, NA))
 coalesce(x, 0L)
-#> [1] 1 0 5 0 3 2 4 0
+#> [1] 0 5 2 1 0 3 4 0
 
 # Or replace missing values with the corresponding non-missing value in
 # another vector

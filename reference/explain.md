@@ -78,7 +78,7 @@ batting |> explain()
 #> 
 #> <PLAN>
 #>   id parent notused       detail
-#> 1  2      0     182 SCAN Batting
+#> 1  2      0     183 SCAN Batting
 
 # The batting database has indices on all ID variables:
 # SQLite automatically picks the most restrictive index
@@ -90,7 +90,7 @@ batting |> filter(lgID == "NL" & yearID == 2000L) |> explain()
 #> 
 #> <PLAN>
 #>   id parent notused
-#> 1  3      0     125
+#> 1  3      0     117
 #>                                                 detail
 #> 1 SEARCH Batting USING INDEX Batting_yearID (yearID=?)
 
@@ -107,7 +107,7 @@ batting |> filter(lgID == "NL" | yearID == 2000) |> explain()
 #> 2  5      4       0
 #> 3 11      5     181
 #> 4 16      4       0
-#> 5 22     16     125
+#> 5 22     16     117
 #>                                                 detail
 #> 1                                       MULTI-INDEX OR
 #> 2                                              INDEX 1
@@ -197,10 +197,10 @@ batting |> left_join(teams, c("yearID", "teamID")) |> explain()
 #> 
 #> <PLAN>
 #>   id parent notused
-#> 1  4      0     182
-#> 2  6      0      67
+#> 1  4      0     183
+#> 2  6      0      64
 #>                                                       detail
 #> 1                                               SCAN Batting
-#> 2 SEARCH Teams USING INDEX Teams_yearID (yearID=?) LEFT-JOIN
+#> 2 SEARCH Teams USING INDEX Teams_teamID (teamID=?) LEFT-JOIN
 # }
 ```

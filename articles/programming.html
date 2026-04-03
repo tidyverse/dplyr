@@ -23,7 +23,7 @@
 <meta property="og:description" content="Most dplyr verbs use &quot;tidy evaluation&quot;, a special type of non-standard evaluation. In this vignette, you'll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.
 ">
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
-<script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-hide-below="1200" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="dplyr.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script><script async src="https://widget.kapa.ai/kapa-widget.bundle.js" data-button-hide="true" data-modal-disclaimer="This is a custom LLM for answering questions about dplyr, tidyr, and ggplot2. Answers are based on the contents of the documentation. Rate the answers to let us know what you think!" data-modal-ask-ai-input-placeholder="Ask me a question about dplyr, tidyr, or ggplot2." data-modal-header-bg-color="#f9f9f9" data-modal-override-open-class="open-kapa-widget" data-project-color="#365a7a" data-project-name="dplyr" data-modal-title="tidyverse AI ✨" data-project-logo="https://avatars.githubusercontent.com/u/22032646?s=200&amp;u=235532df5cf8543246812f73db051b793f868807&amp;v=4" data-user-analytics-fingerprint-enabled="true" data-bot-protection-mechanism="hcaptcha" data-website-id="44ae76c6-2ae5-4899-ab42-de9f17f07c7b"></script>
+<script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-hide-below="1200" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="dplyr.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script><script async src="https://widget.kapa.ai/kapa-widget.bundle.js" data-button-hide="true" data-modal-disclaimer="This is a custom LLM for answering questions about dplyr, tidyr, and ggplot2. Answers are based on the contents of the documentation. Rate the answers to let us know what you think!" data-modal-ask-ai-input-placeholder="Ask me a question about dplyr, tidyr, or ggplot2." data-modal-header-bg-color="#f9f9f9" data-modal-override-open-class="open-kapa-widget" data-project-color="#365a7a" data-project-name="dplyr" data-modal-title="tidyverse AI ✨" data-project-logo="https://avatars.githubusercontent.com/u/22032646?s=200&amp;u=235532df5cf8543246812f73db051b793f868807&amp;v=4" data-user-analytics-fingerprint-enabled="false" data-user-analytics-cookie-enabled="false" data-bot-protection-mechanism="hcaptcha" data-website-id="44ae76c6-2ae5-4899-ab42-de9f17f07c7b"></script>
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -33,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Programming with dplyr</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/v1.2.0/vignettes/programming.Rmd" class="external-link"><code>vignettes/programming.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/vignettes/programming.Rmd" class="external-link"><code>vignettes/programming.Rmd</code></a></small>
       <div class="d-none name"><code>programming.Rmd</code></div>
     </div>
 
@@ -154,7 +154,7 @@ don’t apply to it.&lt;/p&gt;'><sup>1</sup></a>) base R functions you need to r
 variables with <code>$</code>, leading to code that repeats the name of
 the data frame many times:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span><span class="op">[</span><span class="va">starwars</span><span class="op">$</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span>, ,<span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">starwars</span><span class="op">[</span><span class="va">starwars</span><span class="op">$</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span>, , <span class="op">]</span></span></code></pre></div>
 <p>The dplyr equivalent of this code is more concise because data
 masking allows you to need to type <code>starwars</code> once:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -379,11 +379,12 @@ argument:</p>
 user-supplied expression in multiple places:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>    mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    sum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>      mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      sum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>If you want the user to provide multiple expressions, embrace each of
 them:</p>
@@ -397,11 +398,12 @@ embrace the variable name on the left-hand side of <code>:=</code> with
 <code>{{</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise4</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>    <span class="st">"mean_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    <span class="st">"sum_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
-<span>    <span class="st">"n_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>      <span class="st">"mean_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      <span class="st">"sum_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      <span class="st">"n_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="va">my_summarise5</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">mean_var</span>, <span class="va">sd_var</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
@@ -422,7 +424,10 @@ the user full control over a single part of the pipeline, like a
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">.data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>      mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span></span>
@@ -579,7 +584,7 @@ pronoun:</p>
 <span>  <span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>This same technique works with for loop alternatives like the base R
-<code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> family and the purrr <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> family:</p>
+<code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> family and the purrr <code>map()</code> family:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -594,13 +599,13 @@ treated as an env-variable; it will never come from the data.)</p>
 the same approach as above: <code>.data[[input$var]]</code>.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span>
-<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="st">"Variable"</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderTable.html" class="external-link">tableOutput</a></span><span class="op">(</span><span class="st">"output"</span><span class="op">)</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span>
+<span>  <span class="fu">selectInput</span><span class="op">(</span><span class="st">"var"</span>, <span class="st">"Variable"</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu">tableOutput</span><span class="op">(</span><span class="st">"output"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="va">.data</span><span class="op">[[</span><span class="va">input</span><span class="op">$</span><span class="va">var</span><span class="op">]</span><span class="op">]</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="va">output</span><span class="op">$</span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderTable.html" class="external-link">renderTable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">reactive</span><span class="op">(</span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="va">.data</span><span class="op">[[</span><span class="va">input</span><span class="op">$</span><span class="va">var</span><span class="op">]</span><span class="op">]</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu">renderTable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>See <a href="https://mastering-shiny.org/action-tidy.html" class="external-link uri">https://mastering-shiny.org/action-tidy.html</a> for more
 details and case studies.</p>
