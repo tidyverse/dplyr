@@ -23,14 +23,13 @@
 #'   unless the combination of `...` and `add` yields a empty set of
 #'   grouping columns, in which case a tibble will be returned.
 #' @section Methods:
-#' These function are **generic**s, which means that packages can provide
+#' These are S3 generics, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
+#' The following methods are currently available in loaded packages:
 #'
-#' Methods available in currently loaded packages:
-#'
-#' * `group_by()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
-#' * `ungroup()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
+#' * `group_by()`: `Rd doclisting::methods_list("group_by")`
+#' * `ungroup()`: `Rd doclisting::methods_list("ungroup")`
 #'
 #' @section Ordering:
 #' Currently, `group_by()` internally orders the groups in ascending order. This

@@ -57,18 +57,17 @@
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
 #' @section Methods:
-#' These function are **generic**s, which means that packages can provide
+#' These are S3 generics, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
+#' The following methods are currently available in loaded packages:
 #'
-#' Methods available in currently loaded packages:
-#'
-#' * `slice()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
-#' * `slice_head()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
-#' * `slice_tail()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
-#' * `slice_min()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
-#' * `slice_max()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
-#' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
+#' * `slice()`: `Rd doclisting::methods_list("slice")`
+#' * `slice_head()`: `Rd doclisting::methods_list("slice_head")`
+#' * `slice_tail()`: `Rd doclisting::methods_list("slice_tail")`
+#' * `slice_min()`: `Rd doclisting::methods_list("slice_min")`
+#' * `slice_max()`: `Rd doclisting::methods_list("slice_max")`
+#' * `slice_sample()`: `Rd doclisting::methods_list("slice_sample")`
 #' @export
 #' @examples
 #' # Similar to head(mtcars, 1):

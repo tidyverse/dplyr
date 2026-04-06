@@ -70,12 +70,11 @@ Unlike base sorting with \code{sort()}, \code{NA} are:
 }
 \section{Methods}{
 
-This function is a \strong{generic}, which means that packages can provide
+This is an S3 generic, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
 The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("arrange")}.
+\Sexpr[stage=render,results=rd]{doclisting::methods_list("arrange")}
 }
 
 \examples{

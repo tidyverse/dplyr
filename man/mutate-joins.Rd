@@ -325,16 +325,15 @@ instead.
 
 \section{Methods}{
 
-These functions are \strong{generic}s, which means that packages can provide
+These are S3 generics, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
-Methods available in currently loaded packages:
+The following methods are currently available in loaded packages:
 \itemize{
-\item \code{inner_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("inner_join")}.
-\item \code{left_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("left_join")}.
-\item \code{right_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("right_join")}.
-\item \code{full_join()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("full_join")}.
+\item \code{inner_join()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("inner_join")}
+\item \code{left_join()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("left_join")}
+\item \code{right_join()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("right_join")}
+\item \code{full_join()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("full_join")}
 }
 }
 

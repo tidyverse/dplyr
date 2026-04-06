@@ -43,14 +43,13 @@ where operations are performed "by group". \code{ungroup()} removes grouping.
 }
 \section{Methods}{
 
-These function are \strong{generic}s, which means that packages can provide
+These are S3 generics, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
-Methods available in currently loaded packages:
+The following methods are currently available in loaded packages:
 \itemize{
-\item \code{group_by()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
-\item \code{ungroup()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
+\item \code{group_by()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("group_by")}
+\item \code{ungroup()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("ungroup")}
 }
 }
 

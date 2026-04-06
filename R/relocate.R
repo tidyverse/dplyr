@@ -18,12 +18,11 @@
 #' * Data frame attributes are preserved.
 #' * Groups are not affected.
 #' @section Methods:
-#' This function is a **generic**, which means that packages can provide
+#' This is an S3 generic, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
-#'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("relocate")}.
+#' `Rd doclisting::methods_list("relocate")`
 #' @export
 #' @examples
 #' df <- tibble(a = 1, b = 1, c = 1, d = "a", e = "a", f = "a")

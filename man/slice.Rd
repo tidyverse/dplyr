@@ -131,18 +131,17 @@ for more details.
 }
 \section{Methods}{
 
-These function are \strong{generic}s, which means that packages can provide
+These are S3 generics, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
-Methods available in currently loaded packages:
+The following methods are currently available in loaded packages:
 \itemize{
-\item \code{slice()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
-\item \code{slice_head()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
-\item \code{slice_tail()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
-\item \code{slice_min()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
-\item \code{slice_max()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
-\item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
+\item \code{slice()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("slice")}
+\item \code{slice_head()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("slice_head")}
+\item \code{slice_tail()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("slice_tail")}
+\item \code{slice_min()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("slice_min")}
+\item \code{slice_max()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("slice_max")}
+\item \code{slice_sample()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("slice_sample")}
 }
 }
 
