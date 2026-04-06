@@ -61,9 +61,9 @@ cross_join(band_instruments, band_members)
 cross_join(band_instruments, band_members, suffix = c("", "_y"))
 }
 \seealso{
-Other joins: 
+Other joins:
 \code{\link{filter-joins}},
 \code{\link{mutate-joins}},
-\code{\link{nest_join}()}
+\code{\link[=nest_join]{nest_join()}}
 }
 \concept{joins}

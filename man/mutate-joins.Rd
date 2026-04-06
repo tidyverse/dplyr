@@ -387,9 +387,9 @@ left_join(df1, df2)
 left_join(df1, df2, na_matches = "never")
 }
 \seealso{
-Other joins: 
-\code{\link{cross_join}()},
+Other joins:
+\code{\link[=cross_join]{cross_join()}},
 \code{\link{filter-joins}},
-\code{\link{nest_join}()}
+\code{\link[=nest_join]{nest_join()}}
 }
 \concept{joins}

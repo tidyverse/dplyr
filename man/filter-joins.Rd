@@ -106,9 +106,9 @@ band_members |> semi_join(band_instruments, by = join_by(name))
 # This is good practice in production code
 }
 \seealso{
-Other joins: 
-\code{\link{cross_join}()},
+Other joins:
+\code{\link[=cross_join]{cross_join()}},
 \code{\link{mutate-joins}},
-\code{\link{nest_join}()}
+\code{\link[=nest_join]{nest_join()}}
 }
 \concept{joins}

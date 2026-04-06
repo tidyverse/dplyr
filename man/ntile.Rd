@@ -41,8 +41,8 @@ ntile(1:8, 3)
 ntile(rep(1, 8), 3)
 }
 \seealso{
-Other ranking functions: 
-\code{\link{percent_rank}()},
-\code{\link{row_number}()}
+Other ranking functions:
+\code{\link[=percent_rank]{percent_rank()}},
+\code{\link[=row_number]{row_number()}}
 }
 \concept{ranking functions}

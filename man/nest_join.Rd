@@ -141,8 +141,8 @@ out
 out$df2
 }
 \seealso{
-Other joins: 
-\code{\link{cross_join}()},
+Other joins:
+\code{\link[=cross_join]{cross_join()}},
 \code{\link{filter-joins}},
 \code{\link{mutate-joins}}
 }

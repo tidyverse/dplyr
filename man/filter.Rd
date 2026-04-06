@@ -260,13 +260,13 @@ starwars |>
 # Learn more in ?rlang::args_data_masking
 }
 \seealso{
-Other single table verbs: 
-\code{\link{arrange}()},
-\code{\link{mutate}()},
-\code{\link{reframe}()},
-\code{\link{rename}()},
-\code{\link{select}()},
-\code{\link{slice}()},
-\code{\link{summarise}()}
+Other single table verbs:
+\code{\link[=arrange]{arrange()}},
+\code{\link[=mutate]{mutate()}},
+\code{\link[=reframe]{reframe()}},
+\code{\link[=rename]{rename()}},
+\code{\link[=select]{select()}},
+\code{\link[=slice]{slice()}},
+\code{\link[=summarise]{summarise()}}
 }
 \concept{single table verbs}

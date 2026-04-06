@@ -190,13 +190,13 @@ mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
 # Learn more in ?rlang::args_data_masking
 }
 \seealso{
-Other single table verbs: 
-\code{\link{arrange}()},
-\code{\link{filter}()},
-\code{\link{reframe}()},
-\code{\link{rename}()},
-\code{\link{select}()},
-\code{\link{slice}()},
-\code{\link{summarise}()}
+Other single table verbs:
+\code{\link[=arrange]{arrange()}},
+\code{\link[=filter]{filter()}},
+\code{\link[=reframe]{reframe()}},
+\code{\link[=rename]{rename()}},
+\code{\link[=select]{select()}},
+\code{\link[=slice]{slice()}},
+\code{\link[=summarise]{summarise()}}
 }
 \concept{single table verbs}

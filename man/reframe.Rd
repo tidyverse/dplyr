@@ -56,7 +56,7 @@ function that doesn't return a single summary value.
 \section{Connection to tibble}{
 
 \code{reframe()} is theoretically connected to two functions in tibble,
-\code{\link[tibble:enframe]{tibble::enframe()}} and \code{\link[tibble:enframe]{tibble::deframe()}}:
+\code{\link[tibble:enframe]{tibble::enframe()}} and \code{\link[tibble:deframe]{tibble::deframe()}}:
 \itemize{
 \item \code{enframe()}: vector -> data frame
 \item \code{deframe()}: data frame -> vector
@@ -122,13 +122,13 @@ starwars |>
   )
 }
 \seealso{
-Other single table verbs: 
-\code{\link{arrange}()},
-\code{\link{filter}()},
-\code{\link{mutate}()},
-\code{\link{rename}()},
-\code{\link{select}()},
-\code{\link{slice}()},
-\code{\link{summarise}()}
+Other single table verbs:
+\code{\link[=arrange]{arrange()}},
+\code{\link[=filter]{filter()}},
+\code{\link[=mutate]{mutate()}},
+\code{\link[=rename]{rename()}},
+\code{\link[=select]{select()}},
+\code{\link[=slice]{slice()}},
+\code{\link[=summarise]{summarise()}}
 }
 \concept{single table verbs}

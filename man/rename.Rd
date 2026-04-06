@@ -85,13 +85,13 @@ rename_with(
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other single table verbs: 
-\code{\link{arrange}()},
-\code{\link{filter}()},
-\code{\link{mutate}()},
-\code{\link{reframe}()},
-\code{\link{select}()},
-\code{\link{slice}()},
-\code{\link{summarise}()}
+Other single table verbs:
+\code{\link[=arrange]{arrange()}},
+\code{\link[=filter]{filter()}},
+\code{\link[=mutate]{mutate()}},
+\code{\link[=reframe]{reframe()}},
+\code{\link[=select]{select()}},
+\code{\link[=slice]{slice()}},
+\code{\link[=summarise]{summarise()}}
 }
 \concept{single table verbs}

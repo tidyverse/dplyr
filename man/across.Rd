@@ -48,7 +48,7 @@ columns. This can use \code{{.col}} to stand for the selected column name, and
 
 \item{.unpack}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Optionally \link[tidyr:pack]{unpack} data frames returned by functions in
+Optionally \link[tidyr:unpack]{unpack} data frames returned by functions in
 \code{.fns}, which expands the df-columns out into individual columns, retaining
 the number of rows in the data frame.
 \itemize{
