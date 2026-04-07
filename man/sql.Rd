@@ -10,6 +10,6 @@ sql(...)
 \item{...}{Character vectors that will be combined into a single SQL vector.}
 }
 \description{
-Use \code{sql()} to declare that a string is literal SQL, and should be used
+Use \code{sql()} to declare that a string is literal SQL and should be used
 as is, without quoting.
 }
