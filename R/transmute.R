@@ -9,12 +9,11 @@
 #'
 #' @inheritParams mutate
 #' @section Methods:
-#' This function is a **generic**, which means that packages can provide
+#' This is an S3 generic, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
-#'
-#' Methods available in currently loaded packages:
-#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
+#' The following methods are currently available in loaded packages:
+#' `Rd doclisting::methods_list("transmute")`
 #' @returns An object of the same type as `.data`. The output has the following
 #' properties:
 #'

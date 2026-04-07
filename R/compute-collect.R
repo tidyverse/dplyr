@@ -10,14 +10,13 @@
 #' All functions preserve grouping and ordering.
 #'
 #' @section Methods:
-#' These functions are **generics**, which means that packages can provide
+#' These are S3 generics, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
-#'
-#' Methods available in currently loaded packages:
-#' * `compute()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("compute")}
-#' * `collect()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collect")}
-#' * `collapse()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collapse")}
+#' The following methods are currently available in loaded packages:
+#' * `compute()`: `Rd doclisting::methods_list("compute")`
+#' * `collect()`: `Rd doclisting::methods_list("collect")`
+#' * `collapse()`: `Rd doclisting::methods_list("collapse")`
 #'
 #' @param x A data frame, data frame extension (e.g. a tibble), or a lazy
 #'   data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for more

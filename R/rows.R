@@ -20,18 +20,17 @@
 #'   must exist in `x`.
 #'
 #' @section Methods:
-#' These function are **generic**s, which means that packages can provide
+#' These are S3 generics, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
+#' The following methods are currently available in loaded packages:
 #'
-#' Methods available in currently loaded packages:
-#'
-#' * `rows_insert()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_insert")}.
-#' * `rows_append()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_append")}.
-#' * `rows_update()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_update")}.
-#' * `rows_patch()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_patch")}.
-#' * `rows_upsert()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_upsert")}.
-#' * `rows_delete()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_delete")}.
+#' * `rows_insert()`: `Rd doclisting::methods_list("rows_insert")`
+#' * `rows_append()`: `Rd doclisting::methods_list("rows_append")`
+#' * `rows_update()`: `Rd doclisting::methods_list("rows_update")`
+#' * `rows_patch()`: `Rd doclisting::methods_list("rows_patch")`
+#' * `rows_upsert()`: `Rd doclisting::methods_list("rows_upsert")`
+#' * `rows_delete()`: `Rd doclisting::methods_list("rows_delete")`
 #'
 #' @inheritParams left_join
 #' @param x,y A pair of data frames or data frame extensions (e.g. a tibble).

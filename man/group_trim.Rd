@@ -29,10 +29,10 @@ iris |>
   group_trim()
 }
 \seealso{
-Other grouping functions: 
-\code{\link{group_by}()},
-\code{\link{group_map}()},
-\code{\link{group_nest}()},
-\code{\link{group_split}()}
+Other grouping functions:
+\code{\link[=group_by]{group_by()}},
+\code{\link[=group_map]{group_map()}},
+\code{\link[=group_nest]{group_nest()}},
+\code{\link[=group_split]{group_split()}}
 }
 \concept{grouping functions}

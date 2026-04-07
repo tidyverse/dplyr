@@ -23,6 +23,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Hadley Wickham \email{hadley@posit.co} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
   \item Romain François (\href{https://orcid.org/0000-0002-2444-4226}{ORCID})
   \item Lionel Henry
   \item Kirill Müller (\href{https://orcid.org/0000-0002-1416-3412}{ORCID})

@@ -134,5 +134,5 @@ when_all(size = 1)
 }
 \seealso{
 \code{\link[base:any]{base::any()}}, \code{\link[base:all]{base::all()}}, \code{\link[=cumany]{cumany()}}, \code{\link[=cumall]{cumall()}},
-\code{\link[base:Extremes]{base::pmin()}}, \code{\link[base:Extremes]{base::pmax()}}
+\code{\link[base:pmin]{base::pmin()}}, \code{\link[base:pmax]{base::pmax()}}
 }
