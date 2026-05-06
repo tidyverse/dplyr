@@ -48,17 +48,17 @@ In addition, you can use \strong{selection helpers}. Some helpers select specifi
 columns:
 \itemize{
 \item \code{\link[tidyselect:everything]{everything()}}: Matches all variables.
-\item \code{\link[tidyselect:everything]{last_col()}}: Select last variable, possibly with an offset.
+\item \code{\link[tidyselect:last_col]{last_col()}}: Select last variable, possibly with an offset.
 \item \code{\link[=group_cols]{group_cols()}}: Select all grouping columns.
 }
 
 Other helpers select variables by matching patterns in their names:
 \itemize{
 \item \code{\link[tidyselect:starts_with]{starts_with()}}: Starts with a prefix.
-\item \code{\link[tidyselect:starts_with]{ends_with()}}: Ends with a suffix.
-\item \code{\link[tidyselect:starts_with]{contains()}}: Contains a literal string.
-\item \code{\link[tidyselect:starts_with]{matches()}}: Matches a regular expression.
-\item \code{\link[tidyselect:starts_with]{num_range()}}: Matches a numerical range like x01, x02, x03.
+\item \code{\link[tidyselect:ends_with]{ends_with()}}: Ends with a suffix.
+\item \code{\link[tidyselect:contains]{contains()}}: Contains a literal string.
+\item \code{\link[tidyselect:matches]{matches()}}: Matches a regular expression.
+\item \code{\link[tidyselect:num_range]{num_range()}}: Matches a numerical range like x01, x02, x03.
 }
 
 Or from variables stored in a character vector:
@@ -66,7 +66,7 @@ Or from variables stored in a character vector:
 \item \code{\link[tidyselect:all_of]{all_of()}}: Matches variable names in a character vector. All
 names must be present, otherwise an out-of-bounds error is
 thrown.
-\item \code{\link[tidyselect:all_of]{any_of()}}: Same as \code{all_of()}, except that no error is thrown
+\item \code{\link[tidyselect:any_of]{any_of()}}: Same as \code{all_of()}, except that no error is thrown
 for names that don't exist.
 }
 
@@ -79,12 +79,11 @@ for which the function returns \code{TRUE}.
 }
 \section{Methods}{
 
-This function is a \strong{generic}, which means that packages can provide
+This is an S3 generic, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
 The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
+\Sexpr[stage=render,results=rd]{doclisting::methods_list("select")}
 }
 
 \section{Examples}{
@@ -257,13 +256,13 @@ To take the difference between two selections, combine the \code{&} and
 }
 
 \seealso{
-Other single table verbs: 
-\code{\link{arrange}()},
-\code{\link{filter}()},
-\code{\link{mutate}()},
-\code{\link{reframe}()},
-\code{\link{rename}()},
-\code{\link{slice}()},
-\code{\link{summarise}()}
+Other single table verbs:
+\code{\link[=arrange]{arrange()}},
+\code{\link[=filter]{filter()}},
+\code{\link[=mutate]{mutate()}},
+\code{\link[=reframe]{reframe()}},
+\code{\link[=rename]{rename()}},
+\code{\link[=slice]{slice()}},
+\code{\link[=summarise]{summarise()}}
 }
 \concept{single table verbs}

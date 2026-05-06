@@ -56,7 +56,7 @@ function that doesn't return a single summary value.
 \section{Connection to tibble}{
 
 \code{reframe()} is theoretically connected to two functions in tibble,
-\code{\link[tibble:enframe]{tibble::enframe()}} and \code{\link[tibble:enframe]{tibble::deframe()}}:
+\code{\link[tibble:enframe]{tibble::enframe()}} and \code{\link[tibble:deframe]{tibble::deframe()}}:
 \itemize{
 \item \code{enframe()}: vector -> data frame
 \item \code{deframe()}: data frame -> vector
@@ -66,12 +66,11 @@ function that doesn't return a single summary value.
 
 \section{Methods}{
 
-This function is a \strong{generic}, which means that packages can provide
+This is an S3 generic, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
 The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("reframe")}.
+\Sexpr[stage=render,results=rd]{doclisting::methods_list("reframe")}
 }
 
 \examples{
@@ -122,13 +121,13 @@ starwars |>
   )
 }
 \seealso{
-Other single table verbs: 
-\code{\link{arrange}()},
-\code{\link{filter}()},
-\code{\link{mutate}()},
-\code{\link{rename}()},
-\code{\link{select}()},
-\code{\link{slice}()},
-\code{\link{summarise}()}
+Other single table verbs:
+\code{\link[=arrange]{arrange()}},
+\code{\link[=filter]{filter()}},
+\code{\link[=mutate]{mutate()}},
+\code{\link[=rename]{rename()}},
+\code{\link[=select]{select()}},
+\code{\link[=slice]{slice()}},
+\code{\link[=summarise]{summarise()}}
 }
 \concept{single table verbs}

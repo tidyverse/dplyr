@@ -16,7 +16,7 @@ the size of \code{x}.}
 
 \item{ptype}{An optional prototype giving the desired output type. The
 default is to compute the common type of \code{x}, \code{left}, and \code{right} using
-\code{\link[vctrs:vec_cast]{vctrs::vec_cast_common()}}.}
+\code{\link[vctrs:vec_cast_common]{vctrs::vec_cast_common()}}.}
 }
 \value{
 A logical vector the same size as \code{x} with a type determined by \code{ptype}.

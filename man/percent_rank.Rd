@@ -50,8 +50,8 @@ sapply(x, function(xi) sum(x < xi)  / (length(x) - 1))
 # correctly deal with missing values
 }
 \seealso{
-Other ranking functions: 
-\code{\link{ntile}()},
-\code{\link{row_number}()}
+Other ranking functions:
+\code{\link[=ntile]{ntile()}},
+\code{\link[=row_number]{row_number()}}
 }
 \concept{ranking functions}

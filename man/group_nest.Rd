@@ -65,11 +65,11 @@ starwars |>
   group_nest(species, homeworld)
 }
 \seealso{
-Other grouping functions: 
-\code{\link{group_by}()},
-\code{\link{group_map}()},
-\code{\link{group_split}()},
-\code{\link{group_trim}()}
+Other grouping functions:
+\code{\link[=group_by]{group_by()}},
+\code{\link[=group_map]{group_map()}},
+\code{\link[=group_split]{group_split()}},
+\code{\link[=group_trim]{group_trim()}}
 }
 \concept{grouping functions}
 \keyword{internal}

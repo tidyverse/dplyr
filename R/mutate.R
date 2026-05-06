@@ -71,12 +71,11 @@
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #' @section Methods:
-#' This function is a **generic**, which means that packages can provide
+#' This is an S3 generic, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
-#'
-#' Methods available in currently loaded packages:
-#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
+#' The following methods are currently available in loaded packages:
+#' `Rd doclisting::methods_list("mutate")`
 #' @examples
 #' # Newly created variables are available immediately
 #' starwars |>

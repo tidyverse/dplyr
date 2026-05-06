@@ -25,7 +25,7 @@ arrange_if(
 \item{.funs}{A function \code{fun}, a quosure style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:dyn-dots]{tidy dots} support.}
+\code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
 grouped data frames only.}

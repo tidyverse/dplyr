@@ -123,10 +123,10 @@ mtcars |>
 
 }
 \seealso{
-Other grouping functions: 
-\code{\link{group_by}()},
-\code{\link{group_nest}()},
-\code{\link{group_split}()},
-\code{\link{group_trim}()}
+Other grouping functions:
+\code{\link[=group_by]{group_by()}},
+\code{\link[=group_nest]{group_nest()}},
+\code{\link[=group_split]{group_split()}},
+\code{\link[=group_trim]{group_trim()}}
 }
 \concept{grouping functions}

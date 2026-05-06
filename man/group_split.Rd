@@ -54,11 +54,11 @@ group_split(ir)
 group_keys(ir)
 }
 \seealso{
-Other grouping functions: 
-\code{\link{group_by}()},
-\code{\link{group_map}()},
-\code{\link{group_nest}()},
-\code{\link{group_trim}()}
+Other grouping functions:
+\code{\link[=group_by]{group_by()}},
+\code{\link[=group_map]{group_map()}},
+\code{\link[=group_nest]{group_nest()}},
+\code{\link[=group_trim]{group_trim()}}
 }
 \concept{grouping functions}
 \keyword{internal}
