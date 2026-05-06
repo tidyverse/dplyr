@@ -60,12 +60,12 @@ purely technical difference.
 
 ### Differences between `.by` and [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md)
 
-|                                                                                                      |                                                                                                    |
-|------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| `.by`                                                                                                | [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md)                              |
-| Grouping only affects a single verb                                                                  | Grouping is persistent across multiple verbs                                                       |
+|  |  |
+|----|----|
+| `.by` | [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md) |
+| Grouping only affects a single verb | Grouping is persistent across multiple verbs |
 | Selects variables with [tidy-select](https://dplyr.tidyverse.org/dev/reference/dplyr_tidy_select.md) | Computes expressions with [data-masking](https://rlang.r-lib.org/reference/args_data_masking.html) |
-| Summaries use existing order of group keys                                                           | Summaries sort group keys in ascending order                                                       |
+| Summaries use existing order of group keys | Summaries sort group keys in ascending order |
 
 ### Using `.by`
 

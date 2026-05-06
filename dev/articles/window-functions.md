@@ -20,6 +20,7 @@ In this vignette, we’ll use a small sample of the Lahman batting
 dataset, including the players that have won an award.
 
 ``` r
+
 library(Lahman)
 
 batting <- Lahman::Batting |>
@@ -37,6 +38,7 @@ Window functions are used in conjunction with
 solve a wide range of problems. Here’s a selection:
 
 ``` r
+
 # For each player, find the two years with most hits
 filter(players, min_rank(desc(H)) <= 2 & H > 0)
 # Within each player, rank each year by the number of games played
@@ -110,6 +112,7 @@ The ranking functions are variations on a theme, differing in how they
 handle ties:
 
 ``` r
+
 x <- c(1, 1, 2, 2, 2)
 
 row_number(x)
@@ -136,6 +139,7 @@ gives the percentage of the rank;
 gives the proportion of values less than or equal to the current value.
 
 ``` r
+
 cume_dist(x)
 #> [1] 0.4 0.4 1.0 1.0 1.0
 percent_rank(x)
@@ -146,6 +150,7 @@ These are useful if you want to select (for example) the top 10% of
 records within each group. For example:
 
 ``` r
+
 filter(players, cume_dist(desc(G)) < 0.1)
 #> # A tibble: 1,631 × 7
 #> # Groups:   playerID [1,514]
@@ -168,6 +173,7 @@ divide the players within a team into four ranked groups, and calculate
 the average number of games within each group.
 
 ``` r
+
 by_team_player <- group_by(batting, teamID, playerID)
 by_team <- summarise(by_team_player, G = sum(G))
 #> `summarise()` has regrouped the output.
@@ -200,6 +206,7 @@ offset versions of a input vector that is either ahead of or behind the
 original vector.
 
 ``` r
+
 x <- 1:5
 lead(x)
 #> [1]  2  3  4  5 NA
@@ -212,6 +219,7 @@ You can use them to:
 - Compute differences or percent changes.
 
   ``` r
+
   # Compute the relative change in games played
   mutate(players, G_delta = G - lag(G))
   ```
@@ -224,6 +232,7 @@ You can use them to:
 - Find out when a value changes.
 
   ``` r
+
   # Find when a player changed teams
   filter(players, teamID != lag(teamID))
   ```
@@ -239,6 +248,7 @@ Here’s a simple example of what happens if you don’t specify `order_by`
 when you need it:
 
 ``` r
+
 df <- data.frame(year = 2000:2005, value = (0:5)^2)
 scrambled <- df[sample(nrow(df)), ]
 
@@ -286,6 +296,7 @@ true for the first (or last) time. For example, we can use
 find all records for a player after they played a year with 150 games:
 
 ``` r
+
 filter(players, cumany(G > 150))
 ```
 
@@ -297,6 +308,7 @@ You give it the variable you want to order by, and then the call to the
 window function:
 
 ``` r
+
 x <- 1:10
 y <- 10:1
 order_by(y, cumsum(x))
@@ -318,6 +330,7 @@ vector. Recycled aggregates are useful if you want to find all records
 greater than the mean or less than the median:
 
 ``` r
+
 filter(players, G > mean(G))
 filter(players, G < median(G))
 ```
@@ -332,6 +345,7 @@ example, `x > median(x)` is equivalent to `ntile(x, 2) == 2`;
 `ntile(x, 4) > 3`.
 
 ``` r
+
 filter(players, ntile(G, 2) == 2)
 ```
 
@@ -346,6 +360,7 @@ example, with the batting data, we could compute the “career year”, the
 number of years a player has played since they entered the league:
 
 ``` r
+
 mutate(players, career_year = yearID - min(yearID) + 1)
 #> # A tibble: 32,623 × 8
 #> # Groups:   playerID [2,498]
@@ -361,6 +376,7 @@ mutate(players, career_year = yearID - min(yearID) + 1)
 Or, as in the introductory example, we could compute a z-score:
 
 ``` r
+
 mutate(players, G_z = (G - mean(G)) / sd(G))
 #> # A tibble: 32,623 × 8
 #> # Groups:   playerID [2,498]

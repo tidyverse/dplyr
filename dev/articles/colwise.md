@@ -4,6 +4,7 @@ It’s often useful to perform the same operation on multiple columns, but
 copying and pasting is both tedious and error prone:
 
 ``` r
+
 df |>
   group_by(g1, g2) |>
   summarise(a = mean(a), b = mean(b), c = mean(c), d = mean(d))
@@ -18,6 +19,7 @@ This vignette will introduce you to the
 function, which lets you rewrite the previous code more succinctly:
 
 ``` r
+
 df |>
   group_by(g1, g2) |>
   summarise(across(a:d, mean))
@@ -35,6 +37,7 @@ last approach (the `_if()`, `_at()` and `_all()` functions) and how to
 translate your old code to the new syntax.
 
 ``` r
+
 library(dplyr, warn.conflicts = FALSE)
 ```
 
@@ -64,6 +67,7 @@ But you can use
 any dplyr verb, as you’ll see a little later.
 
 ``` r
+
 starwars |>
   summarise(across(where(is.character), n_distinct))
 #> # A tibble: 1 × 8
@@ -107,6 +111,7 @@ it doesn’t select grouping variables in order to avoid accidentally
 modifying them:
 
 ``` r
+
 df <- data.frame(g = c(1, 1, 2), x = c(-1, 1, 3), y = c(-1, -4, -9))
 df |>
   group_by(g) |>
@@ -124,6 +129,7 @@ You can transform each variable with more than one function by supplying
 a named list of functions or lambda functions in the second argument:
 
 ``` r
+
 min_max <- list(
   min = ~ min(.x, na.rm = TRUE),
   max = ~ max(.x, na.rm = TRUE)
@@ -144,6 +150,7 @@ Control how the names are created with the `.names` argument which takes
 a [glue](https://glue.tidyverse.org/) spec:
 
 ``` r
+
 starwars |>
   summarise(across(
     where(is.numeric),
@@ -170,6 +177,7 @@ If you’d prefer all summaries with the same function to be grouped
 together, you’ll have to expand the calls yourself:
 
 ``` r
+
 starwars |>
   summarise(
     across(
@@ -203,6 +211,7 @@ We can work around this by combining both calls to
 single expression that returns a tibble:
 
 ``` r
+
 starwars |>
   summarise(
     tibble(
@@ -220,6 +229,7 @@ Alternatively we could reorganize results with
 [`relocate()`](https://dplyr.tidyverse.org/dev/reference/relocate.md):
 
 ``` r
+
 starwars |>
   summarise(across(where(is.numeric), min_max, .names = "{.fn}.{.col}")) |>
   relocate(starts_with("min"))
@@ -238,6 +248,7 @@ This can be useful if you want to perform some sort of context dependent
 transformation that’s already encoded in a vector:
 
 ``` r
+
 df <- tibble(x = 1:3, y = 3:5, z = 5:7)
 mult <- list(x = 1, y = 10, z = 100)
 
@@ -256,6 +267,7 @@ df |>
 Be careful when combining numeric summaries with `where(is.numeric)`:
 
 ``` r
+
 df <- data.frame(x = c(1, 2, 3), y = c(1, 4, 9))
 
 df |>
@@ -272,6 +284,7 @@ constant) is `NA`. You probably want to compute
 avoid this problem:
 
 ``` r
+
 df |>
   summarise(across(where(is.numeric), sd), n = n())
 #>   x        y n
@@ -282,6 +295,7 @@ Alternatively, you could explicitly exclude `n` from the columns to
 operate on:
 
 ``` r
+
 df |>
   summarise(n = n(), across(where(is.numeric) & !n, sd))
 #>   n x        y
@@ -294,6 +308,7 @@ Another approach is to combine both the call to
 single expression that returns a tibble:
 
 ``` r
+
 df |>
   summarise(tibble(n = n(), across(where(is.numeric), sd)))
 #>   n x        y
@@ -310,6 +325,7 @@ but it works with any other dplyr verb that uses data masking:
 - Rescale all numeric variables to range 0-1:
 
   ``` r
+
   rescale01 <- function(x) {
     rng <- range(x, na.rm = TRUE)
     (x - rng[1]) / (rng[2] - rng[1])
@@ -342,6 +358,7 @@ the selected columns.
 - Find all distinct
 
   ``` r
+
   starwars |> distinct(pick(contains("color")))
   #> # A tibble: 67 × 3
   #>   hair_color skin_color  eye_color
@@ -356,6 +373,7 @@ the selected columns.
 - Count all combinations of variables with a given pattern:
 
   ``` r
+
   starwars |> count(pick(contains("color")), sort = TRUE)
   #> # A tibble: 67 × 4
   #>   hair_color skin_color eye_color     n
@@ -392,6 +410,7 @@ have two special purpose companion functions:
   column:
 
 ``` r
+
 starwars |>
   filter_out(if_any(everything(), is.na))
 #> # A tibble: 29 × 14
@@ -410,6 +429,7 @@ starwars |>
   keeps the rows where the predicate is true for *all* selected columns:
 
 ``` r
+
 starwars |>
   filter_out(if_all(everything(), is.na))
 #> # A tibble: 87 × 14
@@ -443,6 +463,7 @@ Why did we decide to move away from these functions in favour of
     impossible:
 
     ``` r
+
     df |>
       group_by(g1, g2) |>
       summarise(
@@ -519,6 +540,7 @@ code to use
 For example:
 
 ``` r
+
 df |> mutate_if(is.numeric, ~ mean(.x, na.rm = TRUE))
 # ->
 df |> mutate(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
@@ -555,6 +577,7 @@ There are a few exceptions to this rule:
   selected columns:
 
   ``` r
+
   df <- tibble(x = c("a", "b"), y = c(1, 1), z = c(-1, 1))
 
   # Find all rows where EVERY numeric variable is greater than zero
@@ -586,6 +609,7 @@ There are a few exceptions to this rule:
   generally find the new behaviour less surprising:
 
   ``` r
+
   df <- tibble(x = 2, y = 4, z = 8)
   df |> mutate_all(~ .x / y)
   #> # A tibble: 1 × 3

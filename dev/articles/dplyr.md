@@ -33,6 +33,7 @@ the [Star Wars API](https://swapi.py4e.com/), and is documented in
 [`?starwars`](https://dplyr.tidyverse.org/dev/reference/starwars.md)
 
 ``` r
+
 dim(starwars)
 #> [1] 87 14
 starwars
@@ -103,6 +104,7 @@ For example, we can select all character with light skin color and brown
 eyes with:
 
 ``` r
+
 starwars |> filter(skin_color == "light", eye_color == "brown")
 #> # A tibble: 7 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -119,6 +121,7 @@ starwars |> filter(skin_color == "light", eye_color == "brown")
 This is roughly equivalent to this base R code:
 
 ``` r
+
 starwars[starwars$skin_color == "light" & starwars$eye_color == "brown", ]
 ```
 
@@ -134,6 +137,7 @@ additional column will be used to break ties in the values of preceding
 columns:
 
 ``` r
+
 starwars |> arrange(height, mass)
 #> # A tibble: 87 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -151,6 +155,7 @@ Use [`desc()`](https://dplyr.tidyverse.org/dev/reference/desc.md) to
 order a column in descending order:
 
 ``` r
+
 starwars |> arrange(desc(height))
 #> # A tibble: 87 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -173,6 +178,7 @@ remove, and duplicate rows.
 We can get characters from row numbers 5 through 10.
 
 ``` r
+
 starwars |> slice(5:10)
 #> # A tibble: 6 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -194,6 +200,7 @@ It is accompanied by a number of helpers for common use cases:
   select the first or last rows.
 
 ``` r
+
 starwars |> slice_head(n = 3)
 #> # A tibble: 3 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -210,6 +217,7 @@ starwars |> slice_head(n = 3)
   proportion of the cases.
 
 ``` r
+
 starwars |> slice_sample(n = 5)
 #> # A tibble: 5 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -245,6 +253,7 @@ weight the sample with the `weight` argument.
   can supply `n` to control how many rows remain.
 
 ``` r
+
 starwars |> slice_max(height, n = 3)
 #> # A tibble: 3 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -265,6 +274,7 @@ you to rapidly zoom in on a useful subset using operations that usually
 only work on numeric variable positions:
 
 ``` r
+
 # Select columns by name
 starwars |> select(hair_color, skin_color, eye_color)
 #> # A tibble: 87 × 3
@@ -325,6 +335,7 @@ You can rename variables with
 using named arguments:
 
 ``` r
+
 starwars |> select(home_world = homeworld)
 #> # A tibble: 87 × 1
 #>   home_world
@@ -343,6 +354,7 @@ Instead, use
 [`rename()`](https://dplyr.tidyverse.org/dev/reference/rename.md):
 
 ``` r
+
 starwars |> rename(home_world = homeworld)
 #> # A tibble: 87 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -363,6 +375,7 @@ columns that are functions of existing columns. This is the job of
 [`mutate()`](https://dplyr.tidyverse.org/dev/reference/mutate.md):
 
 ``` r
+
 starwars |> mutate(height_m = height / 100)
 #> # A tibble: 87 × 15
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -380,6 +393,7 @@ We can’t see the height in meters we just calculated, but we can fix
 that using a select command.
 
 ``` r
+
 starwars |>
   mutate(height_m = height / 100) |>
   select(height_m, height, everything())
@@ -402,6 +416,7 @@ is similar to the base
 to refer to columns that you’ve just created:
 
 ``` r
+
 starwars |>
   mutate(
     height_m = height / 100,
@@ -424,6 +439,7 @@ starwars |>
 If you only want to keep the new variables, use `.keep = "none"`:
 
 ``` r
+
 starwars |>
   mutate(
     height_m = height / 100,
@@ -447,6 +463,7 @@ Use a similar syntax as
 move blocks of columns at once
 
 ``` r
+
 starwars |> relocate(sex:homeworld, .before = height)
 #> # A tibble: 87 × 14
 #>   name        sex   gender homeworld height  mass hair_color skin_color
@@ -467,6 +484,7 @@ The last verb is
 It collapses a data frame to a single row.
 
 ``` r
+
 starwars |> summarise(height = mean(height, na.rm = TRUE))
 #> # A tibble: 1 × 1
 #>   height
@@ -513,6 +531,7 @@ particularly elegant code, especially if you want to do many operations
 at once. You either have to do it step-by-step:
 
 ``` r
+
 a1 <- group_by(starwars, species, sex)
 a2 <- select(a1, height, mass)
 a3 <- summarise(
@@ -526,6 +545,7 @@ Or if you don’t want to name the intermediate results, you need to wrap
 the function calls inside each other:
 
 ``` r
+
 summarise(
   select(
     group_by(starwars, species, sex),
@@ -556,6 +576,7 @@ rewrite multiple operations that you can read left-to-right,
 top-to-bottom (reading the pipe operator as “then”):
 
 ``` r
+
 starwars |>
   group_by(species, sex) |>
   select(height, mass) |>
@@ -589,6 +610,7 @@ the tibble. The following calls are completely equivalent from dplyr’s
 point of view:
 
 ``` r
+
 # `name` represents the integer 1
 select(starwars, name)
 #> # A tibble: 87 × 1
@@ -615,6 +637,7 @@ the surrounding context if they have the same name as one of the
 columns. In the following example, `height` still represents 2, not 5:
 
 ``` r
+
 height <- 5
 select(starwars, height)
 #> # A tibble: 87 × 1
@@ -633,6 +656,7 @@ cases, the columns of the data frame are not put in scope. This allows
 you to refer to contextual variables in selection helpers:
 
 ``` r
+
 name <- "color"
 select(starwars, ends_with(name))
 #> # A tibble: 87 × 3
@@ -648,6 +672,7 @@ select(starwars, ends_with(name))
 These semantics are usually intuitive. But note the subtle difference:
 
 ``` r
+
 name <- 5
 select(starwars, name, identity(name))
 #> # A tibble: 87 × 2
@@ -671,6 +696,7 @@ understands column names as well. This makes it a bit easier to program
 with [`select()`](https://dplyr.tidyverse.org/dev/reference/select.md):
 
 ``` r
+
 vars <- c("name", "height")
 select(starwars, all_of(vars), "mass")
 #> # A tibble: 87 × 3
@@ -693,6 +719,7 @@ expects *column vectors*. We will set up a smaller tibble to use for our
 examples.
 
 ``` r
+
 df <- starwars |> select(name, height, mass)
 ```
 
@@ -705,6 +732,7 @@ the tibble. Consider what happens if we give a string or a number to
 [`mutate()`](https://dplyr.tidyverse.org/dev/reference/mutate.md):
 
 ``` r
+
 mutate(df, "height", 2)
 #> # A tibble: 87 × 5
 #>   name           height  mass `"height"`   `2`
@@ -724,6 +752,7 @@ it doesn’t make sense to supply expressions like `"height" + 10` to
 amounts to adding 10 to a string! The correct expression is:
 
 ``` r
+
 mutate(df, height + 10)
 #> # A tibble: 87 × 4
 #>   name           height  mass `height + 10`
@@ -741,6 +770,7 @@ recycled) or have the same length as the number of rows. In the
 following example we create a new vector that we add to the data frame:
 
 ``` r
+
 var <- seq(1, nrow(df))
 mutate(df, new = var)
 #> # A tibble: 87 × 4
@@ -760,6 +790,7 @@ semantics. This is quite handy as it allows to group by a modified
 column:
 
 ``` r
+
 group_by(starwars, sex)
 #> # A tibble: 87 × 14
 #> # Groups:   sex [5]
@@ -805,6 +836,7 @@ This amounts to creating a new column containing the string recycled to
 the number of rows:
 
 ``` r
+
 group_by(df, "month")
 #> # A tibble: 87 × 4
 #> # Groups:   "month" [1]

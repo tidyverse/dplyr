@@ -1,6 +1,7 @@
 # Recoding columns and replacing values
 
 ``` r
+
 library(dplyr)
 ```
 
@@ -23,10 +24,10 @@ recoding vs replacing:
 
 The family of functions can be summarized by the following table:
 
-|                           | **Recoding**                                                                                | **Replacing**                                                                                |
-|---------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| **Match with conditions** | [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)         | [`replace_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)       |
-| **Match with values**     | [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md) | [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md) |
+|  | **Recoding** | **Replacing** |
+|----|----|----|
+| **Match with conditions** | [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md) | [`replace_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md) |
+| **Match with values** | [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md) | [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md) |
 
 This vignette walks through use cases for each of these functions, which
 should help you build some intuition about when to use them.
@@ -40,6 +41,7 @@ determine the corresponding value in the output. To demonstrate, we’ll
 look at a dataset of some 5k times in minutes:
 
 ``` r
+
 set.seed(123)
 racers <- tibble(
   id = seq_len(100),
@@ -67,6 +69,7 @@ We can use
 to categorize these times into tiers:
 
 ``` r
+
 tiers <- racers |>
   mutate(
     tier = case_when(
@@ -108,6 +111,7 @@ leave them as `NA` if that makes sense for your use case, or you can
 specify a `.default` value:
 
 ``` r
+
 racers |>
   mutate(
     tier = case_when(
@@ -141,6 +145,7 @@ will error if that assertion doesn’t hold. This is great for defensive
 programming!
 
 ``` r
+
 racers |>
   mutate(
     tier = case_when(
@@ -169,6 +174,7 @@ disqualified. Also, some racers had a false start and need to incur a 20
 second (1/3 minute) penalty.
 
 ``` r
+
 id_banned_shoes <- c(2, 10, 15, 32, 65)
 id_false_start <- c(1, 2, 5, 20, 55, 74, 91)
 ```
@@ -177,6 +183,7 @@ We could add this information in a few ways. With
 [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md):
 
 ``` r
+
 racers |>
   mutate(
     time = case_when(
@@ -205,6 +212,7 @@ Or in two steps with
 [`if_else()`](https://dplyr.tidyverse.org/dev/reference/if_else.md):
 
 ``` r
+
 racers |>
   mutate(time = if_else(id %in% id_banned_shoes, NA, time)) |>
   mutate(time = if_else(id %in% id_false_start, time + 1 / 3, time))
@@ -238,6 +246,7 @@ lets you pull the primary input to the front (which also makes it
 compatible with the pipe!), making the intent more clear:
 
 ``` r
+
 racers |>
   mutate(
     time = time |>
@@ -266,6 +275,7 @@ As a side note, you might have been tempted to reach for
 [`base::replace()`](https://rdrr.io/r/base/replace.html) here, i.e. as:
 
 ``` r
+
 racers |>
   mutate(time = base::replace(time, id %in% id_banned_shoes, NA)) |>
   mutate(time = base::replace(time, id %in% id_false_start, time + 1 / 3))
@@ -279,6 +289,7 @@ mimic
 [`replace_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md):
 
 ``` r
+
 racers |>
   mutate(time = base::replace(time, id %in% id_banned_shoes, NA)) |>
   mutate(time = {
@@ -316,6 +327,7 @@ discovered to be faulty due to malfunctioning timers, and you need to
 replace a few `id`s with the `unknown` level.
 
 ``` r
+
 id_with_malfunction <- c(1, 5, 20, 50)
 
 tiers <- racers |>
@@ -356,6 +368,7 @@ is a *recoding* function, it creates an entirely new column and doesn’t
 know that you’re trying to retain existing type information.
 
 ``` r
+
 tiers |>
   mutate(
     tier = case_when(id %in% id_with_malfunction ~ "unknown", .default = tier)
@@ -382,6 +395,7 @@ knows to be type stable on `tier`, and casts `"unknown"` to `tier`’s
 factor type before performing the replacement:
 
 ``` r
+
 tiers |>
   mutate(
     tier = tier |> replace_when(id %in% id_with_malfunction ~ "unknown")
@@ -414,6 +428,7 @@ scale](https://en.wikipedia.org/wiki/Likert_scale) scores. We’d like to
 recode these from their numeric values to their character counterparts.
 
 ``` r
+
 likert <- tibble(
   score = c(1, 2, 3, 4, 5, 2, 3, 1, 4)
 )
@@ -423,6 +438,7 @@ We could certainly use a
 [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md):
 
 ``` r
+
 likert |>
   mutate(
     score = case_when(
@@ -456,6 +472,7 @@ takes *values* on the left-hand side to match against a single input
 that you’ll provide as the first argument.
 
 ``` r
+
 likert |>
   mutate(
     score = score |>
@@ -493,6 +510,7 @@ Using a
 can extract out the lookup table into its own standalone data frame.
 
 ``` r
+
 lookup <- tribble(
   ~from , ~to                 ,
       1 , "Strongly disagree" ,
@@ -509,6 +527,7 @@ rather than supplying formulas to specify how the values should be
 recoded:
 
 ``` r
+
 likert |>
   mutate(score = recode_values(score, from = lookup$from, to = lookup$to))
 #> # A tibble: 9 × 1
@@ -536,6 +555,7 @@ that you have to read in separately. In that case, you can replace the
 with:
 
 ``` r
+
 lookup <- readr::read_csv("lookup.csv")
 ```
 
@@ -549,6 +569,7 @@ also has `default` and `unmatched` arguments to handle unmatched
 locations:
 
 ``` r
+
 likert <- tibble(
   score = c(0, 1, 2, 2, 4, 5, 2, 3, 1, 4)
 )
@@ -588,6 +609,7 @@ Imagine we’d like to collapse some, but not all, of these school names
 into common buckets:
 
 ``` r
+
 schools <- tibble(
   name = c(
     "UNC",
@@ -606,6 +628,7 @@ We could use
 [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md):
 
 ``` r
+
 schools |>
   mutate(
     name = recode_values(
@@ -634,6 +657,7 @@ have
 [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md):
 
 ``` r
+
 schools |>
   mutate(
     name = name |>
@@ -662,6 +686,7 @@ has an alternative `from` and `to` API that works well with lookup
 tables and allows you to move your mapping out of the pipe chain:
 
 ``` r
+
 lookup <- tribble(
   ~from             , ~to               ,
   "UNC"             , "UNC Chapel Hill" ,
@@ -692,6 +717,7 @@ designed to work elegantly with the fact that
 create list columns, allowing you to further collapse this lookup table:
 
 ``` r
+
 # Condensed lookup table with a `many:1` mapping per row
 lookup <- tribble(
   ~from                        , ~to               ,
@@ -744,6 +770,7 @@ fact, it’s closely tied to
 [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md):
 
 ``` r
+
 if_else(condition, true, false, missing)
 
 case_when(
@@ -766,6 +793,7 @@ using
 instead for clarity and type stability:
 
 ``` r
+
 x <- if_else(x > 5, new, x)
 
 # Type stable on `x`.
@@ -783,6 +811,7 @@ are often a
 call in disguise:
 
 ``` r
+
 x <- c(1, 2, NA, 3, NA, 5)
 y <- c(0, 3, 1, 4, 6, 7)
 
@@ -809,6 +838,7 @@ is a more flexible (and likely more intuitive) alternative to
 [`na_if()`](https://dplyr.tidyverse.org/dev/reference/na_if.md):
 
 ``` r
+
 x <- c(1, 2, 0, -99, 12)
 
 # To convert `0` and `-99` to `NA`, you have to do it in two calls
@@ -827,6 +857,7 @@ is an R equivalent of SQL’s [Searched
 statement:
 
 ``` r
+
 case_when(
   x < 100 ~ this,
   x < 20 ~ that,
@@ -852,6 +883,7 @@ is an R equivalent of SQL’s [Simple
 statement:
 
 ``` r
+
 recode_values(
   x,
   "E" ~ "East",

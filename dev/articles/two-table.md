@@ -33,6 +33,7 @@ full names. You can use a join to add the carrier names to the flight
 data:
 
 ``` r
+
 library(nycflights13)
 # Drop unimportant variables so it's easier to understand the join results.
 flights2 <- flights |> select(year:day, hour, origin, dest, tailnum, carrier)
@@ -64,6 +65,7 @@ various tables from nycflights13:
   origin.
 
   ``` r
+
   flights2 |> left_join(weather)
   #> Joining with `by = join_by(year, month, day, hour, origin)`
   #> # A tibble: 336,776 × 18
@@ -86,6 +88,7 @@ various tables from nycflights13:
   by `tailnum`.
 
   ``` r
+
   flights2 |> left_join(planes, by = "tailnum")
   #> # A tibble: 336,776 × 16
   #>   year.x month   day  hour origin dest  tailnum carrier year.y type    
@@ -111,6 +114,7 @@ various tables from nycflights13:
   specify which one we want to join to:
 
   ``` r
+
   flights2 |> left_join(airports, c("dest" = "faa"))
   #> # A tibble: 336,776 × 15
   #>    year month   day  hour origin dest  tailnum carrier name         lat
@@ -143,6 +147,7 @@ There are four types of mutating join, which differ in their behaviour
 when a match is not found. We’ll illustrate each with a simple example:
 
 ``` r
+
 df1 <- tibble(x = c(1, 2), y = 2:1)
 df2 <- tibble(x = c(3, 1), a = 10, b = "a")
 ```
@@ -151,6 +156,7 @@ df2 <- tibble(x = c(3, 1), a = 10, b = "a")
   and `y`.
 
   ``` r
+
   df1 |> inner_join(df2) |> knitr::kable()
   #> Joining with `by = join_by(x)`
   ```
@@ -164,6 +170,7 @@ df2 <- tibble(x = c(3, 1), a = 10, b = "a")
   it ensures that you don’t lose observations from your primary table.
 
   ``` r
+
   df1 |> left_join(df2)
   #> Joining with `by = join_by(x)`
   #> # A tibble: 2 × 4
@@ -178,6 +185,7 @@ df2 <- tibble(x = c(3, 1), a = 10, b = "a")
   differently.
 
   ``` r
+
   df1 |> right_join(df2)
   #> Joining with `by = join_by(x)`
   #> # A tibble: 2 × 4
@@ -198,6 +206,7 @@ df2 <- tibble(x = c(3, 1), a = 10, b = "a")
   includes all observations from `x` and `y`.
 
   ``` r
+
   df1 |> full_join(df2)
   #> Joining with `by = join_by(x)`
   #> # A tibble: 3 × 4
@@ -220,6 +229,7 @@ add all possible combinations (the Cartesian product) of the matching
 observations:
 
 ``` r
+
 df1 <- tibble(x = c(1, 1, 2), y = 1:3)
 df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
@@ -255,6 +265,7 @@ are many flights in the nycflights13 dataset that don’t have a matching
 tail number in the planes table:
 
 ``` r
+
 library("nycflights13")
 flights |>
   anti_join(planes, by = "tailnum") |>
@@ -281,6 +292,7 @@ and
 never duplicate; they only ever remove observations.
 
 ``` r
+
 df1 <- tibble(x = c(1, 1, 3, 4), y = 1:4)
 df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
@@ -313,6 +325,7 @@ like sets:
 Given this simple data:
 
 ``` r
+
 (df1 <- tibble(x = 1:2, y = c(1L, 1L)))
 #> # A tibble: 2 × 2
 #>       x     y
@@ -330,6 +343,7 @@ Given this simple data:
 The four possibilities are:
 
 ``` r
+
 intersect(df1, df2)
 #> # A tibble: 1 × 2
 #>       x     y

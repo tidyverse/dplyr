@@ -15,6 +15,7 @@ data frames (`grouped_df` objects). This vignette shows you:
 We’ll start by loading dplyr:
 
 ``` r
+
 library(dplyr)
 ```
 
@@ -25,6 +26,7 @@ The most important grouping verb is
 it takes a data frame and one or more variables to group by:
 
 ``` r
+
 by_species <- starwars |> group_by(species)
 by_sex_gender <- starwars |> group_by(sex, gender)
 ```
@@ -32,6 +34,7 @@ by_sex_gender <- starwars |> group_by(sex, gender)
 You can see the grouping when you print the data:
 
 ``` r
+
 by_species
 #> # A tibble: 87 × 14
 #> # Groups:   species [38]
@@ -63,6 +66,7 @@ to count the number of rows in each group. The `sort` argument is useful
 if you want to see the largest groups up front.
 
 ``` r
+
 by_species |> tally()
 #> # A tibble: 38 × 2
 #>   species      n
@@ -92,6 +96,7 @@ of existing variables. This is equivalent to performing a
 [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md):
 
 ``` r
+
 bmi_breaks <- c(0, 18.5, 25, 30, Inf)
 
 starwars |>
@@ -114,6 +119,7 @@ You can see underlying group data with
 It has one row for each group and one column for each grouping variable:
 
 ``` r
+
 by_species |> group_keys()
 #> # A tibble: 38 × 1
 #>   species 
@@ -139,6 +145,7 @@ You can see which group each row belongs to with
 [`group_indices()`](https://dplyr.tidyverse.org/dev/reference/group_data.md):
 
 ``` r
+
 by_species |> group_indices()
 #>  [1] 11  6  6 11 11 11 11  6 11 11 11 11 34 11 24 12 11 38 36 11 11  6
 #> [23] 31 11 11 18 11 11  8 26 11 21 11 11 10 10 10 11 30  7 11 11 37 32
@@ -150,6 +157,7 @@ And which rows each group contains with
 [`group_rows()`](https://dplyr.tidyverse.org/dev/reference/group_data.md):
 
 ``` r
+
 by_species |> group_rows() |> head()
 #> <list_of<integer>[6]>
 #> [[1]]
@@ -176,6 +184,7 @@ Use
 if you just want the names of the grouping variables:
 
 ``` r
+
 by_species |> group_vars()
 #> [1] "species"
 by_sex_gender |> group_vars()
@@ -191,6 +200,7 @@ variables. For example, the following code groups by `homeworld` instead
 of `species`:
 
 ``` r
+
 by_species |>
   group_by(homeworld) |>
   tally()
@@ -204,10 +214,11 @@ by_species |>
 #> # ℹ 45 more rows
 ```
 
-To **augment** the grouping, using `.add = TRUE`[¹](#fn1). For example,
-the following code groups by species and homeworld:
+To **augment** the grouping, using `.add = TRUE`[^1]. For example, the
+following code groups by species and homeworld:
 
 ``` r
+
 by_species |>
   group_by(homeworld, .add = TRUE) |>
   tally()
@@ -228,6 +239,7 @@ To remove all grouping variables, use
 [`ungroup()`](https://dplyr.tidyverse.org/dev/reference/group_by.md):
 
 ``` r
+
 by_species |>
   ungroup() |>
   tally()
@@ -241,6 +253,7 @@ You can also choose to selectively ungroup by listing the variables you
 want to remove:
 
 ``` r
+
 by_sex_gender |>
   ungroup(sex) |>
   tally()
@@ -265,6 +278,7 @@ computes a summary for each group. This means that it starts from
 adding summary variables to the right hand side:
 
 ``` r
+
 by_species |>
   summarise(
     n = n(),
@@ -286,6 +300,7 @@ variable corresponds to `.groups = "drop_last"` without a message or
 `.groups = NULL` with a message (the default).
 
 ``` r
+
 by_sex_gender |>
   summarise(n = n()) |>
   group_vars()
@@ -307,6 +322,7 @@ Since version 1.0.0 the groups may also be kept (`.groups = "keep"`) or
 dropped (`.groups = "drop"`).
 
 ``` r
+
 by_sex_gender |>
   summarise(n = n(), .groups = "keep") |>
   group_vars()
@@ -332,6 +348,7 @@ almost identical to ungrouped select, except that it always includes the
 grouping variables:
 
 ``` r
+
 by_species |> select(mass)
 #> Adding missing grouping variables: `species`
 #> # A tibble: 87 × 2
@@ -359,6 +376,7 @@ unless you set `.by_group = TRUE`, in which case it will order first by
 the grouping variables.
 
 ``` r
+
 by_species |>
   arrange(desc(mass)) |>
   relocate(species, mass)
@@ -401,6 +419,7 @@ In simple cases with vectorised functions, grouped and ungrouped
 the same results. They differ when used with summary functions:
 
 ``` r
+
 # Subtract off global mean
 starwars |>
   select(name, homeworld, mass) |>
@@ -434,6 +453,7 @@ Or with window functions like
 [`min_rank()`](https://dplyr.tidyverse.org/dev/reference/row_number.md):
 
 ``` r
+
 # Overall rank
 starwars |>
   select(name, homeworld, height) |>
@@ -475,6 +495,7 @@ summary functions. For example, we can find the tallest character of
 each species:
 
 ``` r
+
 by_species |>
   select(name, species, height) |>
   filter(height == max(height))
@@ -495,6 +516,7 @@ remove entire groups. For example, the following code eliminates all
 groups that only have a single member:
 
 ``` r
+
 by_species |>
   filter_out(n() == 1) |>
   tally()
@@ -521,6 +543,7 @@ select rows within a group. For example, we can select the first
 observation within each species:
 
 ``` r
+
 by_species |>
   relocate(species) |>
   slice(1)
@@ -542,6 +565,7 @@ Similarly, we can use
 select the smallest `n` values of a variable:
 
 ``` r
+
 by_species |>
   filter_out(is.na(height)) |>
   slice_min(height, n = 2)
@@ -558,7 +582,5 @@ by_species |>
 #> #   films <list>, vehicles <list>, starships <list>
 ```
 
-------------------------------------------------------------------------
-
-1.  Note that the argument changed from `add = TRUE` to `.add = TRUE` in
-    dplyr 1.0.0.
+[^1]: Note that the argument changed from `add = TRUE` to `.add = TRUE`
+    in dplyr 1.0.0.

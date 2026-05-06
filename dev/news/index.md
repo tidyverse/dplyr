@@ -35,6 +35,7 @@ CRAN release: 2026-02-03
   For example, to drop rows where the `count` is zero:
 
   ``` r
+
   df |> filter(count != 0 | is.na(count))
 
   df |> filter_out(count == 0)
@@ -76,6 +77,7 @@ CRAN release: 2026-02-03
   `&`, like:
 
   ``` r
+
   # With `|`
   countries |>
     filter(
@@ -213,6 +215,7 @@ CRAN release: 2026-02-03
   that should instead be a series of if statements, like:
 
   ``` r
+
   # Scalars!
   code <- 1L
   flavor <- "vanilla"
@@ -2796,6 +2799,7 @@ CRAN release: 2019-02-14
   ([\#3570](https://github.com/tidyverse/dplyr/issues/3570)).
 
   ``` r
+
   band_members %>%
     nest_join(band_instruments)
   ```
@@ -2806,6 +2810,7 @@ CRAN release: 2019-02-14
   focusing on the variables to nest by instead of the nested columns.
 
   ``` r
+
   starwars %>%
     group_by(species, homeworld) %>%
     group_nest()
@@ -2820,6 +2825,7 @@ CRAN release: 2019-02-14
   subject to the data mask on ungrouped data frames
 
   ``` r
+
   starwars %>%
     group_by(species, homeworld) %>%
     group_split()
@@ -2841,6 +2847,7 @@ CRAN release: 2019-02-14
   is only used for side effects and returns its input invisibly.
 
   ``` r
+
   mtcars %>%
     group_by(cyl) %>%
     group_map(~ head(.x, 2L))
@@ -2858,6 +2865,7 @@ CRAN release: 2019-02-14
   ([\#341](https://github.com/tidyverse/dplyr/issues/341)).
 
   ``` r
+
   # 3 groups
   tibble(
     x = 1:2,
@@ -2878,6 +2886,7 @@ CRAN release: 2019-02-14
   versions.
 
   ``` r
+
   tibble(
       x = 1:2,
       f = factor(c("a", "b"), levels = c("a", "b", "c"))
@@ -2892,6 +2901,7 @@ CRAN release: 2019-02-14
   structure based on the resulting data, otherwise it is kept as is.
 
   ``` r
+
   df <- tibble(
     x = c(1,2,1,2),
     f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
@@ -2987,6 +2997,7 @@ CRAN release: 2019-02-14
 - Scoped filter variants now support functions and purrr-like lambdas:
 
   ``` r
+
   mtcars %>% filter_at(vars(hp, vs), ~ . %% 2 == 0)
   ```
 
@@ -3074,6 +3085,7 @@ CRAN release: 2019-02-14
   ([\#3489](https://github.com/tidyverse/dplyr/issues/3489)).
 
   ``` r
+
   # the grouping metadata, as a tibble
   group_by(starwars, homeworld) %>%
     group_data()
@@ -3606,6 +3618,7 @@ and
 but I recommend a new style that makes the connection to DBI more clear:
 
 ``` r
+
 library(dplyr)
 
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
@@ -3727,6 +3740,7 @@ but, in brief, gives you the ability to interpolate values in contexts
 where dplyr usually works with expressions:
 
 ``` r
+
 my_var <- quo(homeworld)
 
 starwars %>%

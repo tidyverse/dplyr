@@ -58,6 +58,7 @@ alternative backends:
 ## Installation
 
 ``` r
+
 # The easiest way to get dplyr is to install the whole tidyverse:
 install.packages("tidyverse")
 
@@ -71,6 +72,7 @@ To get a bug fix or to use a feature from the development version, you
 can install the development version of dplyr from GitHub.
 
 ``` r
+
 # install.packages("pak")
 pak::pak("tidyverse/dplyr")
 ```
@@ -82,6 +84,7 @@ pak::pak("tidyverse/dplyr")
 ## Usage
 
 ``` r
+
 library(dplyr)
 
 starwars |>

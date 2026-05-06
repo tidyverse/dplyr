@@ -95,6 +95,7 @@ Other grouping functions:
 ## Examples
 
 ``` r
+
 # return a list
 mtcars |>
   group_by(cyl) |>

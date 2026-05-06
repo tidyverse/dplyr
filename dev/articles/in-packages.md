@@ -1,6 +1,7 @@
 # Using dplyr in packages
 
 ``` r
+
 library(dplyr)
 ```
 
@@ -52,6 +53,7 @@ If you’re writing a package and you have a function that uses data
 masking or tidy selection:
 
 ``` r
+
 my_summary_function <- function(data) {
   data |>
     select(grp, x, y) |>
@@ -79,6 +81,7 @@ To eliminate this note:
 That yields:
 
 ``` r
+
 #' @importFrom rlang .data
 my_summary_function <- function(data) {
   data |>
@@ -128,6 +131,7 @@ To make code work with multiple versions of a package, your first tool
 is the simple if statement:
 
 ``` r
+
 if (utils::packageVersion("dplyr") > "0.5.0") {
   # code for new version
 } else {
@@ -147,6 +151,7 @@ This *doesn’t* work if we’ve introduced a new function that you need to
 switch to, like:
 
 ``` r
+
 if (utils::packageVersion("dplyr") > "1.0.10") {
   dplyr::reframe(df, x = unique(x))
 } else {
@@ -162,6 +167,7 @@ even though that branch will never run. You can get around this by using
 to indirectly call the new dplyr function:
 
 ``` r
+
 if (utils::packageVersion("dplyr") > "1.0.10") {
   utils::getFromNamespace("reframe", "dplyr")(df, x = unique(x))
 } else {
@@ -185,6 +191,7 @@ can take advantage of a little-known feature in the `NAMESPACE` file:
 you can include raw `if` statements.
 
 ``` r
+
 #' @rawNamespace
 #' if (utils::packageVersion("dplyr") > "0.5.0") {
 #'   importFrom("dbplyr", "build_sql")
@@ -229,6 +236,7 @@ without supplying a selection, you should update to use
 `across(everything())`:
 
 ``` r
+
 starwars |> mutate_each(funs(as.character))
 starwars |> mutate_all(funs(as.character))
 starwars |> mutate(across(everything(), as.character))
@@ -243,6 +251,7 @@ then you can switch to
 selection:
 
 ``` r
+
 starwars |> mutate_each(funs(as.character), height, mass)
 starwars |> mutate_at(vars(height, mass), as.character)
 starwars |> mutate(across(c(height, mass), as.character))
@@ -256,6 +265,7 @@ combination with
 [`where()`](https://tidyselect.r-lib.org/reference/where.html):
 
 ``` r
+
 starwars |> mutate_if(is.factor, as.character)
 starwars |> mutate(across(where(is.factor), as.character))
 ```

@@ -42,17 +42,19 @@ non-standard evaluation, we recommend that you read the Metaprogramming
 chapters in [*Advanced R*](https://adv-r.hadley.nz).
 
 ``` r
+
 library(dplyr)
 ```
 
 ## Data masking
 
 Data masking makes data manipulation faster because it requires less
-typing. In most (but not all[¹](#fn1)) base R functions you need to
-refer to variables with `$`, leading to code that repeats the name of
-the data frame many times:
+typing. In most (but not all[^1]) base R functions you need to refer to
+variables with `$`, leading to code that repeats the name of the data
+frame many times:
 
 ``` r
+
 starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", , ]
 ```
 
@@ -60,6 +62,7 @@ The dplyr equivalent of this code is more concise because data masking
 allows you to need to type `starwars` once:
 
 ``` r
+
 starwars |> filter(homeworld == "Naboo", species == "Human")
 ```
 
@@ -79,6 +82,7 @@ To make those definitions a little more concrete, take this piece of
 code:
 
 ``` r
+
 df <- data.frame(x = runif(3), y = runif(3))
 df$x
 #> [1] 0.08075014 0.83433304 0.60076089
@@ -110,8 +114,8 @@ the data-variable from an env-variable instead of directly typing the
 data-variable’s name. There are two main cases:
 
 - When you have the data-variable in a function argument (i.e. an
-  env-variable that holds a promise[²](#fn2)), you need to **embrace**
-  the argument by surrounding it in doubled braces, like
+  env-variable that holds a promise[^2]), you need to **embrace** the
+  argument by surrounding it in doubled braces, like
   `filter(df, {{ var }})`.
 
   The following function uses embracing to create a wrapper around
@@ -120,6 +124,7 @@ data-variable’s name. There are two main cases:
   the number of observations that were summarised:
 
   ``` r
+
   var_summary <- function(data, var) {
     data |>
       summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
@@ -137,6 +142,7 @@ data-variable’s name. There are two main cases:
   values in each variable of `mtcars`:
 
   ``` r
+
   for (var in names(mtcars)) {
     mtcars |> count(.data[[var]]) |> print()
   }
@@ -158,6 +164,7 @@ instead of `=`. There are two basics forms, as illustrated below with
   interpolate in:
 
   ``` r
+
   name <- "susan"
   tibble("{name}" := 2)
   #> # A tibble: 1 × 1
@@ -170,6 +177,7 @@ instead of `=`. There are two basics forms, as illustrated below with
   can use embracing syntax:
 
   ``` r
+
   my_df <- function(x) {
     tibble("{{x}}_2" := x * 2)
   }
@@ -227,6 +235,7 @@ are two forms of indirection:
   of all variables selected by the user:
 
   ``` r
+
   summarise_mean <- function(data, vars) {
     data |> summarise(n = n(), across({{ vars }}, mean))
   }
@@ -248,6 +257,7 @@ are two forms of indirection:
   select all of the variables *not* found in a character vector:
 
   ``` r
+
   vars <- c("mpg", "vs")
   mtcars |> select(all_of(vars))
   mtcars |> select(!all_of(vars))
@@ -266,6 +276,7 @@ masking or tidy select. That means you don’t need to do anything special
 in your function:
 
 ``` r
+
 mutate_y <- function(data) {
   mutate(data, y = a + x)
 }
@@ -277,6 +288,7 @@ If you want the user to supply an expression that’s passed onto an
 argument which uses data masking or tidy select, embrace the argument:
 
 ``` r
+
 my_summarise <- function(data, group_var) {
   data |>
     group_by({{ group_var }}) |>
@@ -288,6 +300,7 @@ This generalises in a straightforward way if you want to use one
 user-supplied expression in multiple places:
 
 ``` r
+
 my_summarise2 <- function(data, expr) {
   data |>
     summarise(
@@ -302,6 +315,7 @@ If you want the user to provide multiple expressions, embrace each of
 them:
 
 ``` r
+
 my_summarise3 <- function(data, mean_var, sd_var) {
   data |>
     summarise(mean = mean({{ mean_var }}), sd = sd({{ sd_var }}))
@@ -312,6 +326,7 @@ If you want to use the name of a variable in the output, you can embrace
 the variable name on the left-hand side of `:=` with `{{`:
 
 ``` r
+
 my_summarise4 <- function(data, expr) {
   data |>
     summarise(
@@ -338,6 +353,7 @@ control over a single part of the pipeline, like a
 a [`mutate()`](https://dplyr.tidyverse.org/dev/reference/mutate.md).
 
 ``` r
+
 my_summarise <- function(.data, ...) {
   .data |>
     group_by(...) |>
@@ -384,6 +400,7 @@ Sometimes it can be useful for a single expression to return multiple
 columns. You can do this by returning an unnamed data frame:
 
 ``` r
+
 quantile_df <- function(x, probs = c(0.25, 0.5, 0.75)) {
   tibble(
     val = quantile(x, probs),
@@ -407,6 +424,7 @@ and [`mutate()`](https://dplyr.tidyverse.org/dev/reference/mutate.md)
 which allow you to add multiple columns by returning a data frame:
 
 ``` r
+
 df <- tibble(
   grp = rep(1:3, each = 10),
   x = runif(30),
@@ -452,6 +470,7 @@ is restricted to returning 1 row summaries per group, but
 lifts this restriction:
 
 ``` r
+
 df |>
   group_by(grp) |>
   reframe(across(x:y, quantile_df, .unpack = TRUE))
@@ -473,6 +492,7 @@ transformed, use
 [`pick()`](https://dplyr.tidyverse.org/dev/reference/pick.md):
 
 ``` r
+
 my_summarise <- function(data, summary_vars) {
   data |>
     summarise(across({{ summary_vars }}, ~ mean(., na.rm = TRUE)))
@@ -493,6 +513,7 @@ starwars |>
 You can use this same idea for multiple sets of input data-variables:
 
 ``` r
+
 my_summarise <- function(data, group_var, summarise_var) {
   data |>
     group_by(pick({{ group_var }})) |>
@@ -505,6 +526,7 @@ Use the `.names` argument to
 control the names of the output.
 
 ``` r
+
 my_summarise <- function(data, group_var, summarise_var) {
   data |>
     group_by(pick({{ group_var }})) |>
@@ -518,6 +540,7 @@ If you have a character vector of variable names, and want to operate on
 them with a for loop, index into the special `.data` pronoun:
 
 ``` r
+
 for (var in names(mtcars)) {
   mtcars |> count(.data[[var]]) |> print()
 }
@@ -528,6 +551,7 @@ This same technique works with for loop alternatives like the base R
 `map()` family:
 
 ``` r
+
 mtcars |>
   names() |>
   purrr::map(~ count(mtcars, .data[[.x]]))
@@ -542,6 +566,7 @@ Many Shiny input controls return character vectors, so you can use the
 same approach as above: `.data[[input$var]]`.
 
 ``` r
+
 library(shiny)
 ui <- fluidPage(
   selectInput("var", "Variable", choices = names(diamonds)),
@@ -556,9 +581,7 @@ server <- function(input, output, session) {
 See <https://mastering-shiny.org/action-tidy.html> for more details and
 case studies.
 
-------------------------------------------------------------------------
-
-1.  dplyr’s
+[^1]: dplyr’s
     [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) is
     inspired by base R’s
     [`subset()`](https://rdrr.io/r/base/subset.html).
@@ -566,7 +589,7 @@ case studies.
     masking, but not with tidy evaluation, so the techniques described
     in this chapter don’t apply to it.
 
-2.  In R, arguments are lazily evaluated which means that until you
+[^2]: In R, arguments are lazily evaluated which means that until you
     attempt to use, they don’t hold a value, just a **promise** that
     describes how to compute the value. You can learn more at
     <https://adv-r.hadley.nz/functions.html#lazy-evaluation>

@@ -39,25 +39,26 @@ operation in more detail. You’ll learn more about the dplyr verbs in
 their documentation and in
 [`vignette("dplyr")`](https://dplyr.tidyverse.org/dev/articles/dplyr.md).
 
-| dplyr                          | base                                                                                                                                                              |
-|--------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `arrange(df, x)`               | `df[order(x), , drop = FALSE]`                                                                                                                                    |
-| `distinct(df, x)`              | `df[!duplicated(x), , drop = FALSE]`, [`unique()`](https://rdrr.io/r/base/unique.html)                                                                            |
-| `filter(df, x)`                | `df[which(x), , drop = FALSE]`, [`subset()`](https://rdrr.io/r/base/subset.html)                                                                                  |
-| `mutate(df, z = x + y)`        | `df$z <- df$x + df$y`, [`transform()`](https://rdrr.io/r/base/transform.html)                                                                                     |
-| `pull(df, 1)`                  | `df[[1]]`                                                                                                                                                         |
-| `pull(df, x)`                  | `df$x`                                                                                                                                                            |
-| `rename(df, y = x)`            | `names(df)[names(df) == "x"] <- "y"`                                                                                                                              |
-| `relocate(df, y)`              | `df[union("y", names(df))]`                                                                                                                                       |
-| `select(df, x, y)`             | `df[c("x", "y")]`, [`subset()`](https://rdrr.io/r/base/subset.html)                                                                                               |
-| `select(df, starts_with("x"))` | `df[grepl("^x", names(df))]`                                                                                                                                      |
-| `summarise(df, mean(x))`       | `mean(df$x)`, [`tapply()`](https://rdrr.io/r/base/tapply.html), [`aggregate()`](https://rdrr.io/r/stats/aggregate.html), [`by()`](https://rdrr.io/r/base/by.html) |
-| `slice(df, c(1, 2, 5))`        | `df[c(1, 2, 5), , drop = FALSE]`                                                                                                                                  |
+| dplyr | base |
+|----|----|
+| `arrange(df, x)` | `df[order(x), , drop = FALSE]` |
+| `distinct(df, x)` | `df[!duplicated(x), , drop = FALSE]`, [`unique()`](https://rdrr.io/r/base/unique.html) |
+| `filter(df, x)` | `df[which(x), , drop = FALSE]`, [`subset()`](https://rdrr.io/r/base/subset.html) |
+| `mutate(df, z = x + y)` | `df$z <- df$x + df$y`, [`transform()`](https://rdrr.io/r/base/transform.html) |
+| `pull(df, 1)` | `df[[1]]` |
+| `pull(df, x)` | `df$x` |
+| `rename(df, y = x)` | `names(df)[names(df) == "x"] <- "y"` |
+| `relocate(df, y)` | `df[union("y", names(df))]` |
+| `select(df, x, y)` | `df[c("x", "y")]`, [`subset()`](https://rdrr.io/r/base/subset.html) |
+| `select(df, starts_with("x"))` | `df[grepl("^x", names(df))]` |
+| `summarise(df, mean(x))` | `mean(df$x)`, [`tapply()`](https://rdrr.io/r/base/tapply.html), [`aggregate()`](https://rdrr.io/r/stats/aggregate.html), [`by()`](https://rdrr.io/r/base/by.html) |
+| `slice(df, c(1, 2, 5))` | `df[c(1, 2, 5), , drop = FALSE]` |
 
 To begin, we’ll load dplyr and convert `mtcars` and `iris` to tibbles so
 that we can easily show only abbreviated output for each operation.
 
 ``` r
+
 library(dplyr)
 mtcars <- as_tibble(mtcars)
 iris <- as_tibble(iris)
@@ -69,6 +70,7 @@ iris <- as_tibble(iris)
 orders the rows of a data frame by the values of one or more columns:
 
 ``` r
+
 mtcars |> arrange(cyl, disp)
 #> # A tibble: 32 × 11
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -84,6 +86,7 @@ The [`desc()`](https://dplyr.tidyverse.org/dev/reference/desc.md) helper
 allows you to order selected variables in descending order:
 
 ``` r
+
 mtcars |> arrange(desc(cyl), desc(disp))
 #> # A tibble: 32 × 11
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -99,6 +102,7 @@ We can replicate in base R by using `[` with
 [`order()`](https://rdrr.io/r/base/order.html):
 
 ``` r
+
 mtcars[order(mtcars$cyl, mtcars$disp), , drop = FALSE]
 #> # A tibble: 32 × 11
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -122,6 +126,7 @@ variables in descending order, so you have two options:
   all variables in descending order.
 
 ``` r
+
 mtcars[order(mtcars$cyl, mtcars$disp, decreasing = TRUE), , drop = FALSE]
 mtcars[order(-mtcars$cyl, -mtcars$disp), , drop = FALSE]
 ```
@@ -132,6 +137,7 @@ mtcars[order(-mtcars$cyl, -mtcars$disp), , drop = FALSE]
 selects unique rows:
 
 ``` r
+
 df <- tibble(
   x = sample(10, 100, rep = TRUE),
   y = sample(10, 100, rep = TRUE)
@@ -161,6 +167,7 @@ There are two equivalents in base R, depending on whether you want the
 whole data frame, or just selected variables:
 
 ``` r
+
 unique(df["x"]) # selected columns
 #> # A tibble: 10 × 1
 #>       x
@@ -187,6 +194,7 @@ df[!duplicated(df$x), , drop = FALSE] # whole data frame
 selects rows where an expression is `TRUE`:
 
 ``` r
+
 starwars |> filter(species == "Human")
 #> # A tibble: 35 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -223,6 +231,7 @@ The closest base equivalent (and the inspiration for
 [`subset()`](https://rdrr.io/r/base/subset.html):
 
 ``` r
+
 subset(starwars, species == "Human")
 #> # A tibble: 35 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -258,6 +267,7 @@ You can also use `[` but this also requires the use of
 [`which()`](https://rdrr.io/r/base/which.html) to remove `NA`s:
 
 ``` r
+
 starwars[which(starwars$species == "Human"), ]
 #> # A tibble: 35 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
@@ -295,6 +305,7 @@ starwars[which(starwars$hair_color == "none" & starwars$eye_color == "black"), ]
 creates new variables from existing variables:
 
 ``` r
+
 df |> mutate(z = x + y, z2 = z^2)
 #> # A tibble: 100 × 4
 #>       x     y     z    z2
@@ -311,6 +322,7 @@ The closest base equivalent is
 cannot use freshly created variables:
 
 ``` r
+
 head(transform(df, z = x + y, z2 = (x + y)^2))
 #>   x y  z  z2
 #> 1 7 4 11 121
@@ -324,6 +336,7 @@ head(transform(df, z = x + y, z2 = (x + y)^2))
 Alternatively, you can use `$<-`:
 
 ``` r
+
 mtcars$cyl2 <- mtcars$cyl * 2
 mtcars$cyl4 <- mtcars$cyl2 * 2
 ```
@@ -333,6 +346,7 @@ When applied to a grouped data frame,
 computes new variable once per group:
 
 ``` r
+
 gf <- tibble(g = c(1, 1, 2, 2), x = c(0.5, 1.5, 2.5, 3.5))
 gf |>
   group_by(g) |>
@@ -351,6 +365,7 @@ To replicate this in base R, you can use
 [`ave()`](https://rdrr.io/r/stats/ave.html):
 
 ``` r
+
 transform(
   gf,
   x_mean = ave(x, g, FUN = mean),
@@ -369,6 +384,7 @@ transform(
 extracts a variable either by name or position:
 
 ``` r
+
 mtcars |> pull(1)
 #>  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3
 #> [14] 15.2 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3
@@ -380,6 +396,7 @@ mtcars |> pull(cyl)
 This equivalent to `[[` for positions and `$` for names:
 
 ``` r
+
 mtcars[[1]]
 #>  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3
 #> [14] 15.2 10.4 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3
@@ -395,6 +412,7 @@ makes it easy to move a set of columns to a new position (by default,
 the front):
 
 ``` r
+
 # to front
 mtcars |> relocate(gear, carb)
 #> # A tibble: 32 × 13
@@ -423,6 +441,7 @@ mtcars |> relocate(mpg, cyl, .after = last_col())
 We can replicate this in base R with a little set manipulation:
 
 ``` r
+
 mtcars[union(c("gear", "carb"), names(mtcars))]
 #> # A tibble: 32 × 13
 #>    gear  carb   mpg   cyl  disp    hp  drat    wt  qsec    vs    am
@@ -456,6 +475,7 @@ twiddling.
 allows you to rename variables by name or position:
 
 ``` r
+
 iris |> rename(sepal_length = Sepal.Length, sepal_width = 2)
 #> # A tibble: 150 × 5
 #>   sepal_length sepal_width Petal.Length Petal.Width Species
@@ -470,6 +490,7 @@ iris |> rename(sepal_length = Sepal.Length, sepal_width = 2)
 Renaming variables by position is straight forward in base R:
 
 ``` r
+
 iris2 <- iris
 names(iris2)[2] <- "sepal_width"
 ```
@@ -477,6 +498,7 @@ names(iris2)[2] <- "sepal_width"
 Renaming variables by name requires a bit more work:
 
 ``` r
+
 names(iris2)[names(iris2) == "Sepal.Length"] <- "sepal_length"
 ```
 
@@ -486,6 +508,7 @@ names(iris2)[names(iris2) == "Sepal.Length"] <- "sepal_length"
 transform column names with a function:
 
 ``` r
+
 iris |> rename_with(toupper)
 #> # A tibble: 150 × 5
 #>   SEPAL.LENGTH SEPAL.WIDTH PETAL.LENGTH PETAL.WIDTH SPECIES
@@ -501,6 +524,7 @@ A similar effect can be achieved with
 [`setNames()`](https://rdrr.io/r/stats/setNames.html) in base R:
 
 ``` r
+
 setNames(iris, toupper(names(iris)))
 #> # A tibble: 150 × 5
 #>   SEPAL.LENGTH SEPAL.WIDTH PETAL.LENGTH PETAL.WIDTH SPECIES
@@ -518,6 +542,7 @@ setNames(iris, toupper(names(iris)))
 subsets columns by position, name, function of name, or other property:
 
 ``` r
+
 iris |> select(1:3)
 #> # A tibble: 150 × 3
 #>   Sepal.Length Sepal.Width Petal.Length
@@ -559,6 +584,7 @@ iris |> select(where(is.factor))
 Subsetting variables by position is straightforward in base R:
 
 ``` r
+
 iris[1:3] # single argument selects columns; never drops
 #> # A tibble: 150 × 3
 #>   Sepal.Length Sepal.Width Petal.Length
@@ -580,6 +606,7 @@ iris[1:3, , drop = FALSE]
 You have two options to subset by name:
 
 ``` r
+
 iris[c("Species", "Sepal.Length")]
 #> # A tibble: 150 × 2
 #>   Species Sepal.Length
@@ -604,6 +631,7 @@ Subsetting by function of name requires a bit of work with
 [`grep()`](https://rdrr.io/r/base/grep.html):
 
 ``` r
+
 iris[grep("^Petal", names(iris))]
 #> # A tibble: 150 × 2
 #>   Petal.Length Petal.Width
@@ -619,6 +647,7 @@ And you can use [`Filter()`](https://rdrr.io/r/base/funprog.html) to
 subset by type:
 
 ``` r
+
 Filter(is.factor, iris)
 #> # A tibble: 150 × 1
 #>   Species
@@ -636,6 +665,7 @@ Filter(is.factor, iris)
 computes one or more summaries for each group:
 
 ``` r
+
 mtcars |>
   group_by(cyl) |>
   summarise(mean = mean(disp), n = n())
@@ -655,6 +685,7 @@ but you can combine them back together again with
 [`rbind()`](https://rdrr.io/r/base/cbind.html):
 
 ``` r
+
 mtcars_by <- by(mtcars, mtcars$cyl, function(df) {
   with(df, data.frame(cyl = cyl[[1]], mean = mean(disp), n = nrow(df)))
 })
@@ -669,6 +700,7 @@ do.call(rbind, mtcars_by)
 to providing an elegant answer:
 
 ``` r
+
 agg <- aggregate(disp ~ cyl, mtcars, function(x) {
   c(mean = mean(x), n = length(x))
 })
@@ -683,6 +715,7 @@ But unfortunately while it looks like there are `disp.mean` and `disp.n`
 columns, it’s actually a single matrix column:
 
 ``` r
+
 str(agg)
 #> 'data.frame':    3 obs. of  2 variables:
 #>  $ cyl : num  4 6 8
@@ -701,6 +734,7 @@ You can see a variety of other options at
 rows with their location:
 
 ``` r
+
 slice(mtcars, 25:n())
 #> # A tibble: 8 × 13
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -716,6 +750,7 @@ slice(mtcars, 25:n())
 This is straightforward to replicate with `[`:
 
 ``` r
+
 mtcars[25:nrow(mtcars), , drop = FALSE]
 #> # A tibble: 8 × 13
 #>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -775,6 +810,7 @@ and
 affect only the rows, not the columns:
 
 ``` r
+
 band_members |> semi_join(band_instruments)
 #> Joining with `by = join_by(name)`
 #> # A tibble: 2 × 2
@@ -793,6 +829,7 @@ band_members |> anti_join(band_instruments)
 They can be replicated in base R with `[` and `%in%`:
 
 ``` r
+
 band_members[band_members$name %in% band_instruments$name, , drop = FALSE]
 #> # A tibble: 2 × 2
 #>   name  band   

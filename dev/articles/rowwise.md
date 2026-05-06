@@ -19,6 +19,7 @@ it’s nice to have a solution that fits naturally into a pipeline.
 > Jenny Bryan
 
 ``` r
+
 library(dplyr, warn.conflicts = FALSE)
 ```
 
@@ -29,6 +30,7 @@ consists of a single row. You create this with
 [`rowwise()`](https://dplyr.tidyverse.org/dev/reference/rowwise.md):
 
 ``` r
+
 df <- tibble(x = 1:2, y = 3:4, z = 5:6)
 df |> rowwise()
 #> # A tibble: 2 × 3
@@ -48,6 +50,7 @@ work. For example, compare the results of
 following code:
 
 ``` r
+
 df |> mutate(m = mean(c(x, y, z)))
 #> # A tibble: 2 × 4
 #>       x     y     z     m
@@ -77,6 +80,7 @@ so they behave somewhat similarly to the grouping variables passed to
 [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md):
 
 ``` r
+
 df <- tibble(name = c("Mara", "Hadley"), x = 1:2, y = 3:4, z = 5:6)
 
 df |>
@@ -119,6 +123,7 @@ also makes it easy to summarise values across columns within one row. To
 see how, we’ll start by making a little dataset:
 
 ``` r
+
 df <- tibble(id = 1:6, w = 10:15, x = 20:25, y = 30:35, z = 40:45)
 df
 #> # A tibble: 6 × 5
@@ -135,6 +140,7 @@ Let’s say we want compute the sum of `w`, `x`, `y`, and `z` for each
 row. We start by making a row-wise data frame:
 
 ``` r
+
 rf <- df |> rowwise(id)
 ```
 
@@ -145,6 +151,7 @@ a new column to each row, or
 to return just that one summary:
 
 ``` r
+
 rf |> mutate(total = sum(c(w, x, y, z)))
 #> # A tibble: 6 × 6
 #> # Rowwise:  id
@@ -179,6 +186,7 @@ which uses tidy selection syntax so you can to succinctly select many
 variables:
 
 ``` r
+
 rf |> mutate(total = sum(c_across(w:z)))
 #> # A tibble: 6 × 6
 #> # Rowwise:  id
@@ -207,6 +215,7 @@ for more details) to compute the proportion of the total for each
 column:
 
 ``` r
+
 rf |>
   mutate(total = sum(c_across(w:z))) |>
   ungroup() |>
@@ -231,6 +240,7 @@ data frame as whole; they don’t split it into rows, compute the summary,
 and then join the results back together again.
 
 ``` r
+
 df |> mutate(total = rowSums(pick(where(is.numeric), -id)))
 #> # A tibble: 6 × 6
 #>      id     w     x     y     z total
@@ -278,6 +288,7 @@ Imagine you have this data frame, and you want to count the lengths of
 each element:
 
 ``` r
+
 df <- tibble(
   x = list(1, 2:3, 4:6)
 )
@@ -286,6 +297,7 @@ df <- tibble(
 You might try calling [`length()`](https://rdrr.io/r/base/length.html):
 
 ``` r
+
 df |> mutate(l = length(x))
 #> # A tibble: 3 × 2
 #>   x             l
@@ -300,6 +312,7 @@ individual values. If you’re an R documentation aficionado, you might
 know there’s already a base R function just for this purpose:
 
 ``` r
+
 df |> mutate(l = lengths(x))
 #> # A tibble: 3 × 2
 #>   x             l
@@ -316,6 +329,7 @@ function to each element of a list using
 `map()` functions:
 
 ``` r
+
 df |> mutate(l = sapply(x, length))
 #> # A tibble: 3 × 2
 #>   x             l
@@ -338,6 +352,7 @@ inside of `x`? Since you’re here, you might already be guessing at the
 answer: this is just another application of the row-wise pattern.
 
 ``` r
+
 df |>
   rowwise() |>
   mutate(l = length(x))
@@ -362,6 +377,7 @@ group happens to have one row, and a row-wise data frame where every
 group always has one row. Take these two data frames:
 
 ``` r
+
 df <- tibble(g = 1:2, y = list(1:3, "a"))
 gf <- df |> group_by(g)
 rf <- df |> rowwise(g)
@@ -371,6 +387,7 @@ If we compute some properties of `y`, you’ll notice the results look
 different:
 
 ``` r
+
 gf |> mutate(type = typeof(y), length = length(y))
 #> # A tibble: 2 × 4
 #> # Groups:   g [2]
@@ -394,6 +411,7 @@ the row-wise mutate uses `[[`. The following code gives a flavour of the
 differences if you used a for loop:
 
 ``` r
+
 # grouped
 out1 <- integer(2)
 for (i in 1:2) {
@@ -417,6 +435,7 @@ confusing, but we’re fairly confident it’s the least worst solution,
 particularly given the hint in the error message.
 
 ``` r
+
 gf |> mutate(y2 = y)
 #> # A tibble: 2 × 3
 #> # Groups:   g [2]
@@ -448,6 +467,7 @@ think is a particularly elegant way. We’ll start by creating a nested
 data frame:
 
 ``` r
+
 by_cyl <- mtcars |> nest_by(cyl)
 by_cyl
 #> # A tibble: 3 × 2
@@ -472,6 +492,7 @@ Once we have one data frame per row, it’s straightforward to make one
 model per row:
 
 ``` r
+
 mods <- by_cyl |> mutate(mod = list(lm(mpg ~ wt, data = data)))
 mods
 #> # A tibble: 3 × 3
@@ -486,6 +507,7 @@ mods
 And supplement that with one set of predictions per row:
 
 ``` r
+
 mods <- mods |> mutate(pred = list(predict(mod, data)))
 mods
 #> # A tibble: 3 × 4
@@ -500,6 +522,7 @@ mods
 You could then summarise the model in a variety of ways:
 
 ``` r
+
 mods |> summarise(rmse = sqrt(mean((pred - data$mpg)^2)))
 #> `summarise()` has converted the output from a rowwise data frame to a
 #> grouped data frame.
@@ -546,6 +569,7 @@ mods |> summarise(broom::glance(mod))
 Or easily access the parameters of each model:
 
 ``` r
+
 mods |> reframe(broom::tidy(mod))
 #> # A tibble: 6 × 6
 #>     cyl term        estimate std.error statistic    p.value
@@ -577,6 +601,7 @@ frame that describes the properties of 3 samples from the uniform
 distribution:
 
 ``` r
+
 df <- tribble(
   ~n , ~min , ~max ,
    1 ,    0 ,    1 ,
@@ -591,6 +616,7 @@ You can supply these parameters to
 [`mutate()`](https://dplyr.tidyverse.org/dev/reference/mutate.md):
 
 ``` r
+
 df |>
   rowwise() |>
   mutate(data = list(runif(n, min, max)))
@@ -614,6 +640,7 @@ forget to use [`list()`](https://rdrr.io/r/base/list.html), dplyr will
 give you a hint:
 
 ``` r
+
 df |>
   rowwise() |>
   mutate(data = runif(n, min, max))
@@ -633,6 +660,7 @@ can use [`expand.grid()`](https://rdrr.io/r/base/expand.grid.html) (or
 to generate the data frame and then repeat the same pattern as above:
 
 ``` r
+
 df <- expand.grid(mean = c(-1, 0, 1), sd = c(1, 10, 100))
 
 df |>
@@ -658,6 +686,7 @@ But it’s still possible, and it’s a natural place to use
 [`do.call()`](https://rdrr.io/r/base/do.call.html):
 
 ``` r
+
 df <- tribble(
   ~rng    , ~params                  ,
   "runif" , list(n = 10)             ,
@@ -718,6 +747,7 @@ had two main modes of operation:
   the following code gets the first row of each group:
 
   ``` r
+
   mtcars |>
     group_by(cyl) |>
     do(head(., 1))
@@ -738,6 +768,7 @@ had two main modes of operation:
   that can create multiple rows and columns per group.
 
   ``` r
+
   mtcars |>
     group_by(cyl) |>
     reframe(head(pick(everything()), 1))
@@ -754,6 +785,7 @@ had two main modes of operation:
   automatically wrapped every element in a list:
 
   ``` r
+
   mtcars |>
     group_by(cyl) |>
     do(nrows = nrow(.))
@@ -772,6 +804,7 @@ had two main modes of operation:
   and [`pick()`](https://dplyr.tidyverse.org/dev/reference/pick.md).
 
   ``` r
+
   mtcars |>
     group_by(cyl) |>
     summarise(nrows = nrow(pick(everything())))

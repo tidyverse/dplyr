@@ -66,6 +66,7 @@ Other grouping functions:
 ## Examples
 
 ``` r
+
 #----- use case 1: a grouped data frame
 iris |>
   group_by(Species) |>
