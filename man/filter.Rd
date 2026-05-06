@@ -163,6 +163,7 @@ expressions used to filter the data:
 \item \code{\link[=is.na]{is.na()}}
 \item \code{\link[=between]{between()}}, \code{\link[=near]{near()}}
 \item \code{\link[=when_any]{when_any()}}, \code{\link[=when_all]{when_all()}}
+\item \code{\link[=if_any]{if_any()}}, \code{\link[=if_all]{if_all()}}
 }
 }
 
@@ -213,6 +214,15 @@ starwars |> filter(hair_color == "none", eye_color == "black")
 
 # To combine comma separated expressions using `|` instead, use `when_any()`
 starwars |> filter(when_any(hair_color == "none", eye_color == "black"))
+
+# To apply the same condition to multiple columns, use `if_all()` or `if_any()`
+starwars |>
+  # keep rows if any of the numeric columns are divisible by 3
+  filter(if_any(where(is.numeric), \(x) x \%\% 3 == 0))
+
+starwars |>
+  # keep rows if all of the numeric columns are divisible by 3
+  filter(if_all(where(is.numeric), \(x) x \%\% 3 == 0))
 
 # Filtering out to drop rows
 filter_out(starwars, hair_color == "none")
