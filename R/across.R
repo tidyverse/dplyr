@@ -331,8 +331,17 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
       }
     },
     error = function(cnd) {
+      # Improved error message with more context
+      # Fixes #7785 - provide clearer error messages
+      fn_name <- names(fns)[[j]]
+      if (is.null(fn_name) || fn_name == "") {
+        fn_name <- "function"
+      }
+      
       bullets <- c(
-        glue("Can't compute column `{names[k]}`.")
+        glue("Problem while computing column `{names[k]}`."),
+        i = glue("Column: `{var}`"),
+        i = glue("Function: `{fn_name}`")
       )
       abort(bullets, call = error_call, parent = cnd)
     }
