@@ -337,7 +337,7 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
       if (is.null(fn_name) || fn_name == "") {
         fn_name <- "function"
       }
-      
+
       bullets <- c(
         glue("Problem while computing column `{names[k]}`."),
         i = glue("Column: `{var}`"),

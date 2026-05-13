@@ -278,7 +278,7 @@ check_n_name <- function(
     }
   } else {
     check_string(name, arg = arg, call = call)
-    
+
     # Validate that the output name doesn't conflict with existing columns
     # Fixes #7773 - prevent silent overwriting of columns
     if (name %in% vars) {
