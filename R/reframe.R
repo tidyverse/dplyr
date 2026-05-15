@@ -110,8 +110,12 @@ reframe <- function(.data, ..., .by = NULL) {
 }
 
 #' @export
-reframe.data.frame <- function(.data, ..., .by = NULL) {
-  by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
+reframe.data.frame <- function(.data, ..., .by = NULL, .with = NULL) {
+  if (is_null(.with)) {
+    by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
+  } else {
+    by <- .with(.data)
+  }
 
   cols <- summarise_cols(.data, dplyr_quosures(...), by, "reframe")
   out <- summarise_build(by, cols, "reframe")

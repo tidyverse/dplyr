@@ -117,8 +117,22 @@ summarise <- function(.data, ..., .by = NULL, .groups = NULL) {
 summarize <- summarise
 
 #' @export
-summarise.data.frame <- function(.data, ..., .by = NULL, .groups = NULL) {
-  by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
+summarise.data.frame <- function(
+  .data,
+  ...,
+  .by = NULL,
+  .with = NULL,
+  .groups = NULL
+) {
+  if (is_null(.with)) {
+    by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
+  } else {
+    if (is_list(.with)) {
+      by <- apply_list_of_with(.with, .data)
+    } else {
+      by <- .with(.data)
+    }
+  }
 
   cols <- summarise_cols(.data, dplyr_quosures(...), by, "summarise")
   out <- summarise_build(by, cols, "summarise")
@@ -134,6 +148,147 @@ summarise.data.frame <- function(.data, ..., .by = NULL, .groups = NULL) {
   }
 
   out
+}
+
+grouping_sets <- function(...) {
+  bys <- enquos(...)
+
+  function(data) {
+    n <- length(bys)
+    datas <- vector("list", length = n)
+
+    for (i in seq_len(n)) {
+      by <- bys[[i]]
+      by <- eval_select_by(by = by, data = data)
+      datas[[i]] <- compute_by_groups(data, by)
+    }
+
+    # Combine and make sure `.rows` ends up at the end
+    data <- vec_rbind(!!!datas)
+    rows <- data[[".rows"]]
+    data[[".rows"]] <- NULL
+    data[[".rows"]] <- rows
+
+    id <- data_frame(.id = vec_rep_each(seq_len(n), list_sizes(datas)))
+    data <- vec_cbind(id, data)
+
+    names <- setdiff(names(data), ".rows")
+    type <- "grouped"
+
+    new_by(type = type, names = names, data = data)
+  }
+}
+
+rollup <- function(by) {
+  by <- enquo(by)
+
+  function(data) {
+    by <- eval_select_by(by = by, data = data)
+    by <- lapply(length(by):0L, function(i) by[0L:i])
+    with <- grouping_sets(!!!by)
+    with(data)
+  }
+}
+
+cube <- function(by) {
+  by <- enquo(by)
+
+  function(data) {
+    by <- eval_select_by(by = by, data = data)
+    n <- length(by)
+    locs <- as.matrix(rev(expand.grid(rep(list(c(TRUE, FALSE)), n))))
+    by <- lapply(seq_len(nrow(locs)), function(i) by[locs[i, ]])
+    with <- grouping_sets(!!!by)
+    with(data)
+  }
+}
+
+windows <- function(
+  ...,
+  before = 0L,
+  after = 0L,
+  step = 1L,
+  complete = FALSE
+) {
+  function(data) {
+    locations <- slider::slide(
+      seq_len(nrow(data)),
+      identity,
+      .before = before,
+      .after = after,
+      .step = step,
+      .complete = complete
+    )
+
+    size <- length(locations)
+    data <- dplyr_new_tibble(
+      list(
+        .window = seq_len(size),
+        .rows = new_list_of(locations, ptype = integer())
+      ),
+      size = size
+    )
+
+    names <- ".window"
+    type <- "grouped"
+
+    new_by(type = type, names = names, data = data)
+  }
+}
+
+# `group_by(.drop = FALSE)`
+expanded <- function(by) {
+  by <- enquo(by)
+
+  function(data) {
+    by <- eval_select_by(by = by, data = data)
+    data <- compute_groups(data, by, drop = FALSE)
+    type <- "grouped"
+    new_by(type = type, names = by, data = data)
+  }
+}
+
+# Would be crazy slow due to repeated slicing of `data`
+# on smaller and smaller subgroups
+apply_list_of_with <- function(withs, data) {
+  groups <- group_data(data)
+  names <- character()
+
+  for (with in withs) {
+    list_of_rows <- unclass(groups[[".rows"]])
+    groups[[".rows"]] <- NULL
+
+    n_parents <- length(list_of_rows)
+    sub_data_list <- vector("list", length = n_parents)
+    sub_rows_list <- vector("list", length = n_parents)
+    sub_names <- character()
+
+    for (j in seq_len(n_parents)) {
+      rows <- list_of_rows[[j]]
+      slice <- vec_slice(data, rows)
+      sub_by <- with(slice)
+      sub_names <- sub_by$names
+
+      sub_groups <- sub_by$data
+      local_rows <- unclass(sub_groups[[".rows"]])
+      sub_groups[[".rows"]] <- NULL
+
+      sub_rows_list[[j]] <- vec_chop(rows, indices = local_rows)
+      sub_data_list[[j]] <- sub_groups
+    }
+
+    times <- list_sizes(sub_data_list)
+    groups <- vec_rep_each(groups, times = times)
+    groups <- vec_cbind(groups, vec_rbind(!!!sub_data_list))
+
+    new_rows <- vec_c(!!!sub_rows_list, .ptype = list())
+    groups[[".rows"]] <- new_list_of(new_rows, ptype = integer())
+
+    names <- c(names, sub_names)
+  }
+
+  type <- if (length(names) == 0L) "ungrouped" else "grouped"
+  new_by(type = type, names = names, data = groups)
 }
 
 #' @export
