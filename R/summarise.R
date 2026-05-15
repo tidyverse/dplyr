@@ -248,6 +248,17 @@ expanded <- function(by) {
   }
 }
 
+by_groups <- function(by) {
+  by <- enquo(by)
+
+  function(data) {
+    by <- eval_select_by(by = by, data = data)
+    data <- compute_by_groups(data, by)
+    type <- "grouped"
+    new_by(type = type, names = by, data = data)
+  }
+}
+
 # Would be crazy slow due to repeated slicing of `data`
 # on smaller and smaller subgroups
 apply_list_of_with <- function(withs, data) {
