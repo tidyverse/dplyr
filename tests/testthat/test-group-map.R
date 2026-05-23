@@ -1,3 +1,44 @@
+# helper to test pr #7840
+md_iqr <- function(x, center = 0.5, spread = c(0.25, 0.75)) {
+  c <- quantile(x, center)
+  s <- quantile(x, spread)
+  data <- data.frame(y = c, ymin = min(s), ymax = max(s))
+
+  return(data)
+}
+
+test_that("group_modify() with .by returns an ungrouped data frame. pr #7840", {
+  res <- mtcars |> group_modify(md_iqr, .col = mpg, .by = gear)
+  expect_false(dplyr:::is_grouped_df(res))
+  expect_equal(nrow(res), 3L)
+  expect_true(all(c("gear", "y", "ymin", "ymax") %in% names(res)))
+})
+
+test_that("group_modify() with .by errors on already-grouped data. pr #7840", {
+  expect_error(
+    mtcars |> group_by(gear) |> group_modify(md_iqr, .col = mpg, .by = gear),
+    "Can't supply `.by`"
+  )
+})
+
+test_that("group_modify() with .col passes vector to .f. pr #7840", {
+  res_by <- mtcars |> group_modify(md_iqr, .col = mpg, .by = gear)
+  res_old <- mtcars |> group_by(gear) |> group_modify(~ md_iqr(.x$mpg))
+  expect_equal(res_by$y, ungroup(res_old)$y)
+  expect_equal(res_by$ymin, ungroup(res_old)$ymin)
+  expect_equal(res_by$ymax, ungroup(res_old)$ymax)
+})
+
+test_that("group_modify() with .col forwards ... to .f. pr #7840", {
+  res <- mtcars |>
+    group_modify(md_iqr, .col = mpg, .by = gear, spread = c(0.1, 0.9))
+  expect_equal(nrow(res), 3L)
+  # wider spread should produce larger range than default
+  res_default <- mtcars |> group_modify(md_iqr, .col = mpg, .by = gear)
+  expect_true(all(res$ymax >= res_default$ymax))
+})
+
+
 test_that("group_map() respects empty groups", {
   res <- group_by(mtcars, cyl) |>
     group_map(~ head(.x, 2L))
