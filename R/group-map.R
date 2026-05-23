@@ -192,8 +192,23 @@ group_modify.data.frame <- function(
       "group_modify(.keep = )"
     )
   }
+
+  by <- enquo(.by)
+  col <- enquo(.col)
+
+  if (!quo_is_null(by)) {
+    by_cols <- names(tidyselect::eval_select(by, .data))
+    .data <- group_by(.data, across(all_of(by_cols)))
+    return(group_modify.grouped_df(.data, .f, ..., .col = col, .keep = .keep))
+  }
+
   .f <- as_group_map_function(.f)
-  .f(.data, group_keys(.data), ...)
+
+  if (!quo_is_null(col)) {
+    .f(pull(.data, !!col), ...)
+  } else {
+    .f(.data, group_keys(.data), ...)
+  }
 }
 
 #' @export
