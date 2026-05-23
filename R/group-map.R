@@ -163,7 +163,14 @@ group_map.data.frame <- function(
 
 #' @rdname group_map
 #' @export
-group_modify <- function(.data, .f, ..., .keep = FALSE) {
+group_modify <- function(
+  .data,
+  .f,
+  ...,
+  .by = NULL,
+  .col = NULL,
+  .keep = FALSE
+) {
   lifecycle::signal_stage("experimental", "group_map()")
   UseMethod("group_modify")
 }
