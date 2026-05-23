@@ -179,6 +179,8 @@ group_modify <- function(
 group_modify.data.frame <- function(
   .data,
   .f,
+  .col = NULL,
+  .by = NULL,
   ...,
   .keep = FALSE,
   keep = deprecated()
