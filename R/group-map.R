@@ -172,9 +172,9 @@ group_map.data.frame <- function(
 group_modify <- function(
   .data,
   .f,
-  ...,
-  .by = NULL,
   .col = NULL,
+  .by = NULL,
+  ...,
   .keep = FALSE
 ) {
   lifecycle::signal_stage("experimental", "group_map()")
