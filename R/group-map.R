@@ -215,6 +215,8 @@ group_modify.data.frame <- function(
 group_modify.grouped_df <- function(
   .data,
   .f,
+  .col = NULL,
+  .by = NULL,
   ...,
   .keep = FALSE,
   keep = deprecated()
@@ -227,12 +229,29 @@ group_modify.grouped_df <- function(
     )
   }
 
+  if (!quo_is_null(enquo(.by))) {
+    abort(
+      "Can't supply `.by` when `.data` is a grouped data frame. Use `ungroup()` first.",
+      call = current_env()
+    )
+  }
+
+  col <- enquo(.col)
   tbl_group_vars <- group_vars(.data)
-  .f <- as_group_map_function(.f)
+
+  if (!quo_is_null(col)) {
+    .f <- as_group_map_function(.f) # skip wrap, call directly
+  } else {
+    .f <- as_group_map_function(.f)
+  }
 
   error_call <- current_env()
   fun <- function(.x, .y) {
-    res <- .f(.x, .y, ...)
+    res <- if (!quo_is_null(col)) {
+      .f(pull(.x, !!col), ...)
+    } else {
+      .f(.x, .y, ...)
+    }
     if (!inherits(res, "data.frame")) {
       abort("The result of `.f` must be a data frame.", call = error_call)
     }
@@ -245,6 +264,7 @@ group_modify.grouped_df <- function(
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
+
   chunks <- group_map(.data, fun, .keep = .keep)
   res <- if (length(chunks) > 0L) {
     bind_rows(!!!chunks)
@@ -253,6 +273,7 @@ group_modify.grouped_df <- function(
   }
   grouped_df(res, group_vars(.data), group_by_drop_default(.data))
 }
+
 
 #' @export
 #' @rdname group_map
