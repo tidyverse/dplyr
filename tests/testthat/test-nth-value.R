@@ -102,7 +102,7 @@ test_that("can use a data frame as `order_by`", {
   expect_identical(nth(x, 2, order_by = order_by), 1L)
 })
 
-test_that("`na_rm` can be used to drop missings before selecting the value (#6242)", {
+test_that("`na_rm` can be used to drop missing before selecting the value (#6242)", {
   x <- c(NA, 4, 10, NA, 5, NA)
 
   expect_identical(nth(x, 1, na_rm = TRUE), 4)

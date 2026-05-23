@@ -671,7 +671,7 @@ test_that(".keep and .before/.after interact correctly", {
   )
 })
 
-test_that("dropping column with `NULL` then readding it retains original location", {
+test_that("dropping column with `NULL` then reading it retains original location", {
   df <- tibble(x = 1, y = 2, z = 3, a = 4)
   df <- group_by(df, z)
 

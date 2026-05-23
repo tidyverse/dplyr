@@ -32,7 +32,7 @@ test_that("missing values equal each other in partially incomplete data frame ro
   expect_identical(na_if(x, y), expect)
 })
 
-test_that("works when there are missings in either input", {
+test_that("works when there are missing in either input", {
   expect_identical(na_if(c(1, NA, 2), 1), c(NA, NA, 2))
   expect_identical(na_if(c(1, NA, 2), c(1, NA, NA)), c(NA, NA, 2))
 })

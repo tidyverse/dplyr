@@ -526,7 +526,7 @@ test_that("legacy - arrange() works with across() and pick() cols that return mu
   )
 })
 
-test_that("legacy - arrange sorts missings in df-cols correctly", {
+test_that("legacy - arrange sorts missing in df-cols correctly", {
   local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
