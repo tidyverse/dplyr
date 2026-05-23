@@ -54,6 +54,12 @@ as_group_map_function <- function(.f, error_call = caller_env()) {
 #' @param ... Additional arguments passed on to `.f`
 #' @param .keep are the grouping variables kept in `.x`
 #'
+#' @param .col <[`tidy-select`][dplyr_tidy_select]> Optionally, a column to
+#'   pass directly to `.f` as a vector, instead of the full chunk.
+#' @param .by <[`tidy-select`][dplyr_tidy_select]> Optionally, a selection of
+#'   columns to group by for just this operation, functioning as an alternative
+#'   to [group_by()]. For details and examples, see [?dplyr_by][dplyr_by].
+#'
 #' @return
 #'  - `group_modify()` returns a grouped tibble. In that case `.f` must return a data frame.
 #'  - `group_map()` returns a list of results from calling `.f` on each group.
