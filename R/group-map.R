@@ -205,7 +205,14 @@ group_modify.data.frame <- function(
   if (!quo_is_null(by)) {
     by_cols <- names(tidyselect::eval_select(by, .data))
     .data <- group_by(.data, across(all_of(by_cols)))
-    return(group_modify.grouped_df(.data, .f, ..., .col = col, .keep = .keep))
+    return(group_modify.grouped_df(
+      .data,
+      .f,
+      ...,
+      .col = !!col,
+      .keep = .keep,
+      .inline_by = TRUE
+    ))
   }
 
   .f <- as_group_map_function(.f)
@@ -225,6 +232,7 @@ group_modify.grouped_df <- function(
   .by = NULL,
   ...,
   .keep = FALSE,
+  .inline_by = FALSE,
   keep = deprecated()
 ) {
   if (!missing(keep)) {
@@ -273,7 +281,12 @@ group_modify.grouped_df <- function(
   } else {
     attr(chunks, "ptype")
   }
-  grouped_df(res, group_vars(.data), group_by_drop_default(.data))
+
+  if (.inline_by) {
+    ungroup(res)
+  } else {
+    grouped_df(res, group_vars(.data), group_by_drop_default(.data))
+  }
 }
 
 
