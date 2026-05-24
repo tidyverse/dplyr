@@ -251,9 +251,14 @@ group_modify.grouped_df <- function(
   }
 
   col <- enquo(.col)
-  tbl_group_vars <- group_vars(.data)
 
-  .f <- as_group_map_function(.f)
+  if (quo_is_null(col)) {
+    .f <- as_group_map_function(.f)
+  } else {
+    .f <- rlang::as_function(.f)
+  }
+
+  tbl_group_vars <- group_vars(.data)
 
   error_call <- current_env()
   fun <- function(.x, .y) {
