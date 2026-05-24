@@ -10,6 +10,16 @@ as_group_map_function <- function(.f, error_call = caller_env()) {
   .f
 }
 
+as_group_modify_col <- function(.col, .data, .keep = FALSE, error_call = caller_env()) {
+  vars <- names(.data)
+
+  if (is_grouped_df(.data) && !isTRUE(.keep)) {
+    vars <- setdiff(vars, group_vars(.data))
+  }
+
+  tidyselect::vars_pull(vars, !!.col, error_call = error_call)
+}
+
 #' Apply a function to each group
 #'
 #' @description
@@ -203,8 +213,8 @@ group_modify.data.frame <- function(
   col <- enquo(.col)
 
   if (!quo_is_null(by)) {
-    by_cols <- names(tidyselect::eval_select(by, .data))
-    .data <- group_by(.data, across(all_of(by_cols)))
+    by_cols <- eval_select_by(by, .data)
+    .data <- group_by(.data, !!!syms(by_cols))
     return(group_modify.grouped_df(
       .data,
       .f,
@@ -215,11 +225,12 @@ group_modify.data.frame <- function(
     ))
   }
 
-  .f <- as_group_map_function(.f)
-
   if (!quo_is_null(col)) {
-    .f(pull(.data, !!col), ...)
+    .f <- rlang::as_function(.f)
+    col <- as_group_modify_col(col, .data, error_call = current_env())
+    .f(.data[[col]], ...)
   } else {
+    .f <- as_group_map_function(.f)
     .f(.data, group_keys(.data), ...)
   }
 }
@@ -251,33 +262,42 @@ group_modify.grouped_df <- function(
   }
 
   col <- enquo(.col)
+  tbl_group_vars <- group_vars(.data)
+  error_call <- current_env()
 
   if (quo_is_null(col)) {
     .f <- as_group_map_function(.f)
+    fun <- function(.x, .y) {
+      res <- .f(.x, .y, ...)
+      if (!inherits(res, "data.frame")) {
+        abort("The result of `.f` must be a data frame.", call = error_call)
+      }
+      if (any(bad <- names(res) %in% tbl_group_vars)) {
+        msg <- glue(
+          "The returned data frame cannot contain the original grouping variables: {names}.",
+          names = paste(names(res)[bad], collapse = ", ")
+        )
+        abort(msg, call = error_call)
+      }
+      bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
+    }
   } else {
     .f <- rlang::as_function(.f)
-  }
-
-  tbl_group_vars <- group_vars(.data)
-
-  error_call <- current_env()
-  fun <- function(.x, .y) {
-    res <- if (!quo_is_null(col)) {
-      .f(pull(.x, !!col), ...)
-    } else {
-      .f(.x, .y, ...)
+    col <- as_group_modify_col(col, .data, .keep = .keep, error_call = current_env())
+    fun <- function(.x, .y) {
+      res <- .f(.x[[col]], ...)
+      if (!inherits(res, "data.frame")) {
+        abort("The result of `.f` must be a data frame.", call = error_call)
+      }
+      if (any(bad <- names(res) %in% tbl_group_vars)) {
+        msg <- glue(
+          "The returned data frame cannot contain the original grouping variables: {names}.",
+          names = paste(names(res)[bad], collapse = ", ")
+        )
+        abort(msg, call = error_call)
+      }
+      bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
     }
-    if (!inherits(res, "data.frame")) {
-      abort("The result of `.f` must be a data frame.", call = error_call)
-    }
-    if (any(bad <- names(res) %in% tbl_group_vars)) {
-      msg <- glue(
-        "The returned data frame cannot contain the original grouping variables: {names}.",
-        names = paste(names(res)[bad], collapse = ", ")
-      )
-      abort(msg, call = error_call)
-    }
-    bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
 
   chunks <- group_map(.data, fun, .keep = .keep)
