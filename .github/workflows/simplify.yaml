@@ -1,0 +1,104 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Comment `/simplify` on an issue (team members only) to have Claude build,
+# run, and post back a minimal reprex against the dev version of dplyr.
+on:
+  issue_comment:
+    types: [created]
+
+name: simplify.yaml
+
+permissions: read-all
+
+jobs:
+  simplify:
+    # Issues only (NOT PRs), team members only, body starts with /simplify
+    if: ${{ !github.event.issue.pull_request && (github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'OWNER') && startsWith(github.event.comment.body, '/simplify') }}
+    name: simplify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      # Installs reprex plus the dev version of dplyr (local::.) and its deps.
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::reprex, local::.
+          needs: simplify
+
+      - name: React to the command
+        run: |
+          gh issue comment "$ISSUE" --body ":eyes: Working on a minimal reprex..."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          claude_args: |
+            --model claude-sonnet-4-6
+            --max-turns 40
+            --allowedTools "Bash,Read,Write,Edit"
+          prompt: |
+            You are triaging GitHub issue #${{ github.event.issue.number }} in the
+            tidyverse/dplyr repository. Your job is to reduce it to a minimal,
+            reproducible example (a "reprex") and post that reprex back to the issue.
+
+            ## Environment
+
+            - The dev version of dplyr (the current state of this repo) is already
+              installed and loadable with `library(dplyr)`.
+            - The `reprex` package is installed.
+            - You have a Bash tool. Run R with `Rscript -e '...'` or `Rscript file.R`.
+            - The `gh` CLI is authenticated (GH_TOKEN is set).
+            - Confirm versions before you start:
+              `Rscript -e 'cat(R.version.string); print(packageVersion("dplyr"))'`
+
+            ## Steps
+
+            1. Read the full issue, including all comments:
+               `gh issue view ${{ github.event.issue.number }} --comments`
+               Identify the reported problem, the expected vs. actual behavior, any
+               existing reprex, and any package/R versions mentioned.
+
+            2. Build a MINIMAL reprex that reproduces the reported behavior:
+               - Prefer built-in data (`mtcars`, `iris`) or a tiny inline
+                 `tibble`/`data.frame` with the fewest rows and columns needed.
+               - Use the fewest dplyr verbs possible and minimize non-dplyr
+                 dependencies.
+               - If the issue already contains a reprex, REDUCE it rather than
+                 starting from scratch.
+
+            3. Run and iterate. Write the candidate to a file and render it:
+               `Rscript -e 'reprex::reprex(input = "repro.R", venue = "gh")'`
+               Inspect the rendered output, then shrink further while confirming the
+               reported behavior still appears. Stop when it is minimal or you are
+               running low on turns.
+
+            4. Assess your confidence (0-100%) that the final reprex faithfully
+               reproduces the issue as reported, on the dev version of dplyr. Lower it
+               when the issue is vague, when no original reprex existed, or when you
+               could not fully reproduce the behavior. Be honest: say so explicitly if
+               it did NOT reproduce.
+
+            5. Post EXACTLY ONE new comment on the issue with this structure:
+               - A short header noting this is an automated `/simplify` result.
+               - The minimal reprex code in an ```r fenced block.
+               - The rendered reprex output (the `venue = "gh"` markdown).
+               - The dplyr dev version and R version you used.
+               - A line "**Confidence: NN%**" followed by 1-3 bullets of assumptions,
+                 caveats, or what could not be reproduced.
+               - Whether it reproduced on the dev version (yes / no / partially).
+
+            Always post a comment, even when confidence is low. Keep it self-contained
+            and clearly labeled as automated.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
