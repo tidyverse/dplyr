@@ -93,12 +93,11 @@ creating multiple summaries.
 
 \section{Methods}{
 
-This function is a \strong{generic}, which means that packages can provide
+This is an S3 generic, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
 The following methods are currently available in loaded packages:
-\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("summarise")}.
+\Sexpr[stage=render,results=rd]{doclisting::methods_list("summarise")}
 }
 
 \examples{
@@ -129,13 +128,13 @@ summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 # Learn more in ?rlang::args_data_masking
 }
 \seealso{
-Other single table verbs: 
-\code{\link{arrange}()},
-\code{\link{filter}()},
-\code{\link{mutate}()},
-\code{\link{reframe}()},
-\code{\link{rename}()},
-\code{\link{select}()},
-\code{\link{slice}()}
+Other single table verbs:
+\code{\link[=arrange]{arrange()}},
+\code{\link[=filter]{filter()}},
+\code{\link[=mutate]{mutate()}},
+\code{\link[=reframe]{reframe()}},
+\code{\link[=rename]{rename()}},
+\code{\link[=select]{select()}},
+\code{\link[=slice]{slice()}}
 }
 \concept{single table verbs}

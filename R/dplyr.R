@@ -14,6 +14,10 @@
 #' @importFrom R6 R6Class
 "_PACKAGE"
 
+ignore_unused_imports <- function() {
+  doclisting::methods_list
+}
+
 # We're importing vctrs without `data_frame()` because we currently
 # reexport the deprecated `tibble::data_frame()` function
 
