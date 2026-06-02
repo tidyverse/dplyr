@@ -1,6 +1,5 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Comment `/simplify` on an issue (team members only) to have Claude build,
-# run, and post back a minimal reprex against the dev version of dplyr.
+# run, and post back a minimal reprex against the dev version of the package.
 on:
   issue_comment:
     types: [created]
@@ -35,7 +34,7 @@ jobs:
         with:
           use-public-rspm: true
 
-      # Installs reprex plus the dev version of dplyr (local::.) and its deps.
+      # Installs reprex plus the dev version of the package (local::.) and its deps.
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::reprex, local::.
@@ -51,18 +50,20 @@ jobs:
             --allowedTools "Bash,Read,Write,Edit"
           prompt: |
             You are triaging GitHub issue #${{ github.event.issue.number }} in the
-            tidyverse/dplyr repository. Your job is to reduce it to a minimal,
+            ${{ github.repository }} repository. Your job is to reduce it to a minimal,
             reproducible example (a "reprex") and post that reprex back to the issue.
 
             ## Environment
 
-            - The dev version of dplyr (the current state of this repo) is already
-              installed and loadable with `library(dplyr)`.
+            - This repo is an R package. Read its name from the `Package:` field of
+              `DESCRIPTION`. This is the package referenced in the steps below.
+            - The dev version of the package (the current state of this repo) is already
+              installed and loadable with `library({package})`.
             - The `reprex` package is installed.
             - You have a Bash tool. Run R with `Rscript -e '...'` or `Rscript file.R`.
             - The `gh` CLI is authenticated (GH_TOKEN is set).
             - Confirm versions before you start:
-              `Rscript -e 'cat(R.version.string); print(packageVersion("dplyr"))'`
+              `Rscript -e 'cat(R.version.string); print(packageVersion("{package}"))'`
 
             ## Steps
 
@@ -73,9 +74,9 @@ jobs:
 
             2. Build a MINIMAL reprex that reproduces the reported behavior:
                - Prefer built-in data (`mtcars`, `iris`) or a tiny inline
-                 `tibble`/`data.frame` with the fewest rows and columns needed.
-               - Use the fewest dplyr verbs possible and minimize non-dplyr
-                 dependencies.
+                 `data.frame`/`tibble` with the fewest rows and columns needed.
+               - Use the fewest function calls possible and minimize dependencies
+                 beyond the main package.
                - If the issue already contains a reprex, REDUCE it rather than
                  starting from scratch.
 
@@ -86,16 +87,16 @@ jobs:
                running low on turns.
 
             4. Assess your confidence (0-100%) that the final reprex faithfully
-               reproduces the issue as reported, on the dev version of dplyr. Lower it
-               when the issue is vague, when no original reprex existed, or when you
-               could not fully reproduce the behavior. Be honest: say so explicitly if
-               it did NOT reproduce.
+               reproduces the issue as reported, on the dev version of the package.
+               Lower it when the issue is vague, when no original reprex existed, or
+               when you could not fully reproduce the behavior. Be honest: say so
+               explicitly if it did NOT reproduce.
 
             5. Post EXACTLY ONE new comment on the issue with this structure:
                - A short header noting this is an automated `/simplify` result.
                - The minimal reprex code in an ```r fenced block.
                - The rendered reprex output (the `venue = "gh"` markdown).
-               - The dplyr dev version and R version you used.
+               - The package dev version and R version you used.
                - A line "**Confidence: NN%**" followed by 1-3 bullets of assumptions,
                  caveats, or what could not be reproduced.
                - Whether it reproduced on the dev version (yes / no / partially).
