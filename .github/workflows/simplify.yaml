@@ -86,10 +86,11 @@ jobs:
                reported behavior still appears. Stop when it is minimal or you are
                running low on turns.
 
-            4. Assess your confidence (0-100%) that the final reprex faithfully
-               reproduces the issue as reported, on the dev version of the package.
-               Lower it when the issue is vague, when no original reprex existed, or
-               when you could not fully reproduce the behavior. Be honest: say so
+            4. Rate your confidence (low / medium / high) that the final reprex
+               faithfully reproduces the issue as reported, on the dev version of the
+               package. Use "low" when the issue is vague, when no original reprex
+               existed, or when you could not fully reproduce the behavior; "high" when
+               you clearly reproduced the reported behavior. Be honest: say so
                explicitly if it did NOT reproduce.
 
             5. Post EXACTLY ONE new comment on the issue with this structure:
@@ -97,8 +98,8 @@ jobs:
                - The minimal reprex code in an ```r fenced block.
                - The rendered reprex output (the `venue = "gh"` markdown).
                - The package dev version and R version you used.
-               - A line "**Confidence: NN%**" followed by 1-3 bullets of assumptions,
-                 caveats, or what could not be reproduced.
+               - A line "**Confidence: low/medium/high**" followed by 1-3 bullets of
+                 assumptions, caveats, or what could not be reproduced.
                - Whether it reproduced on the dev version (yes / no / partially).
 
             Always post a comment, even when confidence is low. Keep it self-contained
