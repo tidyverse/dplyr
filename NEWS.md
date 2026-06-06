@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `between()` documentation now more precisely describes how local vectors are
+  cast to a common type and compared with vctrs (#7702, @LeonidasZhak).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).

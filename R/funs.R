@@ -1,11 +1,13 @@
 #' Detect where values fall in a specified range
 #'
-#' This is a shortcut for `x >= left & x <= right`, implemented for local
-#' vectors and translated to the appropriate SQL for remote tables.
+#' For local vectors, this is similar to `x >= left & x <= right`.
+#' For remote tables, it is translated to the appropriate SQL.
 #'
 #' @details
 #' `x`, `left`, and `right` are all cast to their common type before the
-#' comparison is made. Use the `ptype` argument to specify the type manually.
+#' comparison is made with [vctrs::vec_compare()]. This means that character
+#' strings are not parsed as dates or date-times. Use the `ptype` argument to
+#' specify the type manually.
 #'
 #' @inheritParams rlang::args_dots_empty
 #'
