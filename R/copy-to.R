@@ -49,7 +49,7 @@ copy_to <- function(
 auto_copy <- function(x, y, copy = FALSE, ...) {
   if (!is.logical(copy)) {
     stop("copy must be a logical")
-    }
+  }
   if (same_src(x, y)) {
     return(y)
   }
