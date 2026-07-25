@@ -1,7 +1,6 @@
-markdown
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dplyr <a href="https://dplyr.tidyverse.org"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# dplyr <a href="https://dplyr.tidyverse.org"><img src="man/figures/logo.png" align="right" height="138" alt="dplyr package hexagon logo" /></a>
 
 <!-- badges: start -->
 
@@ -10,37 +9,51 @@ status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/
 [![R-CMD-check](https://github.com/tidyverse/dplyr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidyverse/dplyr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/dplyr/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/dplyr)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
-## Project Status
+## Contents
 
-The badges above provide quick insight into dplyr's current status:
-- **CRAN status**: Shows the version available on CRAN and whether it passes checks
-- **R-CMD-check**: Indicates that the package passes R's comprehensive package checks
-- **Codecov test coverage**: Shows the percentage of code covered by tests
-
-All badges should show passing/healthy status. If you see any failures, please [open an issue](https://github.com/tidyverse/dplyr/issues/new/choose).
+- [Overview](#overview)
+- [Learning more](#learning-more)
+- [Backends](#backends)
+- [Installation](#installation)
+- [Cheat Sheet](#cheat-sheet)
+- [Usage](#usage)
+- [Getting help](#getting-help)
+- [FAQ](#faq-dplyrs-filterlag-conflict-with-base-r)
+- [Citing dplyr](#citing-dplyr)
 
 ## Overview
 
 dplyr is a grammar of data manipulation, providing a consistent set of
 verbs that help you solve the most common data manipulation challenges:
 
-- `mutate()` adds new variables that are functions of existing variables
+- `mutate()` adds new variables that are functions of existing variables.
 - `select()` picks variables based on their names.
 - `filter()` picks cases based on their values.
 - `summarise()` reduces multiple values down to a single summary.
 - `arrange()` changes the ordering of the rows.
 
 These all combine naturally with `group_by()` which allows you to
-perform any operation "by group". You can learn more about them in
+perform any operation “by group”. You can learn more about them in
 `vignette("dplyr")`. As well as these single-table verbs, dplyr also
 provides a variety of two-table verbs, which you can learn about in
-`vignette("two-table")`.
+`vignette("two-table")`. See `?dplyr::join` for a full list of joining
+verbs, including `inner_join()`, `left_join()`, and `anti_join()`.
 
 If you are new to dplyr, the best place to start is the [data
 transformation chapter](https://r4ds.hadley.nz/data-transform) in R for
 Data Science.
+
+## Learning more
+
+- [Data transformation chapter](https://r4ds.hadley.nz/data-transform) in *R for Data Science* — the best starting point for beginners.
+- `vignette("dplyr")` — an introduction to the grammar, run from R.
+- `vignette("two-table")` — joins and other multi-table verbs.
+- [Cheat Sheet](#cheat-sheet) — a one-page visual reference (see below).
+- [Function reference](https://dplyr.tidyverse.org/reference/index.html) — a full list of all exported functions.
 
 ## Backends
 
@@ -57,16 +70,24 @@ alternative backends:
   relational database. Translates your dplyr code to SQL.
 
 - [dtplyr](https://dtplyr.tidyverse.org/) for large, in-memory datasets.
-  Translates your dplyr code to high performance
+  Translates your dplyr code to high-performance
   [data.table](https://rdatatable.gitlab.io/data.table/) code.
 
 - [duckplyr](https://duckplyr.tidyverse.org/) for large, in-memory
-  datasets. Translates your dplyr code to high performance
+  datasets. Translates your dplyr code to high-performance
   [duckdb](https://duckdb.org) queries with zero extra copies and an
-  automatic R fallback when translation isn't possible.
+  automatic R fallback when translation isn’t possible.
 
 - [sparklyr](https://spark.posit.co/) for very large datasets stored in
   [Apache Spark](https://spark.apache.org).
+
+| Package | Best for |
+|---|---|
+| [arrow](https://arrow.apache.org/docs/r/) | Larger-than-memory / cloud-stored data |
+| [dbplyr](https://dbplyr.tidyverse.org/) | Data in a relational database (translates to SQL) |
+| [dtplyr](https://dtplyr.tidyverse.org/) | Large in-memory data (translates to data.table) |
+| [duckplyr](https://duckplyr.tidyverse.org/) | Large in-memory data via DuckDB, zero-copy |
+| [sparklyr](https://spark.posit.co/) | Very large data on Apache Spark |
 
 ## Installation
 
@@ -76,24 +97,30 @@ install.packages("tidyverse")
 
 # Alternatively, install just dplyr:
 install.packages("dplyr")
-Development version
+```
+
+### Development version
+
 To get a bug fix or to use a feature from the development version, you
 can install the development version of dplyr from GitHub.
 
-r
+``` r
 # install.packages("pak")
 pak::pak("tidyverse/dplyr")
+```
 
-# Alternative using remotes:
-# install.packages("remotes")
-# remotes::install_github("tidyverse/dplyr")
-Cheat Sheet
-<a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"/></a>
+## Cheat Sheet
 
-Usage
-r
+<a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252" alt="dplyr data transformation cheat sheet thumbnail"/></a>
+
+## Usage
+
+*(Note: output below is truncated by tibble's default print method — `#> # ℹ N more rows` means there are more rows than what's shown, not that the operation failed.)*
+
+``` r
 library(dplyr)
 
+# starwars is a sample dataset that ships with dplyr — no separate install needed
 starwars |>
   filter(species == "Droid")
 #> # A tibble: 6 × 14
@@ -119,6 +146,9 @@ starwars |>
 #> 4 Darth Vader    none       white       yellow   
 #> 5 Leia Organa    brown      light       brown    
 #> # ℹ 82 more rows
+
+starwars |>
+  rename(homeworld_planet = homeworld)
 
 starwars |>
   mutate(name, bmi = mass / ((height / 100)^2)) |>
@@ -147,6 +177,8 @@ starwars |>
 #> # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
+# group_by() + summarise() collapses each group to one row;
+# the filter() below then filters those summarised rows, not the original data
 starwars |>
   group_by(species) |>
   summarise(
@@ -166,199 +198,38 @@ starwars |>
 #> 4 Kaminoan     2  88  
 #> 5 Mirialan     2  53.1
 #> # ℹ 4 more rows
+```
 
-# Conditional transformations with case_when()
-starwars |>
-  mutate(
-    size_category = case_when(
-      height < 100 ~ "Small",
-      height < 170 ~ "Medium",
-      height >= 170 ~ "Tall",
-      TRUE ~ "Unknown"
-    )
-  ) |>
-  select(name, height, size_category) |>
-  head()
+## Getting help
 
-# Relocate columns to specific positions
-starwars |>
-  relocate(name, species, .before = height) |>
-  select(name:mass) |>
-  head()
+- Browse the full [function reference](https://dplyr.tidyverse.org/reference/index.html) for a list of all exported functions.
+- If you encounter a clear bug, please file an issue with a minimal reproducible example on
+  [GitHub](https://github.com/tidyverse/dplyr/issues).
+- For questions and other discussion, please use
+  [forum.posit.co](https://forum.posit.co).
 
-# Case-insensitive filtering example
-starwars |>
-  filter(tolower(name) == "c-3po")
+Please note that this project is released with a
+[Contributor Code of Conduct](https://dplyr.tidyverse.org/CODE_OF_CONDUCT.html).
+By participating in this project you agree to abide by its terms.
 
-# Get distinct combinations of multiple columns
-mtcars |>
-  distinct(cyl, am) |>
-  arrange(cyl, am)
+## FAQ: dplyr's filter()/lag() conflict with base R
 
-# Get distinct rows based on certain columns
-mtcars |>
-  distinct(cyl, am, .keep_all = TRUE) |>
-  head()
+When you load dplyr, you may see:
 
-# Multiple summary functions with grouped data
-mtcars |>
-  group_by(cyl) |>
-  summarise(
-    count = n(),
-    avg_mpg = mean(mpg),
-    sd_mpg = sd(mpg),
-    max_hp = max(hp),
-    .groups = "drop"
-  )
+```
+The following objects are masked from 'package:stats':
 
-# Group by multiple variables
-mtcars |>
-  group_by(cyl, am) |>
-  summarise(
-    avg_mpg = mean(mpg),
-    n = n(),
-    .groups = "drop"
-  )
+    filter, lag
+```
 
-# Handling errors in transformations with ifelse()
-df <- data.frame(x = c(1, 2, -1, 4))
-df |>
-  mutate(
-    log_x = ifelse(x > 0, log(x), NA)
-  )
+This is expected — dplyr's `filter()` and `lag()` intentionally override the
+base `stats` versions. To call the base version explicitly, use
+`stats::filter()` or `stats::lag()`.
 
-# Apply mean to all numeric columns
-mtcars |>
-  summarise(across(where(is.numeric), mean))
+## Citing dplyr
 
-# Apply multiple functions
-mtcars |>
-  summarise(across(mpg:wt, list(mean = mean, sd = sd)))
+If you use dplyr in a publication, please cite it with:
 
-# Rename with validation using dplyr::rename_with()
-mtcars |>
-  rename_with(toupper, starts_with("m")) |>
-  head()
-
-# Using rename() with existing column validation
-mtcars |>
-  rename(
-    miles_per_gallon = mpg,
-    cylinders = cyl
-  ) |>
-  head()
-Common Questions
-How do I select columns by name pattern?
-Use starts_with(), ends_with(), or contains():
-
-r
-df %>% select(starts_with("col"))
-How do I apply a function to all numeric columns?
-Use across() with where(is.numeric):
-
-r
-df %>% summarise(across(where(is.numeric), mean))
-How do I handle missing values in summarise?
-Use na.rm = TRUE:
-
-r
-df %>% summarise(across(where(is.numeric), mean, na.rm = TRUE))
-How do I create conditional variables?
-Use case_when() for multiple conditions:
-
-r
-df %>%
-  mutate(
-    category = case_when(
-      value < 0 ~ "Negative",
-      value == 0 ~ "Zero",
-      value > 0 ~ "Positive"
-    )
-  )
-How do I filter case-insensitively?
-Use tolower() or toupper():
-
-r
-df %>% filter(tolower(name) == "john")
-How do I handle errors in transformations?
-Use ifelse() or tryCatch():
-
-r
-df %>% mutate(log_x = ifelse(x > 0, log(x), NA))
-Contributing
-We welcome contributions to dplyr! Whether you're:
-
-Reporting bugs
-
-Suggesting features
-
-Improving documentation
-
-Submitting code changes
-
-Adding examples
-
-Please read our contributing guidelines and code of conduct.
-
-Beginner-friendly contributions
-Here are some areas where new contributors can make meaningful contributions:
-
-Documentation improvements: Add examples, clarify explanations, fix typos
-
-README enhancements: Add usage examples, improve organization
-
-Vignette updates: Add common questions, clarify concepts
-
-Code comments: Add explanatory comments in complex functions
-
-Small bug fixes: Address edge cases in data manipulation functions
-
-Contribution checklist
-□ Read the contributing guidelines
-□ Check existing issues and PRs
-□ Write clear commit messages
-□ Add tests for new features
-□ Update documentation
-□ Follow tidyverse style guide
-Getting help
-If you encounter a clear bug, please file an issue with a minimal
-reproducible example on
-GitHub. For questions and
-other discussion, please use forum.posit.co.
-
-For learning resources:
-
-Data transformation with dplyr
-
-dplyr vignettes
-
-Cheat sheet
-
-Code of conduct
-Please note that this project is released with a Contributor Code of
-Conduct. By participating
-in this project you agree to abide by its terms.
-
-Resources
-Website: dplyr.tidyverse.org
-
-GitHub: github.com/tidyverse/dplyr
-
-Issues: github.com/tidyverse/dplyr/issues
-
-Discussions: github.com/tidyverse/dplyr/discussions
-
-License
-dplyr is licensed under the MIT License. See the LICENSE file for details.
-
-Citation
-If you use dplyr in your work, please cite it:
-
-bibtex
-@Manual{,
-  title = {dplyr: A Grammar of Data Manipulation},
-  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
-  year = {2023},
-  note = {R package version 1.1.0},
-  url = {https://CRAN.R-project.org/package=dplyr},
-}
+``` r
+citation("dplyr")
+```
