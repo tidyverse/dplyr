@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* Documentation for `filter()` now clarifies that multiple conditions in `...`
+  are evaluated simultaneously against `.data` rather than sequentially, which
+  affects expressions involving summary functions (@ioseba, #6968).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).
