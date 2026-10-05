@@ -578,3 +578,14 @@ test_that("non-summary results are defunct in favor of `reframe()` (#6382, #7761
     gf |> summarise(x = seq_len(a), y = 1)
   })
 })
+
+test_that("size errors name the right expression when `across()` expands (#7657)", {
+  df <- tibble(x = 1:3, y = 4:6)
+
+  expect_snapshot(error = TRUE, {
+    summarise(df, across(everything(), mean), z = 1:2)
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(df, across(everything(), mean), data.frame(a = 1:2, b = 1:2))
+  })
+})

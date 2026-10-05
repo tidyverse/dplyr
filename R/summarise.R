@@ -223,6 +223,7 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
   types <- list()
   results <- list()
   out_names <- character()
+  chunk_dots <- integer()
 
   local_error_context(dots, 0L, mask = mask)
 
@@ -269,6 +270,7 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
             types <- append(types, as.list(types_k))
             results <- append(results, results_k)
             out_names <- c(out_names, types_k_names)
+            chunk_dots <- c(chunk_dots, rep(i, length(chunks_extracted)))
           } else {
             name <- dplyr_quosure_name(quo_data)
             mask$add_one(name = name, chunks = chunks_k, result = results_k)
@@ -276,6 +278,7 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
             types <- append(types, list(types_k))
             results <- append(results, list(results_k))
             out_names <- c(out_names, name)
+            chunk_dots <- c(chunk_dots, i)
           }
         }
       }
@@ -306,10 +309,10 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
     error = function(cnd) {
       if (inherits(cnd, "dplyr:::reframe_incompatible_size")) {
         action <- "recycle"
-        i <- cnd$dplyr_error_data$index_expression
+        i <- chunk_dots[[cnd$dplyr_error_data$index_expression]]
       } else if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
         action <- "compute"
-        i <- cnd$dplyr_error_data$index_expression
+        i <- chunk_dots[[cnd$dplyr_error_data$index_expression]]
       } else {
         action <- "compute"
         i <- i
