@@ -96,6 +96,17 @@ test_that("`reframe()` throws intelligent recycling errors", {
   })
 })
 
+test_that("`reframe()` recycling errors name the right expression when `across()` expands (#7657)", {
+  df <- tibble(x = 1:3, y = 4:6)
+
+  expect_snapshot(error = TRUE, {
+    reframe(df, across(everything(), \(x) rep(letters[x], each = x)))
+  })
+  expect_snapshot(error = TRUE, {
+    reframe(df, across(everything(), identity), z = 1:2)
+  })
+})
+
 test_that("`reframe()` and `summarise()` are consistent with zero expressions", {
   df <- tibble(x = c("a", "a", "b"), y = 1:3)
   gdf <- group_by(df, x)
