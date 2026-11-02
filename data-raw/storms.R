@@ -54,14 +54,14 @@ column_names <- names(column_types)
 storm_dataframes <- vector("list", nrow(headers_df))
 for (i in 1:nrow(headers_df)) {
   # get this storm's metadata
-  row_start = headers_df[i, ]$skip + 1
-  row_end = headers_df[i, ]$n_obs + row_start - 1
+  row_start <- headers_df[i, ]$skip + 1
+  row_end <- headers_df[i, ]$n_obs + row_start - 1
   # subset of rows belonging to this storm
-  data_subset = storm_strings[row_start:row_end] |>
+  data_subset <- storm_strings[row_start:row_end] |>
     paste(collapse = "\n") |>
     paste0("\n")
   # read it as a csv
-  data_subset = read_csv(
+  data_subset <- read_csv(
     data_subset,
     col_names = column_names,
     col_types = column_types,
@@ -69,12 +69,12 @@ for (i in 1:nrow(headers_df)) {
   )
   problems()
   # name and id at the front
-  data_subset$name = headers_df[i, ]$name
-  data_subset = data_subset |> relocate(name)
-  data_subset$id = headers_df[i, ]$id
-  data_subset = data_subset |> relocate(id)
+  data_subset$name <- headers_df[i, ]$name
+  data_subset <- data_subset |> relocate(name)
+  data_subset$id <- headers_df[i, ]$id
+  data_subset <- data_subset |> relocate(id)
   # add to list of storms
-  storm_dataframes[[i]] = data_subset
+  storm_dataframes[[i]] <- data_subset
 }
 
 # Combine and clean the data sets

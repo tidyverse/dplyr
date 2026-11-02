@@ -110,7 +110,7 @@ starwars |> count(sex, gender, sort = TRUE)
 # Fix a typo --------------------------------------------------------------
 
 # see https://github.com/tidyverse/dplyr/pull/6840
-starwars = starwars |>
+starwars <- starwars |>
   mutate(
     name = ifelse(name == "Beru Whitesun lars", "Beru Whitesun Lars", name)
   )
