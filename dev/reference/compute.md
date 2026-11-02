@@ -39,11 +39,11 @@ individual methods for extra arguments and differences in behaviour.
 Methods available in currently loaded packages:
 
 - `compute()`: dbplyr
-  ([`tbl_sql`](https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html)),
+  ([`tbl_sql`](https://dbplyr.tidyverse.org/reference/compute.tbl_sql.html)),
   dplyr (`data.frame`)
 
 - `collect()`: dbplyr
-  ([`tbl_sql`](https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html)),
+  ([`tbl_sql`](https://dbplyr.tidyverse.org/reference/collect.tbl_sql.html)),
   dplyr (`data.frame`)
 
 - `collapse()`: dbplyr
@@ -61,6 +61,8 @@ the remote source.
 ``` r
 mtcars2 <- dbplyr::src_memdb() |>
   copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
+#> Warning: `src_memdb()` was deprecated in dbplyr 2.6.0.
+#> ℹ Please use `memdb()` instead.
 
 remote <- mtcars2 |>
   filter(cyl == 8) |>
@@ -68,8 +70,8 @@ remote <- mtcars2 |>
 
 # Compute query and save in remote table
 compute(remote)
-#> # Source:   table<`dbplyr_me1YyZvyFT`> [?? x 5]
-#> # Database: sqlite 3.53.1 [:memory:]
+#> # A query:  ?? x 5
+#> # Database: sqlite 3.53.3 [:memory:]
 #>      mpg   cyl  disp    hp  drat
 #>    <dbl> <dbl> <dbl> <dbl> <dbl>
 #>  1  18.7     8  360    175  3.15
@@ -109,8 +111,8 @@ collect(remote)
 
 # Creates a fresh query based on the generated SQL
 collapse(remote)
-#> # Source:   SQL [?? x 5]
-#> # Database: sqlite 3.53.1 [:memory:]
+#> # A query:  ?? x 5
+#> # Database: sqlite 3.53.3 [:memory:]
 #>      mpg   cyl  disp    hp  drat
 #>    <dbl> <dbl> <dbl> <dbl> <dbl>
 #>  1  18.7     8  360    175  3.15

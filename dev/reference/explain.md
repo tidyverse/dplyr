@@ -84,7 +84,7 @@ batting |> explain()
 # SQLite automatically picks the most restrictive index
 batting |> filter(lgID == "NL" & yearID == 2000L) |> explain()
 #> <SQL>
-#> SELECT `Batting`.*
+#> SELECT *
 #> FROM `Batting`
 #> WHERE (`lgID` = 'NL' AND `yearID` = 2000)
 #> 
@@ -97,7 +97,7 @@ batting |> filter(lgID == "NL" & yearID == 2000L) |> explain()
 # OR's will use multiple indexes
 batting |> filter(lgID == "NL" | yearID == 2000) |> explain()
 #> <SQL>
-#> SELECT `Batting`.*
+#> SELECT *
 #> FROM `Batting`
 #> WHERE (`lgID` = 'NL' OR `yearID` = 2000.0)
 #> 
