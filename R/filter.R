@@ -115,6 +115,7 @@
 #' * [is.na()]
 #' * [between()], [near()]
 #' * [when_any()], [when_all()]
+#' * [if_any()], [if_all()]
 #'
 #' @section Grouped tibbles:
 #'
@@ -164,6 +165,15 @@
 #'
 #' # To combine comma separated expressions using `|` instead, use `when_any()`
 #' starwars |> filter(when_any(hair_color == "none", eye_color == "black"))
+#'
+#' # To apply the same condition to multiple columns, use `if_all()` or `if_any()`
+#' starwars |>
+#'   # keep rows if any of the numeric columns are divisible by 3
+#'   filter(if_any(where(is.numeric), \(x) x %% 3 == 0))
+#'
+#' starwars |>
+#'   # keep rows if all of the numeric columns are divisible by 3
+#'   filter(if_all(where(is.numeric), \(x) x %% 3 == 0))
 #'
 #' # Filtering out to drop rows
 #' filter_out(starwars, hair_color == "none")
