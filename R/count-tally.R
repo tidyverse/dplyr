@@ -14,8 +14,11 @@
 #'
 #' @param x A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
-#' @param ... <[`data-masking`][rlang::args_data_masking]> Variables to group
-#'   by.
+#' @param ... For `count()`/`add_count()`:
+#'   <[`data-masking`][rlang::args_data_masking]> Variables to group by.
+#'
+#'   For `tally()`/`add_tally()`: These dots are for future extensions and must
+#'   be empty.
 #' @param wt <[`data-masking`][rlang::args_data_masking]> Frequency weights.
 #'   Can be `NULL` or a variable:
 #'
@@ -103,7 +106,7 @@ count.data.frame <- function(
   }
 
   wt <- compat_wt(enquo(wt))
-  out <- tally(out, wt = !!wt, sort = sort, name = name)
+  out <- tally_dispatch(out, wt = !!wt, sort = sort, name = name)
 
   # Ensure grouping is transient
   out <- dplyr_reconstruct(out, x)
@@ -113,15 +116,34 @@ count.data.frame <- function(
 
 #' @export
 #' @rdname count
-tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
+  dplyr_local_error_call()
+
+  result <- check_tally_dots(
+    ...,
+    wt = enquo(wt),
+    sort = sort,
+    name = name,
+    fn = "tally"
+  )
+  tally_dispatch(
+    x,
+    wt = !!result$wt,
+    sort = result$sort,
+    name = result$name
+  )
+}
+
+tally_dispatch <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   UseMethod("tally")
 }
 
 #' @export
 tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  name <- check_n_name(name, group_vars(x))
+  error_call <- dplyr_error_call()
+  name <- check_n_name(name, group_vars(x), call = error_call)
 
-  dplyr_local_error_call()
+  dplyr_local_error_call(error_call)
 
   wt <- compat_wt(enquo(wt))
   n <- tally_n(x, wt)
@@ -211,15 +233,34 @@ add_count_impl <- function(
   }
 
   wt <- compat_wt(enquo(wt), env = error_call, user_env = user_env)
-  add_tally(out, wt = !!wt, sort = sort, name = name)
+  add_tally_impl(out, wt = !!wt, sort = sort, name = name)
 }
 
 #' @rdname count
 #' @export
-add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  name <- check_n_name(name, tbl_vars(x))
-
+add_tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   dplyr_local_error_call()
+
+  result <- check_tally_dots(
+    ...,
+    wt = enquo(wt),
+    sort = sort,
+    name = name,
+    fn = "add_tally"
+  )
+  add_tally_impl(
+    x,
+    wt = !!result$wt,
+    sort = result$sort,
+    name = result$name
+  )
+}
+
+add_tally_impl <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+  error_call <- dplyr_error_call()
+  name <- check_n_name(name, tbl_vars(x), call = error_call)
+
+  dplyr_local_error_call(error_call)
 
   wt <- compat_wt(enquo(wt))
   n <- tally_n(x, wt)
@@ -233,6 +274,77 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 }
 
 # Helpers -----------------------------------------------------------------
+
+check_tally_dots <- function(
+  ...,
+  wt,
+  sort,
+  name,
+  fn,
+  error_call = caller_env()
+) {
+  if (...length() == 0L) {
+    return(list(wt = wt, sort = sort, name = name))
+  }
+
+  collected <- collect_tally_args(
+    ...,
+    .fn = fn,
+    .error_call = error_call
+  )
+
+  if ("wt" %in% names(collected)) {
+    wt <- collected$wt
+  }
+  if ("sort" %in% names(collected)) {
+    sort <- collected$sort
+  }
+  if ("name" %in% names(collected)) {
+    name <- collected$name
+  }
+
+  list(wt = wt, sort = sort, name = name)
+}
+
+collect_tally_args <- function(
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  ...,
+  .fn,
+  .error_call = caller_env()
+) {
+  if (...length() > 0L) {
+    cli::cli_abort(
+      "Extra arguments passed to `{(.fn)}()` via `...`.",
+      call = .error_call
+    )
+  }
+
+  mc <- match.call()
+  result <- list()
+
+  for (arg in c("wt", "sort", "name")) {
+    if (arg %in% names(mc)) {
+      lifecycle::deprecate_warn(
+        when = "1.3.0",
+        what = I(
+          glue("Passing `{arg}` as an unnamed argument to `{(.fn)}()`")
+        ),
+        with = I(glue("`{(.fn)}({arg} = )`")),
+        env = .error_call,
+        user_env = caller_env(2)
+      )
+      if (arg == "wt") {
+        result$wt <- enquo(wt)
+      } else {
+        result[[arg]] <- get(arg)
+      }
+    }
+  }
+
+  result
+}
 
 tally_n <- function(x, wt) {
   if (quo_is_null(wt)) {
