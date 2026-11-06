@@ -47,6 +47,13 @@ Multiple conditions can be supplied separated by a comma. These will be
 combined with the \code{&} operator. To combine comma separated conditions using
 \code{|} instead, wrap them in \code{\link[=when_any]{when_any()}}.
 
+Note that multiple conditions in \code{...} are all evaluated simultaneously
+against the original \code{.data}. When expressions compute aggregations (such as
+\code{max()} or \code{mean()}), \code{filter(.data, A, B)} is not equivalent to sequential
+filtering like \code{filter(filter(.data, A), B)}, because in the sequential case
+\code{B} is evaluated on the already-filtered subset where summary values may
+differ.
+
 Both \code{filter()} and \code{filter_out()} treat \code{NA} like \code{FALSE}. This subtle
 behavior can impact how you write your conditions when missing values are
 involved. See the section on \verb{Missing values} for important details and
@@ -213,6 +220,14 @@ starwars |> filter(hair_color == "none", eye_color == "black")
 
 # To combine comma separated expressions using `|` instead, use `when_any()`
 starwars |> filter(when_any(hair_color == "none", eye_color == "black"))
+
+# Note that multiple conditions are evaluated simultaneously against the
+# original data. If conditions involve summary statistics, `filter(df, A, B)`
+# evaluates summaries on the full table, unlike sequential `filter()` calls:
+starwars |> filter(mass < max(mass, na.rm = TRUE), height < max(height, na.rm = TRUE))
+starwars |>
+  filter(mass < max(mass, na.rm = TRUE)) |>
+  filter(height < max(height, na.rm = TRUE))
 
 # Filtering out to drop rows
 filter_out(starwars, hair_color == "none")
