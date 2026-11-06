@@ -278,6 +278,19 @@ check_n_name <- function(
     }
   } else {
     check_string(name, arg = arg, call = call)
+
+    # Validate that the output name doesn't conflict with existing columns
+    # Fixes #7773 - prevent silent overwriting of columns
+    if (name %in% vars) {
+      cli::cli_abort(
+        c(
+          "The output name {.val {name}} already exists in the data.",
+          i = "Please choose a different name using the {.arg name} argument.",
+          i = "Existing columns: {.val {vars}}"
+        ),
+        call = call
+      )
+    }
   }
 
   name
