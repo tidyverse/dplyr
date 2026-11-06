@@ -33,6 +33,28 @@
       ! `y` must be size 2 or 1, not 3.
       i An earlier column had size 2.
 
+# `reframe()` recycling errors name the right expression when `across()` expands (#7657)
+
+    Code
+      reframe(df, across(everything(), function(x) rep(letters[x], each = x)))
+    Condition
+      Error in `reframe()`:
+      ! Can't recycle `across(everything(), function(x) rep(letters[x], each = x))`.
+      Caused by error:
+      ! `across(everything(), function(x) rep(letters[x], each = x))` must be size 3 or 1, not 12.
+      i An earlier column had size 3.
+
+---
+
+    Code
+      reframe(df, across(everything(), identity), z = 1:2)
+    Condition
+      Error in `reframe()`:
+      ! Can't recycle `z = 1:2`.
+      Caused by error:
+      ! `z` must be size 3 or 1, not 2.
+      i An earlier column had size 3.
+
 # `reframe()` doesn't message about regrouping when multiple group columns are supplied
 
     Code

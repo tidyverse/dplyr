@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `summarise()` and `reframe()` no longer fail with an internal "subscript out of bounds" error when a size error occurs after an expression that was expanded by `across()` or by a data frame result. The error now names the correct expression (#7657, @taekop).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).

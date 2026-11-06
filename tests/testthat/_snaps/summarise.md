@@ -361,3 +361,25 @@
       ! `x` must be size 1, not 2.
       i To return more or less than 1 row per group, use `reframe()`.
 
+# size errors name the right expression when `across()` expands (#7657)
+
+    Code
+      summarise(df, across(everything(), mean), z = 1:2)
+    Condition
+      Error in `summarise()`:
+      i In argument: `z = 1:2`.
+      Caused by error:
+      ! `z` must be size 1, not 2.
+      i To return more or less than 1 row per group, use `reframe()`.
+
+---
+
+    Code
+      summarise(df, across(everything(), mean), data.frame(a = 1:2, b = 1:2))
+    Condition
+      Error in `summarise()`:
+      i In argument: `data.frame(a = 1:2, b = 1:2)`.
+      Caused by error:
+      ! `data.frame(a = 1:2, b = 1:2)` must be size 1, not 2.
+      i To return more or less than 1 row per group, use `reframe()`.
+
