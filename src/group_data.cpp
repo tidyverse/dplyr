@@ -14,9 +14,10 @@ SEXP dplyr_group_indices(SEXP data, SEXP rows) {
   for (R_xlen_t i = 0; i < ng; i++) {
     SEXP rows_i = p_rows[i];
     R_xlen_t n_i = XLENGTH(rows_i);
-    int* p_rows_i = INTEGER(rows_i);
-    for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i) {
-      p_indices[*p_rows_i - 1] = i + 1;
+    const int* p_rows_i = INTEGER_RO(rows_i);
+    const int group_label = (int)(i + 1);
+    for (R_xlen_t j = 0; j < n_i; j++) {
+      p_indices[p_rows_i[j] - 1] = group_label;
     }
   }
   UNPROTECT(1);
