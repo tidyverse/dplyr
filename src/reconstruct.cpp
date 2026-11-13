@@ -45,6 +45,7 @@ struct cb_data {
 };
 
 SEXP cb_clear(SEXP tag, SEXP value, void* data) {
+  (void) value;
   struct cb_data* p_data = (struct cb_data*) data;
 
   // Retain `data`'s `names` and `row.names`

@@ -28,7 +28,7 @@ R_xlen_t find_first(SEXP haystack, SEXP needle) {
   return i_name;
 }
 
-SEXP integers_append(SEXP ints, int x) {
+[[maybe_unused]] static SEXP integers_append(SEXP ints, int x) {
   R_xlen_t n = XLENGTH(ints);
   SEXP new_ints = PROTECT(Rf_allocVector(INTSXP, n + 1));
   int* p_ints = INTEGER(ints);
