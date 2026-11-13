@@ -30,7 +30,7 @@ public:
 
 class ExpanderCollecter {
 public:
-  ExpanderCollecter(int nvars_, SEXP new_indices_, int new_size_, SEXP new_rows_, SEXP old_rows_) :
+  ExpanderCollecter(R_xlen_t nvars_, SEXP new_indices_, R_xlen_t new_size_, SEXP new_rows_, SEXP old_rows_) :
   nvars(nvars_),
   old_rows(old_rows_),
   new_size(new_size_),
@@ -42,7 +42,7 @@ public:
     Rf_classgets(new_rows, dplyr::vectors::classes_vctrs_list_of);
     Rf_setAttrib(new_rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
 
-    for (int i = 0; i < nvars; i++) {
+    for (R_xlen_t i = 0; i < nvars; i++) {
       SEXP new_indices_i = Rf_allocVector(INTSXP, new_size);
       SET_VECTOR_ELT(new_indices, i, new_indices_i);
       vec_new_indices[i] = INTEGER(new_indices_i);
@@ -60,7 +60,7 @@ public:
   }
 
   ExpanderResult collect_node(int depth, R_xlen_t index, const std::vector<Expander*>& expanders) {
-    int n = expanders.size();
+    size_t n = expanders.size();
     if (n == 0) {
       return ExpanderResult(NA_INTEGER, NA_INTEGER, index);
     }
@@ -70,7 +70,7 @@ public:
     R_xlen_t end = first.end;
     fill_indices(depth, start, end, first.index);
 
-    for (R_xlen_t i = 1; i < n; i++) {
+    for (size_t i = 1; i < n; i++) {
       ExpanderResult exp_i = expanders[i]->collect(*this, depth + 1);
       fill_indices(depth, exp_i.start, exp_i.end, exp_i.index);
       end = exp_i.end;
@@ -80,12 +80,12 @@ public:
   }
 
 private:
-  int nvars;
+  R_xlen_t nvars;
   SEXP old_rows;
   R_xlen_t new_size;
   SEXP new_indices;
   SEXP new_rows;
-  int leaf_index;
+  R_xlen_t leaf_index;
 
   std::vector<int*> vec_new_indices;
 
@@ -139,7 +139,7 @@ public:
     }
   }
   ~FactorExpander() {
-    for (int i = expanders.size() - 1; i >= 0; i--) delete expanders[i];
+    for (auto* e : expanders) delete e;
   }
 
   virtual R_xlen_t size() const {
@@ -183,7 +183,7 @@ public:
 
   }
   ~VectorExpander() {
-    for (int i = expanders.size() - 1; i >= 0; i--) delete expanders[i];
+    for (auto* e : expanders) delete e;
   }
 
   virtual R_xlen_t size() const {
@@ -195,13 +195,13 @@ public:
   }
 
 private:
-  int index;
+  R_xlen_t index;
   std::vector<Expander*> expanders;
 };
 
 class LeafExpander : public Expander {
 public:
-  LeafExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start_, int end_) :
+  LeafExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, R_xlen_t index_, R_xlen_t start_, R_xlen_t end_) :
   index(index_),
   start(start_),
   end(end_)
@@ -224,7 +224,7 @@ private:
 };
 
 Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, R_xlen_t index, R_xlen_t start, R_xlen_t end) {
-  if (depth == (int)positions.size()) {
+  if ((size_t)depth == positions.size()) {
     return new LeafExpander(data, positions, depth, index, start, end);
   } else if (Rf_isFactor(data[depth])) {
     return new FactorExpander(data, positions, depth, index, start, end);

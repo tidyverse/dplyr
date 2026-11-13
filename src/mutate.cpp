@@ -4,8 +4,8 @@
 namespace dplyr {
 void stop_mutate_recycle_incompatible_size(R_len_t n_result_i, R_xlen_t n_expected_i) {
   DPLYR_ERROR_INIT(2);
-    DPLYR_ERROR_SET(0, "result_size", Rf_ScalarInteger(n_result_i));
-    DPLYR_ERROR_SET(1, "expected_size", Rf_ScalarInteger(n_expected_i));
+    DPLYR_ERROR_SET(0, "result_size", Rf_ScalarInteger((int)n_result_i));
+    DPLYR_ERROR_SET(1, "expected_size", Rf_ScalarInteger((int)n_expected_i));
 
   DPLYR_ERROR_THROW("dplyr:::mutate_incompatible_size");
 }
@@ -76,7 +76,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
     // find out the first time the group was NULL so that the error will
     // be associated with this group
     const SEXP* p_chunks = VECTOR_PTR_RO(chunks);
-    for (int i = 0; i < ngroups; i++) {
+    for (R_xlen_t i = 0; i < ngroups; i++) {
       if (Rf_isNull(p_chunks[i])) {
         DPLYR_MASK_SET_GROUP(i);
         dplyr::stop_mutate_mixed_null();
