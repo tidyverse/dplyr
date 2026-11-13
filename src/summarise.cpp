@@ -15,28 +15,28 @@ void stop_summarise_mixed_null() {
 }
 
 void stop_summarise_incompatible_size(
-  int index_expression,
-  int index_group,
-  int actual_size
+  R_xlen_t index_expression,
+  R_xlen_t index_group,
+  R_xlen_t actual_size
 ) {
   DPLYR_ERROR_INIT(3);
-  DPLYR_ERROR_SET(0, "index_expression", Rf_ScalarInteger(index_expression + 1));
-  DPLYR_ERROR_SET(1, "index_group", Rf_ScalarInteger(index_group + 1));
-  DPLYR_ERROR_SET(2, "actual_size", Rf_ScalarInteger(actual_size));
+  DPLYR_ERROR_SET(0, "index_expression", Rf_ScalarInteger((int)index_expression + 1));
+  DPLYR_ERROR_SET(1, "index_group", Rf_ScalarInteger((int)index_group + 1));
+  DPLYR_ERROR_SET(2, "actual_size", Rf_ScalarInteger((int)actual_size));
   DPLYR_ERROR_THROW("dplyr:::summarise_incompatible_size");
 }
 
 void stop_reframe_incompatible_size(
-  int index_expression,
-  int index_group,
-  int actual_size,
-  int expected_size
+  R_xlen_t index_expression,
+  R_xlen_t index_group,
+  R_xlen_t actual_size,
+  R_xlen_t expected_size
 ) {
   DPLYR_ERROR_INIT(4);
-  DPLYR_ERROR_SET(0, "index_expression", Rf_ScalarInteger(index_expression + 1));
-  DPLYR_ERROR_SET(1, "index_group", Rf_ScalarInteger(index_group + 1));
-  DPLYR_ERROR_SET(2, "actual_size", Rf_ScalarInteger(actual_size));
-  DPLYR_ERROR_SET(3, "expected_size", Rf_ScalarInteger(expected_size));
+  DPLYR_ERROR_SET(0, "index_expression", Rf_ScalarInteger((int)index_expression + 1));
+  DPLYR_ERROR_SET(1, "index_group", Rf_ScalarInteger((int)index_group + 1));
+  DPLYR_ERROR_SET(2, "actual_size", Rf_ScalarInteger((int)actual_size));
+  DPLYR_ERROR_SET(3, "expected_size", Rf_ScalarInteger((int)expected_size));
   DPLYR_ERROR_THROW("dplyr:::reframe_incompatible_size");
 }
 
@@ -112,7 +112,7 @@ SEXP dplyr_summarise_check_all_size_one(
     for (R_xlen_t j = 0; j < n_groups; ++j) {
       // This group's result for this expression
       SEXP result = v_result_per_group[j];
-      const R_xlen_t result_size = vctrs::short_vec_size(result);
+      const R_xlen_t result_size = (!Rf_isObject(result)) ? Rf_xlength(result) : vctrs::short_vec_size(result);
 
       if (result_size != 1) {
         dplyr::stop_summarise_incompatible_size(i, j, result_size);
@@ -169,7 +169,7 @@ SEXP dplyr_reframe_recycle_horizontally_in_place(
       SEXP result = v_result_per_group[j];
 
       const R_xlen_t out_size = v_group_sizes[j];
-      const R_xlen_t result_size = vctrs::short_vec_size(result);
+      const R_xlen_t result_size = (!Rf_isObject(result)) ? Rf_xlength(result) : vctrs::short_vec_size(result);
 
       if (out_size == result_size) {
         // v_group_sizes[j] is correct
@@ -194,7 +194,7 @@ SEXP dplyr_reframe_recycle_horizontally_in_place(
       SEXP result = v_result_per_group[j];
 
       const R_xlen_t out_size = v_group_sizes[j];
-      const R_xlen_t result_size = vctrs::short_vec_size(result);
+      const R_xlen_t result_size = (!Rf_isObject(result)) ? Rf_xlength(result) : vctrs::short_vec_size(result);
 
       if (out_size != result_size) {
         // Recycle and modify in place!
