@@ -33,12 +33,12 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
+  \item{magrittr}{\code{\link[magrittr:\%>\%]{\%>\%}}}
 
-  \item{pillar}{\code{\link[pillar]{type_sum}}}
+  \item{pillar}{\code{\link[pillar:type_sum]{type_sum()}}}
 
-  \item{tibble}{\code{\link[tibble]{add_row}}, \code{\link[tibble:deprecated]{as_data_frame}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble:deprecated]{data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{view}}}
+  \item{tibble}{\code{\link[tibble:add_row]{add_row()}}, \code{\link[tibble:as_data_frame]{as_data_frame()}}, \code{\link[tibble:as_tibble]{as_tibble()}}, \code{\link[tibble:data_frame]{data_frame()}}, \code{\link[tibble:lst]{lst()}}, \code{\link[tibble:tibble]{tibble()}}, \code{\link[tibble:tribble]{tribble()}}, \code{\link[tibble:view]{view()}}}
 
-  \item{tidyselect}{\code{\link[tidyselect]{all_of}}, \code{\link[tidyselect:all_of]{any_of}}, \code{\link[tidyselect:starts_with]{contains}}, \code{\link[tidyselect:starts_with]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect:everything]{last_col}}, \code{\link[tidyselect:starts_with]{matches}}, \code{\link[tidyselect:starts_with]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}, \code{\link[tidyselect]{where}}}
+  \item{tidyselect}{\code{\link[tidyselect:all_of]{all_of()}}, \code{\link[tidyselect:any_of]{any_of()}}, \code{\link[tidyselect:contains]{contains()}}, \code{\link[tidyselect:ends_with]{ends_with()}}, \code{\link[tidyselect:everything]{everything()}}, \code{\link[tidyselect:last_col]{last_col()}}, \code{\link[tidyselect:matches]{matches()}}, \code{\link[tidyselect:num_range]{num_range()}}, \code{\link[tidyselect:one_of]{one_of()}}, \code{\link[tidyselect:starts_with]{starts_with()}}, \code{\link[tidyselect:where]{where()}}}
 }}
 

@@ -71,8 +71,8 @@ df |> group_by(grp) |> filter(row_number() == 1)
 df |> group_by(grp) |> mutate(grp_id = row_number())
 }
 \seealso{
-Other ranking functions: 
-\code{\link{ntile}()},
-\code{\link{percent_rank}()}
+Other ranking functions:
+\code{\link[=ntile]{ntile()}},
+\code{\link[=percent_rank]{percent_rank()}}
 }
 \concept{ranking functions}

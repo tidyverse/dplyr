@@ -25,17 +25,17 @@ See \code{\link[rlang:args_data_masking]{?rlang::args_data_masking}} and
 \itemize{
 \item \link[rlang:expr]{expr()}
 \item \link[rlang:enquo]{enquo()}
-\item \link[rlang:enquo]{enquos()}
+\item \link[rlang:enquos]{enquos()}
 \item \link[rlang:sym]{sym()}
-\item \link[rlang:sym]{syms()}
+\item \link[rlang:syms]{syms()}
 \item \link[rlang:as_label]{as_label()}
-\item \link[rlang:defusing-advanced]{quo()}
-\item \link[rlang:defusing-advanced]{quos()}
-\item \link[rlang:quo_label]{quo_name()}
-\item \link[rlang:defusing-advanced]{ensym()}
-\item \link[rlang:defusing-advanced]{ensyms()}
-\item \link[rlang:defusing-advanced]{enexpr()}
-\item \link[rlang:defusing-advanced]{enexprs()}
+\item \link[rlang:quo]{quo()}
+\item \link[rlang:quos]{quos()}
+\item \link[rlang:quo_name]{quo_name()}
+\item \link[rlang:ensym]{ensym()}
+\item \link[rlang:ensyms]{ensyms()}
+\item \link[rlang:enexpr]{enexpr()}
+\item \link[rlang:enexprs]{enexprs()}
 }
 }
 \keyword{internal}

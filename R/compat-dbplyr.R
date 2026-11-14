@@ -56,7 +56,12 @@ wrap_dbplyr_obj <- function(obj_name) {
 }
 utils::globalVariables("!<-")
 
-#' @inherit dbplyr::sql
+#' Literal SQL escaping
+#'
+#' Use `sql()` to declare that a string is literal SQL and should be used
+#' as is, without quoting.
+#'
+#' @param ... Character vectors that will be combined into a single SQL vector.
 #' @export
 sql <- function(...) {
   check_dbplyr()

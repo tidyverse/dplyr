@@ -80,16 +80,15 @@
 #' * If `keep = FALSE`, output columns included in `by` are coerced to their
 #'   common type between `x` and `y`.
 #' @section Methods:
-#' These functions are **generic**s, which means that packages can provide
+#' These are S3 generics, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
+#' The following methods are currently available in loaded packages:
 #'
-#' Methods available in currently loaded packages:
-#'
-#' * `inner_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("inner_join")}.
-#' * `left_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("left_join")}.
-#' * `right_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("right_join")}.
-#' * `full_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("full_join")}.
+#' * `inner_join()`: `Rd doclisting::methods_list("inner_join")`
+#' * `left_join()`: `Rd doclisting::methods_list("left_join")`
+#' * `right_join()`: `Rd doclisting::methods_list("right_join")`
+#' * `full_join()`: `Rd doclisting::methods_list("full_join")`
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
@@ -451,14 +450,13 @@ full_join.data.frame <- function(
 #' * Data frame attributes are preserved.
 #' * Groups are taken from `x`. The number of groups may be reduced.
 #' @section Methods:
-#' These function are **generic**s, which means that packages can provide
+#' These are S3 generics, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
+#' The following methods are currently available in loaded packages:
 #'
-#' Methods available in currently loaded packages:
-#'
-#' * `semi_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("semi_join")}.
-#' * `anti_join()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("anti_join")}.
+#' * `semi_join()`: `Rd doclisting::methods_list("semi_join")`
+#' * `anti_join()`: `Rd doclisting::methods_list("anti_join")`
 #' @family joins
 #' @examples
 #' # "Filtering" joins keep cases from the LHS
@@ -558,12 +556,11 @@ anti_join.data.frame <- function(
 #' * Gains one new column called `{name}` on the far right, a list column
 #'   containing data frames the same type as `y`.
 #' @section Methods:
-#' This function is a **generic**, which means that packages can provide
+#' This is an S3 generic, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
-#'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("nest_join")}.
+#' `Rd doclisting::methods_list("nest_join")`
 #' @inheritParams left_join
 #' @family joins
 #' @export

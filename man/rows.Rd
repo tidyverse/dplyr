@@ -139,18 +139,17 @@ must exist in \code{x}.
 }
 \section{Methods}{
 
-These function are \strong{generic}s, which means that packages can provide
+These are S3 generics, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
-Methods available in currently loaded packages:
+The following methods are currently available in loaded packages:
 \itemize{
-\item \code{rows_insert()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_insert")}.
-\item \code{rows_append()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_append")}.
-\item \code{rows_update()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_update")}.
-\item \code{rows_patch()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_patch")}.
-\item \code{rows_upsert()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_upsert")}.
-\item \code{rows_delete()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_delete")}.
+\item \code{rows_insert()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("rows_insert")}
+\item \code{rows_append()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("rows_append")}
+\item \code{rows_update()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("rows_update")}
+\item \code{rows_patch()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("rows_patch")}
+\item \code{rows_upsert()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("rows_upsert")}
+\item \code{rows_delete()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("rows_delete")}
 }
 }
 

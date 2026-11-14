@@ -30,15 +30,14 @@ All functions preserve grouping and ordering.
 }
 \section{Methods}{
 
-These functions are \strong{generics}, which means that packages can provide
+These are S3 generics, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
-
-Methods available in currently loaded packages:
+The following methods are currently available in loaded packages:
 \itemize{
-\item \code{compute()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("compute")}
-\item \code{collect()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collect")}
-\item \code{collapse()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("collapse")}
+\item \code{compute()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("compute")}
+\item \code{collect()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("collect")}
+\item \code{collapse()}: \Sexpr[stage=render,results=rd]{doclisting::methods_list("collapse")}
 }
 }
 
