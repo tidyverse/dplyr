@@ -47,6 +47,9 @@ copy_to <- function(
 #' @param ... Other arguments passed on to methods.
 #' @export
 auto_copy <- function(x, y, copy = FALSE, ...) {
+  if (!is.logical(copy)) {
+    stop("copy must be a logical")
+  }
   if (same_src(x, y)) {
     return(y)
   }
