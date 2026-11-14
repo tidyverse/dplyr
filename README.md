@@ -142,15 +142,16 @@ starwars |>
 #> #   vehicles <list>, starships <list>
 
 starwars |>
-  group_by(species) |>
   summarise(
     n = n(),
-    mass = mean(mass, na.rm = TRUE)
+    mass = mean(mass, na.rm = TRUE),
+    .by = species
   ) |>
   filter(
     n > 1,
     mass > 50
-  )
+  ) |> 
+  arrange(species)
 #> # A tibble: 9 × 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
