@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `cur_group_id()` and `n()` have less overhead, which speeds up grouped and rowwise data frames with many groups that use them, including through `row_number()`.
+* `cur_group_id()` and `n()` have less overhead, which speeds up grouped and rowwise data frames with many groups that use them, including through `row_number()` (#7868).
 
 # dplyr 1.2.1
 
