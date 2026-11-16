@@ -119,7 +119,7 @@ equal_data_frame <- function(
   }
 
   # keys are identical, check that rows occur the same number of times
-  if (any(wrong <- lengths(x_split$loc) != lengths(y_split$loc))) {
+  if (any(wrong <- list_sizes(x_split$loc) != list_sizes(y_split$loc))) {
     rows <- sort(map_int(x_split$loc[which(wrong)], function(.x) .x[1L]))
     return(paste0(
       "- Rows with difference occurrences in x and y: ",

@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `arrange()`, `distinct()`, `filter()`, `slice()`, and filtering joins are faster on grouped data frames with many groups, as are `group_size()` and `cur_group_rows()`.
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).

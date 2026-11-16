@@ -169,7 +169,8 @@ groups.data.frame <- function(x) {
 group_size <- function(x) UseMethod("group_size")
 #' @export
 group_size.data.frame <- function(x) {
-  lengths(group_rows(x))
+  # `lengths()` would call the `[[` method of `list_of` for every group
+  list_sizes(group_rows(x))
 }
 
 #' @export

@@ -489,7 +489,7 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
 
   withCallingHandlers(
     for (group in seq_along(rows)) {
-      current_rows <- rows[[group]]
+      current_rows <- .subset2(rows, group)
 
       loc <- num_as_location(
         i = chunks[[group]],
