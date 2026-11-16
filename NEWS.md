@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `slice()` reports invalid indices correctly when the problem only occurs in a later group, rather than failing with "subscript out of bounds". When indices are supplied through several expressions, the error now refers to their combination, like `c(1, -1)`, rather than only to the first.
+* `slice()` reports invalid indices correctly when the problem only occurs in a later group, rather than failing with "subscript out of bounds". When indices are supplied through several expressions, the error now refers to their combination, like `c(1, -1)`, rather than only to the first (#7871).
 
 # dplyr 1.2.1
 
