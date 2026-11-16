@@ -54,6 +54,41 @@ dplyr_new_tibble <- function(x, size) {
   new_data_frame(x = x, n = size, class = c("tbl_df", "tbl"))
 }
 
+# Equivalent to `x[[names[[i]]]] <- values[[i]]` for each `i`, so existing
+# elements are replaced in place, new ones are appended, and `NULL` removes an
+# element. Assigning one new name at a time copies `x` every time, which is
+# quadratic when adding many columns, e.g. with `across()`.
+list_assign_by_name <- function(x, names, values) {
+  if (anyDuplicated(names) || anyNA(names) || any(names == "")) {
+    # The order of the assignments matters, so make them one at a time
+    for (i in seq_along(values)) {
+      x[[names[[i]]]] <- values[[i]]
+    }
+    return(x)
+  }
+
+  loc <- match(names, names(x))
+  exists <- !is.na(loc)
+  is_null <- vapply(values, is.null, logical(1))
+
+  replace <- exists & !is_null
+  x[loc[replace]] <- values[replace]
+
+  remove <- loc[exists & is_null]
+  if (length(remove) > 0L) {
+    x <- x[-remove]
+  }
+
+  append <- !exists & !is_null
+  if (!any(append)) {
+    return(x)
+  }
+
+  appended <- values[append]
+  names(appended) <- names[append]
+  c(x, appended)
+}
+
 #' @param x A list
 #' @param fn An optional function of 1 argument to be applied to each list
 #'   element of `x`. This allows you to further refine what elements should be

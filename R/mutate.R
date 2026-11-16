@@ -423,7 +423,12 @@ mutate_col <- function(dot, data, mask, new_columns) {
     quosures_results[[k]] <- list(result = result, chunks = chunks)
   }
 
-  # Second pass
+  # Second pass. The new columns are collected, then assigned to `new_columns`
+  # all at once, as assigning them one name at a time is quadratic.
+  out_names <- character()
+  out_values <- list()
+  n_out <- 0L
+
   for (k in seq_along(quosures)) {
     quo <- quosures[[k]]
     quo_data <- attr(quo, "dplyr:::data")
@@ -432,8 +437,11 @@ mutate_col <- function(dot, data, mask, new_columns) {
     if (is.null(quo_result)) {
       if (quo_data$is_named) {
         name <- dplyr_quosure_name(quo_data)
-        new_columns[[name]] <- zap()
         mask$remove(name)
+
+        n_out <- n_out + 1L
+        out_names[n_out] <- name
+        out_values[n_out] <- list(zap())
       }
       next
     }
@@ -452,19 +460,23 @@ mutate_col <- function(dot, data, mask, new_columns) {
           chunks_extracted[[j]],
           result = result[[j]]
         )
-      }
 
-      new_columns[types_names] <- result
+        n_out <- n_out + 1L
+        out_names[n_out] <- types_names[[j]]
+        out_values[n_out] <- list(result[[j]])
+      }
     } else {
       # treat as a single output otherwise
       name <- dplyr_quosure_name(quo_data)
       mask$add_one(name = name, chunks = chunks, result = result)
 
-      new_columns[[name]] <- result
+      n_out <- n_out + 1L
+      out_names[n_out] <- name
+      out_values[n_out] <- list(result)
     }
   }
 
-  new_columns
+  list_assign_by_name(new_columns, out_names, out_values)
 }
 
 mutate_bullets <- function(cnd, ...) {

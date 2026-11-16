@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `mutate()`, `reframe()`, and `summarise()` are faster when they create many columns, e.g. with `across()` on wide data frames, because they no longer grow their results one column at a time (#7869).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).
