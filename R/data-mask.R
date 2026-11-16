@@ -9,8 +9,18 @@ DataMask <- R6Class(
       }
       private$rows <- rows
 
+      # `duplicate(0L)` is necessary to ensure that the value we modify by
+      # reference is "fresh" and completely owned by this instance of the
+      # `DataMask`. Otherwise nested `mutate()` calls can end up modifying
+      # the same value (#6762).
+      private$env_current_group_info <- new_environment(list(
+        `dplyr:::current_group_id` = duplicate(0L),
+        `dplyr:::current_group_size` = duplicate(0L)
+      ))
+
       frame <- caller_env(n = 2)
       local_mask(self, frame)
+      local_group_info(private$env_current_group_info, frame)
 
       names <- names(data)
 
@@ -48,15 +58,6 @@ DataMask <- R6Class(
 
       private$grouped <- by$type == "grouped"
       private$rowwise <- by$type == "rowwise"
-
-      # `duplicate(0L)` is necessary to ensure that the value we modify by
-      # reference is "fresh" and completely owned by this instance of the
-      # `DataMask`. Otherwise nested `mutate()` calls can end up modifying
-      # the same value (#6762).
-      private$env_current_group_info <- new_environment(list(
-        `dplyr:::current_group_id` = duplicate(0L),
-        `dplyr:::current_group_size` = duplicate(0L)
-      ))
 
       private$chops <- .Call(
         dplyr_lazy_vec_chop_impl,
@@ -177,33 +178,16 @@ DataMask <- R6Class(
       setdiff(self$current_vars(), private$by_names)
     },
 
-    # This pair of functions provides access to `dplyr:::current_group_id`.
-    # - `dplyr:::current_group_id` is modified by reference at the C level.
-    # - If you access it ephemerally, the mutable version can be used.
-    # - If you access it persistently, like in `cur_group_id()`, it must be
-    #   duplicated on the way out.
-    # - For maximal performance, we inline the mutable function definition into
-    #   the non-mutable version.
-    get_current_group_id = function() {
-      duplicate(
-        private[["env_current_group_info"]][["dplyr:::current_group_id"]]
-      )
-    },
+    # These functions provide access to `dplyr:::current_group_id` and
+    # `dplyr:::current_group_size`.
+    # - They are modified by reference at the C level.
+    # - If you access them ephemerally, these mutable versions can be used.
+    # - If you access them persistently, like in `cur_group_id()` and `n()`,
+    #   they must be duplicated on the way out. For speed, those functions read
+    #   the group information from the context directly (see
+    #   `local_group_info()`).
     get_current_group_id_mutable = function() {
       private[["env_current_group_info"]][["dplyr:::current_group_id"]]
-    },
-
-    # This pair of functions provides access to `dplyr:::current_group_size`.
-    # - `dplyr:::current_group_size` is modified by reference at the C level.
-    # - If you access it ephemerally, the mutable version can be used.
-    # - If you access it persistently, like in `n()`, it must be duplicated on
-    #   the way out.
-    # - For maximal performance, we inline the mutable function definition into
-    #   the non-mutable version.
-    get_current_group_size = function() {
-      duplicate(
-        private[["env_current_group_info"]][["dplyr:::current_group_size"]]
-      )
     },
     get_current_group_size_mutable = function() {
       private[["env_current_group_info"]][["dplyr:::current_group_size"]]

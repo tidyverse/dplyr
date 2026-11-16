@@ -48,7 +48,15 @@ NULL
 #' @rdname context
 #' @export
 n <- function() {
-  peek_mask()$get_current_group_size()
+  # `n()` and `cur_group_id()` are typically called once per group, so they
+  # read the group information directly rather than going through the mask
+  info <- context_env[["group_info"]]
+  if (is.null(info)) {
+    peek_mask()
+  }
+
+  # Duplicated because it is modified in place as groups are evaluated
+  duplicate(info[["dplyr:::current_group_size"]])
 }
 
 #' @rdname context
@@ -60,7 +68,13 @@ cur_group <- function() {
 #' @rdname context
 #' @export
 cur_group_id <- function() {
-  peek_mask()$get_current_group_id()
+  # See `n()`
+  info <- context_env[["group_info"]]
+  if (is.null(info)) {
+    peek_mask()
+  }
+
+  duplicate(info[["dplyr:::current_group_id"]])
 }
 
 #' @rdname context
@@ -177,4 +191,10 @@ peek_mask <- function(call = caller_env()) {
 }
 local_mask <- function(x, frame = caller_env()) {
   context_local("mask", x, frame = frame)
+}
+
+# The environment holding the mask's current group id and size, which is set
+# alongside the mask for `n()` and `cur_group_id()`
+local_group_info <- function(x, frame = caller_env()) {
+  context_local("group_info", x, frame = frame)
 }
