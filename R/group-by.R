@@ -235,7 +235,7 @@ group_by_prepare <- function(
     group_names <- union(group_vars(.data), group_names)
   }
 
-  unknown <- setdiff(group_names, tbl_vars(out))
+  unknown <- unique(group_names[!group_names %in% tbl_vars(out)])
   if (length(unknown) > 0) {
     bullets <- c(
       "Must group by variables found in `.data`.",

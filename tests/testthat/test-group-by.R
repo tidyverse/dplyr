@@ -211,6 +211,13 @@ test_that("group_by only creates one group for NA (#401)", {
   expect_equal(nrow(res), 11L)
 })
 
+test_that("group_by() can't group by the same column twice or by `.rows`", {
+  df <- data.frame(x = 1:2, .rows = 1:2)
+
+  expect_error(group_by(df, x, x))
+  expect_error(group_by(df, .rows))
+})
+
 test_that("there can be 0 groups (#486)", {
   data <- tibble(a = numeric(0), g = character(0)) |> group_by(g)
   expect_equal(length(data$a), 0L)

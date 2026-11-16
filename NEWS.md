@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_by()` has about half the overhead on small data frames, which also speeds up verbs that regroup, like `count()` (#7870).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).
