@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `arrange()`, `distinct()`, `filter()`, `slice()`, and filtering joins are faster on grouped data frames with many groups, as are `group_size()` and `cur_group_rows()`.
+* `arrange()`, `distinct()`, `filter()`, `slice()`, and filtering joins are faster on grouped data frames with many groups, as are `group_size()` and `cur_group_rows()` (#7865).
 
 # dplyr 1.2.1
 
