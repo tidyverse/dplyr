@@ -51,6 +51,14 @@ n <- function() {
   peek_mask()$get_current_group_size()
 }
 
+# `count()`, `tally()`, and friends compute `dplyr::n()`, whose value in each
+# group is just the group size, so `summarise()` and `mutate()` take the sizes
+# directly instead of evaluating it in every group. The namespaced call can only
+# refer to `n()`, unlike a bare `n()`.
+quo_is_dplyr_n <- function(quo) {
+  identical(quo_get_expr(quo), quote(dplyr::n()))
+}
+
 #' @rdname context
 #' @export
 cur_group <- function() {

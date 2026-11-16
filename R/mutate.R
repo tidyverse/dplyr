@@ -385,6 +385,9 @@ mutate_col <- function(dot, data, mask, new_columns) {
       )
 
       chunks <- vec_chop(result, rows)
+    } else if (quo_is_dplyr_n(quo)) {
+      sizes <- list_sizes(rows)
+      chunks <- vec_chop(vec_rep_each(sizes, sizes), sizes = sizes)
     }
 
     if (is.null(chunks)) {
