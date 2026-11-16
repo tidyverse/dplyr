@@ -700,9 +700,15 @@ slice_chunks_are_combinable <- function(chunks) {
 # Whether `vec_rank()` orders each value independently of the other values, so
 # that ranking all groups together gives the same result as ranking each group
 # on its own. That isn't the case for lists, which are ordered by first
-# appearance, or for classes that may define their own order proxy.
+# appearance, or for classes that may define their own order proxy, including
+# subclasses of the classes allowed here.
 is_pointwise_orderable <- function(ptype) {
+  class <- paste(class(ptype), collapse = "/")
+
   if (is.data.frame(ptype)) {
+    if (!class %in% c("data.frame", "tbl_df/tbl/data.frame")) {
+      return(FALSE)
+    }
     return(all(map_lgl(ptype, is_pointwise_orderable)))
   }
 
@@ -711,7 +717,14 @@ is_pointwise_orderable <- function(ptype) {
   }
 
   if (is.object(ptype)) {
-    return(inherits_any(ptype, c("factor", "Date", "POSIXct", "difftime")))
+    classes <- c(
+      "factor",
+      "ordered/factor",
+      "Date",
+      "POSIXct/POSIXt",
+      "difftime"
+    )
+    return(class %in% classes)
   }
 
   typeof(ptype) %in% c("logical", "integer", "double", "character")

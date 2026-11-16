@@ -523,6 +523,18 @@ test_that("slice_min/max() rank groups separately when they can't be combined", 
   out <- slice_max(gdf, if (cur_group_id() == 1) as.character(x) else x)
   expect_identical(out$id, c(2L, 3L))
 
+  # Subclasses that may define their own ordering
+  local_methods(
+    vec_proxy_order.dplyr_first_appearance = function(x, ...) {
+      vec_duplicate_id(unclass(x))
+    }
+  )
+  x <- structure(c(2, 1, 1, 2), class = c("dplyr_first_appearance", "Date"))
+  df <- tibble(id = 1:4, g = c(1, 1, 2, 2), x = x)
+  gdf <- group_by(df, g)
+  expect_identical(slice_min(gdf, x)$id, c(1L, 3L))
+  expect_identical(slice_min(gdf, tibble(x))$id, c(1L, 3L))
+
   # Factors with group specific levels
   df <- tibble(id = 1:4, g = c(1, 1, 2, 2), x = c(1, 2, 1, 2))
   gdf <- group_by(df, g)
