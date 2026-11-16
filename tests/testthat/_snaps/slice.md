@@ -6,9 +6,32 @@
       Error in `slice()`:
       ! Can't compute indices.
       Caused by error:
-      ! Can't subset elements with `1`.
+      ! Can't subset elements with `c(1, -1)`.
       x Negative and positive locations can't be mixed.
-      i Subscript `1` has a positive value at location 1.
+      i Subscript `c(1, -1)` has a positive value at location 1.
+
+# slice labels invalid indices of any group
+
+    Code
+      slice(gf, if (cur_group_id() == 2) c(-1, 2) else 1)
+    Condition
+      Error in `slice()`:
+      ! Can't compute indices.
+      i In group 2: `g = 2`.
+      Caused by error:
+      ! Can't subset elements with `if (cur_group_id() == 2) c(-1, 2) else 1`.
+      x Negative and positive locations can't be mixed.
+      i Subscript `if (cur_group_id() == 2) c(-1, 2) else 1` has a positive value at location 2.
+    Code
+      slice(gf, 1, if (cur_group_id() == 2) -1 else 2)
+    Condition
+      Error in `slice()`:
+      ! Can't compute indices.
+      i In group 2: `g = 2`.
+      Caused by error:
+      ! Can't subset elements with `c(1, if (cur_group_id() == 2) -1 else 2)`.
+      x Negative and positive locations can't be mixed.
+      i Subscript `c(1, if (cur_group_id() == 2) -1 else 2)` has a positive value at location 1.
 
 # slicing with one-column matrix is deprecated
 
