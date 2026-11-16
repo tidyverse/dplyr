@@ -32,8 +32,7 @@ grouped_df <- function(data, vars, drop = group_by_drop_default(data)) {
 }
 
 compute_groups <- function(data, vars, drop = FALSE) {
-  unknown <- setdiff(vars, names(data))
-  if (length(unknown) > 0) {
+  if (!all(vars %in% names(data))) {
     vars <- paste0(encodeString(vars, quote = "`"), collapse = ", ")
     abort(glue("`vars` missing from `data`: {vars}."))
   }
@@ -44,9 +43,9 @@ compute_groups <- function(data, vars, drop = FALSE) {
   old_keys <- split_key_loc$key
   old_rows <- split_key_loc$loc
 
-  signal("", class = "dplyr_regroup")
+  signalCondition(regroup_condition)
 
-  groups <- tibble(!!!old_keys, ".rows" := old_rows)
+  groups <- new_group_data(old_keys, old_rows)
 
   if (!isTRUE(drop) && any(map_lgl(old_keys, is.factor))) {
     # Extra work is needed to auto expand empty groups
@@ -91,12 +90,32 @@ compute_groups <- function(data, vars, drop = FALSE) {
     )
     names(new_keys) <- vars
 
-    groups <- tibble(!!!new_keys, ".rows" := new_rows)
+    groups <- new_group_data(new_keys, new_rows)
   }
 
   attr(groups, ".drop") <- drop
   groups
 }
+
+# Builds the group data much faster than `tibble()`, which matters for small
+# data frames. `tibble()` is still used for names it would reject, so that
+# grouping by the same column twice, or by a column named `.rows`, errors as
+# before.
+new_group_data <- function(keys, rows) {
+  names <- names(keys)
+  if (anyDuplicated(names) || ".rows" %in% names) {
+    return(tibble(!!!keys, ".rows" := rows))
+  }
+
+  out <- dplyr_new_list(keys)
+  out[[".rows"]] <- rows
+  dplyr_new_tibble(out, size = vec_size(rows))
+}
+
+# Signalled whenever groups are computed, so tests can count regroupings with
+# `count_regroups()`. Created once, as `rlang::signal()` is slow relative to
+# grouping a small data frame.
+regroup_condition <- cnd("dplyr_regroup", message = "")
 
 count_regroups <- function(code) {
   i <- 0
