@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `validate_rowwise_df()` now accepts a valid rowwise data frame and rejects one whose `.rows` point at the wrong rows; the check was inverted (#7863, @SAMARTHJAISWAL).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).
