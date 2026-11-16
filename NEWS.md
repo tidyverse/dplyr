@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `count()`, `tally()`, `add_count()`, and `add_tally()` are much faster on data frames with many groups when `wt` isn't supplied. More generally, `summarise()` and `mutate()` now compute `dplyr::n()` directly from the group sizes rather than calling it in every group.
+* `count()`, `tally()`, `add_count()`, and `add_tally()` are much faster on data frames with many groups when `wt` isn't supplied. More generally, `summarise()` and `mutate()` now compute `dplyr::n()` directly from the group sizes rather than calling it in every group (#7867).
 
 # dplyr 1.2.1
 
