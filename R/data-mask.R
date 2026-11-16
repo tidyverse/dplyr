@@ -153,7 +153,9 @@ DataMask <- R6Class(
     },
 
     current_rows = function() {
-      private$rows[[self$get_current_group_id_mutable()]]
+      # `.subset2()` skips the `[[` method of `list_of`, as this is called once
+      # per group by `cur_group_rows()`
+      .subset2(private$rows, self$get_current_group_id_mutable())
     },
 
     current_key = function() {

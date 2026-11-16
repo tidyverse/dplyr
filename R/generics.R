@@ -120,9 +120,11 @@ dplyr_row_slice.grouped_df <- function(data, i, ..., preserve = FALSE) {
   new_id <- vec_slice(group_indices(data), i)
   new_grps <- vec_group_loc(new_id)
 
-  rows <- rep(list_of(integer()), length.out = nrow(groups))
+  # Assign into a bare list, because `[<-` on a `list_of` casts every element
+  # with R code
+  rows <- rep(list(integer()), nrow(groups))
   rows[new_grps$key] <- new_grps$loc
-  groups$.rows <- rows
+  groups$.rows <- new_list_of(rows, ptype = integer())
   if (!preserve && isTRUE(attr(groups, ".drop"))) {
     groups <- group_data_trim(groups)
   }

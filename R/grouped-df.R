@@ -291,7 +291,7 @@ group_data_trim <- function(group_data, preserve = FALSE) {
     return(group_data)
   }
 
-  non_empty <- lengths(group_data$".rows") > 0
+  non_empty <- list_sizes(group_data$".rows") > 0
   group_data[non_empty, , drop = FALSE]
 }
 
