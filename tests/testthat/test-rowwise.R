@@ -120,6 +120,14 @@ test_that("rbind() works with rowwise data frames by calling bind_rows() (r-lib/
   expect_identical(out, rowwise(tibble(a = c(1:2, 5:6))))
 })
 
+test_that("validate_rowwise_df() checks that each group holds its own row (#7863)", {
+  df <- rowwise(tibble(x = 1:3))
+  expect_identical(validate_rowwise_df(df), df)
+
+  attr(df, "groups")$.rows <- list(2L, 3L, 1L)
+  expect_error(validate_rowwise_df(df), "right value")
+})
+
 test_that("validate_rowwise_df() gives useful errors", {
   df1 <- rowwise(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
   groups <- attr(df1, "groups")
