@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `cur_group_id()` and `n()` have less overhead, which speeds up grouped and rowwise data frames with many groups that use them, including through `row_number()`.
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).

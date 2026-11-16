@@ -37,6 +37,29 @@ test_that("cur_group_idx() gives unique id", {
   )
 })
 
+test_that("n() and cur_group_id() refer to the innermost verb", {
+  inner <- function() {
+    gf <- group_by(tibble(z = c(1, 1, 2)), z)
+    out <- summarise(gf, n = n(), id = cur_group_id())
+    paste(out$n, out$id, collapse = ",")
+  }
+  gf <- group_by(tibble(x = c(1, 2, 2)), x)
+
+  out <- summarise(
+    gf,
+    before = n(),
+    inner = inner(),
+    after = n(),
+    id = cur_group_id()
+  )
+
+  expect_identical(out$before, c(1L, 2L))
+  expect_identical(out$inner, c("2 1,1 2", "2 1,1 2"))
+  expect_identical(out$after, c(1L, 2L))
+  expect_identical(out$id, 1:2)
+  expect_snapshot(error = TRUE, n())
+})
+
 test_that("cur_group_rows() retrieves row position in original data", {
   df <- tibble(x = c("b", "a", "b"), y = 1:3)
   gf <- group_by(df, x)

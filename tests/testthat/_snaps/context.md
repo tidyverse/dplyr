@@ -1,3 +1,11 @@
+# n() and cur_group_id() refer to the innermost verb
+
+    Code
+      n()
+    Condition
+      Error in `n()`:
+      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
+
 # give useful error messages when not applicable
 
     Code
