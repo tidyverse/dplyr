@@ -370,6 +370,25 @@
       ! Can't specify an argument named `.by` in this verb.
       i Did you mean to use `by` instead?
 
+# grouped slice_min/max() errors mention the group
+
+    Code
+      slice_min(gdf, if (cur_group_id() == 2) 1 else x)
+    Condition
+      Error in `slice_min()`:
+      ! Can't compute indices.
+      i In group 2: `g = 2`.
+      Caused by error:
+      ! `order_by` must have size 2, not size 1.
+    Code
+      slice_max(gdf, if (cur_group_id() == 2) stop("oops") else x)
+    Condition
+      Error in `slice_max()`:
+      ! Can't compute indices.
+      i In group 2: `g = 2`.
+      Caused by error in `if (cur_group_id() == 2) ...`:
+      ! oops
+
 # slice_min/max() check size of `order_by=` (#5922)
 
     Code

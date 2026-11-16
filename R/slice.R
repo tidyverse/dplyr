@@ -178,7 +178,8 @@ slice_head.data.frame <- function(.data, ..., n, prop, by = NULL) {
   dplyr_local_error_call()
   dplyr_local_slice_by_arg("by")
 
-  slice(.data, idx(dplyr::n()), .by = {{ by }})
+  dot <- new_slice_helper_quo(quo(idx(dplyr::n())), type = "head", size = size)
+  slice(.data, !!dot, .by = {{ by }})
 }
 
 #' @export
@@ -202,7 +203,8 @@ slice_tail.data.frame <- function(.data, ..., n, prop, by = NULL) {
   dplyr_local_error_call()
   dplyr_local_slice_by_arg("by")
 
-  slice(.data, idx(dplyr::n()), .by = {{ by }})
+  dot <- new_slice_helper_quo(quo(idx(dplyr::n())), type = "tail", size = size)
+  slice(.data, !!dot, .by = {{ by }})
 }
 
 #' @export
@@ -254,23 +256,14 @@ slice_min.data.frame <- function(
   dplyr_local_error_call()
   dplyr_local_slice_by_arg("by")
 
-  slice(
-    .data,
-    .by = {{ by }},
-    local({
-      n <- dplyr::n()
-      order_by <- {{ order_by }}
-      vec_check_size(order_by, size = n)
-
-      slice_rank_idx(
-        order_by,
-        size(n),
-        direction = "asc",
-        with_ties = !!with_ties,
-        na_rm = !!na_rm
-      )
-    })
+  dot <- slice_rank_helper_quo(
+    enquo(order_by),
+    size = size,
+    direction = "asc",
+    with_ties = with_ties,
+    na_rm = na_rm
   )
+  slice(.data, !!dot, .by = {{ by }})
 }
 
 #' @export
@@ -312,23 +305,14 @@ slice_max.data.frame <- function(
   dplyr_local_error_call()
   dplyr_local_slice_by_arg("by")
 
-  slice(
-    .data,
-    .by = {{ by }},
-    local({
-      n <- dplyr::n()
-      order_by <- {{ order_by }}
-      vec_check_size(order_by, size = n)
-
-      slice_rank_idx(
-        order_by,
-        size(n),
-        direction = "desc",
-        with_ties = !!with_ties,
-        na_rm = !!na_rm
-      )
-    })
+  dot <- slice_rank_helper_quo(
+    enquo(order_by),
+    size = size,
+    direction = "desc",
+    with_ties = with_ties,
+    na_rm = na_rm
   )
+  slice(.data, !!dot, .by = {{ by }})
 }
 
 #' @export
@@ -401,6 +385,11 @@ slice_rows <- function(
 
   mask <- DataMask$new(data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
+
+  helper <- slice_helper_spec(dots)
+  if (!is.null(helper)) {
+    return(slice_helper_rows(helper, mask, data, error_call = error_call))
+  }
 
   chunks <- slice_eval(mask, dots, error_call = error_call, user_env = user_env)
   slice_indices <- slice_combine(
@@ -518,6 +507,257 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
   slice_indices
 }
 
+# The `slice_*()` helpers pass `slice()` a quosure that computes the indices of
+# one group, so that `slice()` methods which evaluate their dots themselves keep
+# working. They also attach a description of the helper to that quosure, which
+# `slice.data.frame()` uses to compute the indices of all groups at once rather
+# than evaluating R code in every group.
+new_slice_helper_quo <- function(quo, ...) {
+  attr(quo, "dplyr:::slice_helper") <- list(...)
+  quo
+}
+
+slice_rank_helper_quo <- function(order_by, size, direction, with_ties, na_rm) {
+  quo <- quo(local({
+    n <- dplyr::n()
+    order_by <- !!order_by
+    vec_check_size(order_by, size = n)
+
+    slice_rank_idx(
+      order_by,
+      size(n),
+      direction = !!direction,
+      with_ties = !!with_ties,
+      na_rm = !!na_rm
+    )
+  }))
+
+  new_slice_helper_quo(
+    quo,
+    type = "rank",
+    order_by = order_by,
+    size = size,
+    direction = direction,
+    with_ties = with_ties,
+    na_rm = na_rm
+  )
+}
+
+slice_helper_spec <- function(dots) {
+  if (length(dots) != 1L) {
+    return(NULL)
+  }
+  attr(dots[[1L]], "dplyr:::slice_helper", exact = TRUE)
+}
+
+slice_helper_rows <- function(helper, mask, data, error_call = caller_env()) {
+  rows <- mask$get_rows()
+  sizes <- list_sizes(rows)
+  sizes_out <- as.integer(helper$size(sizes))
+
+  withCallingHandlers(
+    switch(
+      helper$type,
+      head = slice_ends_rows(rows, sizes, sizes_out, tail = FALSE),
+      tail = slice_ends_rows(rows, sizes, sizes_out, tail = TRUE),
+      rank = slice_rank_rows(helper, mask, data, rows, sizes, sizes_out),
+      abort("Unknown slice helper.", .internal = TRUE)
+    ),
+    error = function(cnd) {
+      bullets <- "Can't compute indices."
+      if (has_active_group_context(mask)) {
+        bullets <- c(bullets, i = cnd_bullet_cur_group_label())
+      }
+      abort(bullets, call = error_call, parent = cnd)
+    }
+  )
+}
+
+slice_ends_rows <- function(rows, sizes, sizes_out, tail) {
+  starts <- cumsum(sizes) - sizes + 1L
+  if (tail) {
+    starts <- starts + sizes - sizes_out
+  }
+
+  locs <- sequence(sizes_out, from = starts)
+  list_unchop(rows, ptype = integer())[locs]
+}
+
+slice_rank_rows <- function(helper, mask, data, rows, sizes, sizes_out) {
+  all_rows <- list_unchop(rows, ptype = integer())
+  n_groups <- length(rows)
+
+  # `values` holds the `order_by` values of all groups, one after the other
+  values <- NULL
+  if (n_groups > 1L) {
+    values <- slice_order_by_column(helper$order_by, data, mask, all_rows)
+  }
+
+  if (is.null(values)) {
+    chunks <- slice_order_by_chunks(helper$order_by, mask, sizes)
+    if (n_groups > 1L && slice_chunks_are_combinable(chunks)) {
+      values <- list_unchop(chunks)
+    }
+  }
+
+  if (!is.null(values)) {
+    locs <- slice_rank_locs(
+      values,
+      sizes = sizes,
+      sizes_out = sizes_out,
+      direction = helper$direction,
+      with_ties = helper$with_ties,
+      na_rm = helper$na_rm
+    )
+    return(all_rows[locs])
+  }
+
+  # Otherwise rank group by group
+  out <- vector("list", n_groups)
+  for (i in seq_len(n_groups)) {
+    mask$set_current_group(i)
+    loc <- slice_rank_idx(
+      chunks[[i]],
+      sizes_out[[i]],
+      direction = helper$direction,
+      with_ties = helper$with_ties,
+      na_rm = helper$na_rm
+    )
+    out[[i]] <- rows[[i]][loc]
+  }
+  list_unchop(out, ptype = integer())
+}
+
+# A bare column doesn't need to be evaluated in every group, so its values can
+# be taken directly when they are ranked the same way across groups
+slice_order_by_column <- function(order_by, data, mask, rows) {
+  if (!quo_is_symbol(order_by)) {
+    return(NULL)
+  }
+
+  name <- as_string(quo_get_expr(order_by))
+  loc <- match(name, mask$current_vars())
+  if (is.na(loc) || name %in% c(".data", ".env")) {
+    return(NULL)
+  }
+
+  column <- .subset2(data, loc)
+  if (!is_pointwise_orderable(vec_ptype(column))) {
+    return(NULL)
+  }
+
+  vec_slice(column, rows)
+}
+
+slice_order_by_chunks <- function(order_by, mask, sizes) {
+  # Evaluated as a nested quosure, like the per-group helper quosure does, so
+  # that errors report the same call. Parentheses wouldn't do, because
+  # injection removes them.
+  chunks <- mask$eval_all(quo({
+    !!order_by
+  }))
+  check_slice_order_by_sizes(chunks, sizes, mask)
+
+  chunks
+}
+
+check_slice_order_by_sizes <- function(chunks, sizes, mask) {
+  if (list_all_vectors(chunks) && identical(list_sizes(chunks), sizes)) {
+    return(invisible())
+  }
+
+  # Find the first problematic group and let `vec_check_size()` describe it
+  for (i in seq_along(chunks)) {
+    mask$set_current_group(i)
+    vec_check_size(
+      chunks[[i]],
+      size = sizes[[i]],
+      arg = "order_by",
+      call = NULL
+    )
+  }
+
+  invisible()
+}
+
+# Combining the groups mustn't change how their values are ordered, which it
+# could if their types differ (e.g. factors with group specific levels)
+slice_chunks_are_combinable <- function(chunks) {
+  ptype <- vec_ptype(chunks[[1L]])
+  if (!is_pointwise_orderable(ptype)) {
+    return(FALSE)
+  }
+
+  for (chunk in chunks) {
+    if (!identical(vec_ptype(chunk), ptype)) {
+      return(FALSE)
+    }
+  }
+
+  TRUE
+}
+
+# Whether `vec_rank()` orders each value independently of the other values, so
+# that ranking all groups together gives the same result as ranking each group
+# on its own. That isn't the case for lists, which are ordered by first
+# appearance, or for classes that may define their own order proxy.
+is_pointwise_orderable <- function(ptype) {
+  if (is.data.frame(ptype)) {
+    return(all(map_lgl(ptype, is_pointwise_orderable)))
+  }
+
+  if (!is.null(dim(ptype))) {
+    return(FALSE)
+  }
+
+  if (is.object(ptype)) {
+    return(inherits_any(ptype, c("factor", "Date", "POSIXct", "difftime")))
+  }
+
+  typeof(ptype) %in% c("logical", "integer", "double", "character")
+}
+
+# Computes `slice_rank_idx()` for every group at once. `order_by` holds the
+# groups' values one after the other, and the result indexes into it.
+slice_rank_locs <- function(
+  order_by,
+  sizes,
+  sizes_out,
+  direction,
+  with_ties,
+  na_rm
+) {
+  groups <- vec_rep_each(seq_along(sizes), sizes)
+  offsets <- cumsum(sizes) - sizes
+
+  # Ranking `order_by` on its own first means that ranking within groups only
+  # has to rank pairs of integers. Missing values go at the end, as in
+  # `slice_rank_idx()`.
+  na_value <- if (direction == "asc") "largest" else "smallest"
+  keys <- vec_rank(
+    order_by,
+    ties = "min",
+    direction = direction,
+    na_value = na_value
+  )
+
+  ties <- if (with_ties) "min" else "sequential"
+  ranks <- vec_rank(
+    new_data_frame(list(group = groups, key = keys)),
+    ties = ties
+  )
+
+  # Rows of earlier groups rank below every row of the current group, so
+  # removing them gives the rank within the group
+  keep <- ranks - offsets[groups] <= sizes_out[groups]
+  if (na_rm) {
+    keep <- keep & vec_detect_complete(order_by)
+  }
+
+  locs <- which(keep)
+  locs[order(ranks[locs])]
+}
+
 check_constant <- function(x, name, error_call = caller_env()) {
   withCallingHandlers(force(x), error = function(e) {
     bullets <- c(
@@ -614,14 +854,25 @@ get_slice_size <- function(
   new_function(pairlist2(n = ), body)
 }
 
+# Vectorised over `x` and `max`, so that `get_slice_size()` can compute the size
+# of every group at once. An infinite `prop` gives a `NaN` `x` for empty groups,
+# which have no rows to keep.
 clamp <- function(min, x, max) {
-  if (x < min) {
-    min
-  } else if (x > max) {
-    max
-  } else {
-    x
+  # Fast path for a single group, as `slice_sample()` computes sizes group by
+  # group
+  if (length(x) == 1L && length(max) == 1L) {
+    if (is.nan(x) || x < min) {
+      return(min)
+    } else if (x > max) {
+      return(max)
+    } else {
+      return(x)
+    }
   }
+
+  out <- pmin(pmax(x, min), max)
+  out[is.nan(out)] <- min
+  out
 }
 
 sample_int <- function(n, size, replace = FALSE, wt = NULL) {

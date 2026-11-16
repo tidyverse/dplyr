@@ -369,6 +369,28 @@ test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
   expect_warning(sample_frac(nf, .5), "noisy")
 })
 
+test_that("slice_helpers pass `slice()` methods dots they can evaluate per group", {
+  local_methods(
+    slice.selfeval = function(.data, ..., .by = NULL, .preserve = FALSE) {
+      dots <- enquos(...)
+      class(.data) <- setdiff(class(.data), "selfeval")
+
+      locs <- summarise(.data, loc = list(!!dots[[1]]), .groups = "drop")$loc
+      rows <- map2(group_rows(.data), locs, function(rows, loc) rows[loc])
+      dplyr_row_slice(.data, list_unchop(rows, ptype = integer()))
+    }
+  )
+
+  gdf <- group_by(tibble(g = c(1, 2, 1, 2, 1), x = c(3, 1, 1, 2, 2)), g)
+  sdf <- gdf
+  class(sdf) <- c("selfeval", class(sdf))
+
+  expect_identical(slice_head(sdf, n = 2), slice_head(gdf, n = 2))
+  expect_identical(slice_tail(sdf, n = 2), slice_tail(gdf, n = 2))
+  expect_identical(slice_min(sdf, x, n = 2), slice_min(gdf, x, n = 2))
+  expect_identical(slice_max(sdf, x, n = 2), slice_max(gdf, x, n = 2))
+})
+
 test_that("slice_helper `by` errors use correct error context and correct `by_arg`", {
   df <- tibble(x = 1)
   gdf <- group_by(df, x)
@@ -465,6 +487,59 @@ test_that("slice_min/max() work with `by`", {
 
   expect_identical(slice_min(df, x, by = g), df[c(1, 4), ])
   expect_identical(slice_max(df, x, by = g), df[c(2, 3), ])
+})
+
+test_that("slice_min/max() rank within each group", {
+  df <- tibble(
+    id = 1:9,
+    g = c(2, 1, 2, 1, 2, 1, 3, 3, 3),
+    x = c(2, NA, 1, 3, 1, 3, NA, NA, 5)
+  )
+  gdf <- group_by(df, g)
+
+  expect_identical(slice_min(gdf, x)$id, c(4L, 6L, 3L, 5L, 9L))
+  expect_identical(slice_max(gdf, x)$id, c(4L, 6L, 1L, 9L))
+  expect_identical(
+    slice_min(gdf, x, n = 2, with_ties = FALSE)$id,
+    c(4L, 6L, 3L, 5L, 9L, 7L)
+  )
+  expect_identical(
+    slice_max(gdf, x, n = 2, na_rm = TRUE)$id,
+    c(4L, 6L, 1L, 3L, 5L, 9L)
+  )
+  expect_identical(slice_max(gdf, desc(x), n = 1)$id, c(4L, 6L, 3L, 5L, 9L))
+})
+
+test_that("slice_min/max() rank groups separately when they can't be combined", {
+  # Lists are ranked by first appearance within each group
+  df <- tibble(id = 1:4, g = c(1, 1, 2, 2), x = list("b", "a", "a", "b"))
+  gdf <- group_by(df, g)
+  expect_identical(slice_min(gdf, x, with_ties = FALSE)$id, c(1L, 3L))
+  expect_identical(slice_max(gdf, x, with_ties = FALSE)$id, c(2L, 4L))
+
+  # Types that differ by group
+  df <- tibble(id = 1:4, g = c(1, 1, 2, 2), x = c(1, 2, 4, 3))
+  gdf <- group_by(df, g)
+  out <- slice_max(gdf, if (cur_group_id() == 1) as.character(x) else x)
+  expect_identical(out$id, c(2L, 3L))
+
+  # Factors with group specific levels
+  df <- tibble(id = 1:4, g = c(1, 1, 2, 2), x = c(1, 2, 1, 2))
+  gdf <- group_by(df, g)
+  out <- slice_max(
+    gdf,
+    factor(x, levels = if (cur_group_id() == 1) c(1, 2) else c(2, 1))
+  )
+  expect_identical(out$id, c(2L, 3L))
+})
+
+test_that("grouped slice_min/max() errors mention the group", {
+  gdf <- group_by(tibble(g = c(1, 2, 2), x = 1:3), g)
+
+  expect_snapshot(error = TRUE, {
+    slice_min(gdf, if (cur_group_id() == 2) 1 else x)
+    slice_max(gdf, if (cur_group_id() == 2) stop("oops") else x)
+  })
 })
 
 test_that("slice_min/max() inject `with_ties` and `na_rm` (#6725)", {
@@ -618,6 +693,16 @@ test_that("slice_head/slice_tail handle infinite n/prop", {
   expect_identical(slice_tail(df, prop = Inf), df)
   expect_identical(slice_head(df, prop = -Inf), df[0, ])
   expect_identical(slice_tail(df, prop = -Inf), df[0, ])
+})
+
+test_that("slice_head/slice_tail handle infinite prop with empty groups", {
+  df <- tibble(x = 1:3, g = factor(c("a", "a", "b"), levels = c("a", "b", "c")))
+  gdf <- group_by(df, g, .drop = FALSE)
+
+  expect_identical(slice_head(gdf, prop = Inf), gdf)
+  expect_identical(slice_tail(gdf, prop = -Inf), gdf[0, ])
+  expect_identical(slice_head(df[0, ], prop = Inf), df[0, ])
+  expect_identical(slice_sample(df[0, ], prop = Inf), df[0, ])
 })
 
 test_that("slice_head/slice_tail work with `by`", {

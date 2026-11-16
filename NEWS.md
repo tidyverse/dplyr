@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `slice_head()`, `slice_tail()`, `slice_min()`, and `slice_max()` are much faster on data frames with many groups, because they now compute the rows to keep for all groups at once rather than evaluating R code in every group.
+
+* `slice_head()`, `slice_tail()`, and `slice_sample()` no longer error when `prop` is infinite and a group is empty.
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).
