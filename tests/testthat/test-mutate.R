@@ -774,6 +774,21 @@ test_that("mutate() deals with 0 groups (#5534)", {
   })
 })
 
+test_that("mutate() computes `dplyr::n()` from the group sizes", {
+  df <- tibble(g = c(1, 2, 1, 3))
+
+  gdf <- group_by(df, g)
+  out <- mutate(gdf, n = dplyr::n(), prop = 1 / n)
+  expect_identical(out, mutate(gdf, n = n(), prop = 1 / n))
+  expect_identical(out$n, c(2L, 1L, 2L, 1L))
+
+  rdf <- rowwise(df)
+  expect_identical(mutate(rdf, n = dplyr::n()), mutate(rdf, n = n()))
+
+  gdf <- group_by(df[0, ], g)
+  expect_identical(mutate(gdf, n = dplyr::n()), mutate(gdf, n = n()))
+})
+
 test_that("functions are not skipped in data pronoun (#5608)", {
   f <- function(i) i + 1
   df <- tibble(a = list(f), b = 1)

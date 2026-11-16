@@ -343,6 +343,11 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
 }
 
 summarise_eval_one <- function(quo, mask) {
+  if (quo_is_dplyr_n(quo)) {
+    sizes <- list_sizes(mask$get_rows())
+    return(list(chunks = as.list(sizes), types = integer(), results = sizes))
+  }
+
   quo_data <- attr(quo, "dplyr:::data")
   if (!is.null(quo_data$column)) {
     context_poke("column", quo_data$column)

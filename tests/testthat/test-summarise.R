@@ -227,6 +227,21 @@ test_that("summarise respects zero-length groups (#341)", {
   expect_equal(out$n, c(10L, 10L, 10L, 0L))
 })
 
+test_that("summarise() computes `dplyr::n()` from the group sizes", {
+  df <- tibble(g = c(1, 2, 1, 3), f = factor(g, levels = 1:4))
+
+  gdf <- group_by(df, f, .drop = FALSE)
+  out <- summarise(gdf, n = dplyr::n(), n2 = n * 2L)
+  expect_identical(out, summarise(gdf, n = n(), n2 = n * 2L))
+  expect_identical(out$n, c(2L, 1L, 1L, 0L))
+
+  rdf <- rowwise(df)
+  expect_identical(summarise(rdf, n = dplyr::n()), summarise(rdf, n = n()))
+
+  gdf <- group_by(df[0, ], g)
+  expect_identical(summarise(gdf, n = dplyr::n()), summarise(gdf, n = n()))
+})
+
 # vector types ----------------------------------------------------------
 
 test_that("summarise allows names (#2675)", {
