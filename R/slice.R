@@ -486,6 +486,7 @@ slice_eval <- function(
 slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
   rows <- mask$get_rows()
   slice_indices <- new_list(length(rows))
+  arg <- slice_indices_label(dots)
 
   withCallingHandlers(
     for (group in seq_along(rows)) {
@@ -497,7 +498,7 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
         zero = "remove",
         oob = "remove",
         missing = "remove",
-        arg = as_label(dots[[group]]),
+        arg = arg,
         call = NULL # error always chained to slice()
       )
       grp_loc <- current_rows[loc]
@@ -516,6 +517,16 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
   )
 
   slice_indices
+}
+
+# The indices of each group combine the results of all of `...`, so they are
+# labelled as `c(...)` when there are several expressions
+slice_indices_label <- function(dots) {
+  if (length(dots) == 1L) {
+    as_label(dots[[1L]])
+  } else {
+    as_label(call2("c", !!!map(dots, quo_get_expr)))
+  }
 }
 
 check_constant <- function(x, name, error_call = caller_env()) {

@@ -39,6 +39,15 @@ test_that("slice errors if positive and negative indices mixed", {
   })
 })
 
+test_that("slice labels invalid indices of any group", {
+  gf <- group_by(tibble(g = c(1, 1, 2, 2), x = 1:4), g)
+
+  expect_snapshot(error = TRUE, {
+    slice(gf, if (cur_group_id() == 2) c(-1, 2) else 1)
+    slice(gf, 1, if (cur_group_id() == 2) -1 else 2)
+  })
+})
+
 test_that("slice ignores 0 and NA (#3313, #1235)", {
   gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
 
