@@ -159,10 +159,7 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   nms <- as_utf8_character(names2(cols))
   names(out) <- as_utf8_character(names2(out))
 
-  for (i in seq_along(cols)) {
-    nm <- nms[[i]]
-    out[[nm]] <- cols[[i]]
-  }
+  out <- list_assign_by_name(out, nms, cols)
 
   # Transform back to data frame before reconstruction
   row_names <- .row_names_info(data, type = 0L)

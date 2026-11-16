@@ -10,6 +10,37 @@ test_that("quo_is_variable_reference handles .data", {
 })
 
 # ------------------------------------------------------------------------------
+# list_assign_by_name()
+
+test_that("`list_assign_by_name()` matches assigning one name at a time", {
+  assign_each <- function(x, names, values) {
+    for (i in seq_along(values)) {
+      x[[names[[i]]]] <- values[[i]]
+    }
+    x
+  }
+  expect_same <- function(x, names, values) {
+    expect_identical(
+      list_assign_by_name(x, names, values),
+      assign_each(x, names, values)
+    )
+  }
+
+  x <- list(a = 1, b = 2, c = 3)
+
+  # Replace, append, and remove
+  expect_same(x, c("b", "d", "a", "e"), list(20, 4, NULL, list(5)))
+  expect_same(x, c("z", "c"), list(NULL, NULL))
+  expect_same(x, character(), list())
+  expect_same(list(), c("a", "b"), list(1, 2))
+  expect_same(set_names(list(), character()), character(), list())
+
+  # Repeated names, where the order of the assignments matters
+  expect_same(x, c("a", "a", "d", "d"), list(NULL, 10, 4, 40))
+  expect_same(list(a = 1, a = 2), c("a", "b"), list(10, NULL))
+})
+
+# ------------------------------------------------------------------------------
 # list_flatten()
 
 test_that("`list_flatten()` is a no-op on flattened lists", {

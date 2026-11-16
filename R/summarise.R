@@ -219,10 +219,13 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
 
   warnings_state <- env(warnings = list())
 
+  # Grown by index rather than with `append()` or `c()`, which copy the whole
+  # vector each time and are quadratic in the number of results
   chunks <- list()
   types <- list()
   results <- list()
   out_names <- character()
+  n_out <- 0L
 
   local_error_context(dots, 0L, mask = mask)
 
@@ -263,19 +266,22 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
                 chunks = chunks_extracted[[j]],
                 result = results_k[[j]]
               )
-            }
 
-            chunks <- append(chunks, chunks_extracted)
-            types <- append(types, as.list(types_k))
-            results <- append(results, results_k)
-            out_names <- c(out_names, types_k_names)
+              n_out <- n_out + 1L
+              chunks[n_out] <- list(chunks_extracted[[j]])
+              types[n_out] <- list(types_k[[j]])
+              results[n_out] <- list(results_k[[j]])
+              out_names[n_out] <- types_k_names[[j]]
+            }
           } else {
             name <- dplyr_quosure_name(quo_data)
             mask$add_one(name = name, chunks = chunks_k, result = results_k)
-            chunks <- append(chunks, list(chunks_k))
-            types <- append(types, list(types_k))
-            results <- append(results, list(results_k))
-            out_names <- c(out_names, name)
+
+            n_out <- n_out + 1L
+            chunks[n_out] <- list(chunks_k)
+            types[n_out] <- list(types_k)
+            results[n_out] <- list(results_k)
+            out_names[n_out] <- name
           }
         }
       }
@@ -332,10 +338,7 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
 
   # Build output `cols`, assigning by name so `summarise(df, a = expr, a = expr)`
   # only retains the 2nd assignment
-  cols <- list()
-  for (i in seq_along(results)) {
-    cols[[out_names[i]]] <- results[[i]]
-  }
+  cols <- list_assign_by_name(list(), out_names, results)
 
   signal_warnings(warnings_state, error_call)
 
