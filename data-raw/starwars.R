@@ -38,6 +38,10 @@ planets <- lookup("https://swapi.py4e.com/api/planets/?format=json")
 vehicles <- lookup("https://swapi.py4e.com/api/vehicles/?format=json")
 starships <- lookup("https://swapi.py4e.com/api/starships/?format=json")
 
+lookup_names <- function(urls, names) {
+  unname(names[urls])
+}
+
 starwars <- tibble(
   name = people |> map_chr("name"),
   height = people |>
@@ -52,21 +56,20 @@ starwars <- tibble(
     parse_number(na = "unknown"),
   sex = people |> map_chr("gender") |> parse_character(na = "n/a"),
   gender = NA_character_,
-  homeworld = people |> map_chr("homeworld") |> planets[.] |> unname(),
+  homeworld = people |> map_chr("homeworld") |> lookup_names(planets),
   species = people |>
     map("species") |>
     map_chr(1, .null = NA) |>
-    species[.] |>
-    unname(),
+    lookup_names(species),
   films = people |>
     map("films") |>
-    map(. |> flatten_chr() |> films[.] |> unname()),
+    map(\(urls) lookup_names(flatten_chr(urls), films)),
   vehicles = people |>
     map("vehicles", .default = list()) |>
-    map(. |> flatten_chr() |> vehicles[.] |> unname()),
+    map(\(urls) lookup_names(flatten_chr(urls), vehicles)),
   starships = people |>
     map("starships", .default = list()) |>
-    map(. |> flatten_chr() |> starships[.] |> unname())
+    map(\(urls) lookup_names(flatten_chr(urls), starships))
 )
 
 # Add gender --------------------------------------------------------------
