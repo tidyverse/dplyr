@@ -223,16 +223,21 @@ See the \emph{Many-to-many relationships} section for more details.
 }
 \item \code{"one-to-many"} expects:
 \itemize{
+\item Each row in \code{x} can match any number of rows in \code{y}.
 \item Each row in \code{y} matches at most 1 row in \code{x}.
 }
 \item \code{"many-to-one"} expects:
 \itemize{
 \item Each row in \code{x} matches at most 1 row in \code{y}.
+\item Each row in \code{y} can match any number of rows in \code{x}.
 }
 \item \code{"many-to-many"} doesn't perform any relationship checks, but is provided
 to allow you to be explicit about this relationship if you know it
 exists.
 }
+
+A one-to-one relationship satisfies both \code{"one-to-many"} and
+\code{"many-to-one"}.
 
 \code{relationship} doesn't handle cases where there are zero matches. For that,
 see \code{unmatched}.}
