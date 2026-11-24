@@ -16,7 +16,11 @@
 #' * `dense_rank()` works like `min_rank()`, but doesn't leave any gaps,
 #'   so that `c(10, 20, 20, 30)` gets ranks `c(1, 2, 2, 3)`.
 #'
-#' @param x A vector to rank
+#' @param x A vector to rank.
+#'
+#'   You can omit `x` in `row_number()` inside a data-masking verb such as
+#'   [mutate()] or [filter()]. The function returns each row's position
+#'   within its group, or within the full input for ungrouped data.
 #'
 #'   By default, the smallest values will get the smallest ranks. Use [desc()]
 #'   to reverse the direction so the largest values get the smallest ranks.
