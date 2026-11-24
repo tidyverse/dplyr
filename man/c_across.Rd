@@ -12,8 +12,10 @@ You can't select grouping columns because they are already automatically
 handled by the verb (i.e. \code{\link[=summarise]{summarise()}} or \code{\link[=mutate]{mutate()}}).}
 }
 \description{
-\code{c_across()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to
-perform row-wise aggregations. It has two differences from \code{c()}:
+\code{c_across()} combines the selected columns into a single vector within
+the current group. With \code{\link[=rowwise]{rowwise()}}, each row forms its own group.
+
+It has two differences from \code{c()}:
 \itemize{
 \item It uses tidy select semantics so you can easily select multiple variables.
 See \code{vignette("rowwise")} for more details.
@@ -28,6 +30,12 @@ df |>
     sum = sum(c_across(w:z)),
     sd = sd(c_across(w:z))
   )
+
+# Combine values across columns and rows within each group
+df <- tibble(group = c("a", "a", "b"), x = 1:3, y = 4:6)
+df |>
+  group_by(group) |>
+  summarise(total = sum(c_across(x:y)))
 }
 \seealso{
 \code{\link[=across]{across()}} for a function that returns a tibble.
