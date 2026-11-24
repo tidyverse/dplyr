@@ -183,14 +183,19 @@
 #'     - Each row in `y` matches at most 1 row in `x`.
 #'
 #'   - `"one-to-many"` expects:
+#'     - Each row in `x` can match any number of rows in `y`.
 #'     - Each row in `y` matches at most 1 row in `x`.
 #'
 #'   - `"many-to-one"` expects:
 #'     - Each row in `x` matches at most 1 row in `y`.
+#'     - Each row in `y` can match any number of rows in `x`.
 #'
 #'   - `"many-to-many"` doesn't perform any relationship checks, but is provided
 #'     to allow you to be explicit about this relationship if you know it
 #'     exists.
+#'
+#'   A one-to-one relationship satisfies both `"one-to-many"` and
+#'   `"many-to-one"`.
 #'
 #'   `relationship` doesn't handle cases where there are zero matches. For that,
 #'   see `unmatched`.
