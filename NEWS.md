@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* The base R comparison vignette now covers `bind_rows()` and `bind_cols()`
+  (@M-Colley, #7822).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).

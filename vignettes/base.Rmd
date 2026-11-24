@@ -351,6 +351,8 @@ mtcars[25:nrow(mtcars), , drop = FALSE]
 
 When we want to merge two data frames, `x` and `y`), we have a variety of different ways to bring them together. Various base R `merge()` calls are replaced by a variety of dplyr `join()` functions.
 
+We can also stack data frames with `bind_rows()` or place them side by side with `bind_cols()`.
+
 | dplyr                  | base                                    |
 |------------------------|-----------------------------------------|
 | `inner_join(df1, df2)` |`merge(df1, df2)`                        |
@@ -359,6 +361,8 @@ When we want to merge two data frames, `x` and `y`), we have a variety of differ
 | `full_join(df1, df2)`  |`merge(df1, df2, all = TRUE)`            |
 | `semi_join(df1, df2)`  |`df1[df1$x %in% df2$x, , drop = FALSE]`  |
 | `anti_join(df1, df2)`  |`df1[!df1$x %in% df2$x, , drop = FALSE]` |
+| `bind_rows(df1, df2)` | `rbind(df1, df2)`                        |
+| `bind_cols(df1, df2)` | `cbind(df1, df2)`                        |
 
 For more information about two-table verbs, see `vignette("two-table")`.
 
@@ -386,3 +390,31 @@ band_members[!band_members$name %in% band_instruments$name, , drop = FALSE]
 ```
 
 Semi and anti joins with multiple key variables are considerably more challenging to implement.
+
+### Binding rows and columns
+
+`bind_rows()` and `rbind()` stack data frames. When the inputs have the same columns in different orders, both functions match them by name.
+
+```{r}
+first <- data.frame(id = 1:2, score = c(9, 8))
+second <- data.frame(score = c(7, 6), id = 3:4)
+
+bind_rows(first, second)
+rbind(first, second)
+```
+
+With different columns, `bind_rows()` keeps every column and fills missing columns with `NA`. `rbind()` requires nonempty data frames to have matching columns.
+
+```{r}
+bind_rows(first, data.frame(id = 3:4))
+```
+
+`bind_cols()` and `cbind()` place columns side by side. They align rows by position. Use a join when rows need to match by a key.
+
+```{r}
+ids <- data.frame(id = 1:2)
+scores <- data.frame(score = c(9, 8))
+
+bind_cols(ids, scores)
+cbind(ids, scores)
+```
