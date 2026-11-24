@@ -13,7 +13,11 @@ min_rank(x)
 dense_rank(x)
 }
 \arguments{
-\item{x}{A vector to rank
+\item{x}{A vector to rank.
+
+You can omit \code{x} in \code{row_number()} inside a data-masking verb such as
+\code{\link[=mutate]{mutate()}} or \code{\link[=filter]{filter()}}. The function returns each row's position
+within its group, or within the full input for ungrouped data.
 
 By default, the smallest values will get the smallest ranks. Use \code{\link[=desc]{desc()}}
 to reverse the direction so the largest values get the smallest ranks.
