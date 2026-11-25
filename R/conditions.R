@@ -225,7 +225,12 @@ dplyr_error_handler <- function(
   force(frame)
 
   function(cnd) {
-    local_error_context(dots, i = frame[[i_sym]], mask = mask)
+    i <- frame[[i_sym]]
+    if (is.null(i)) {
+      return()
+    }
+
+    local_error_context(dots, i = i, mask = mask)
 
     if (inherits(cnd, "dplyr:::internal_error")) {
       parent <- error_cnd(message = bullets(cnd))

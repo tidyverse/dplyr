@@ -45,6 +45,20 @@ test_that("errors during dots collection are not enriched (#6178)", {
   })
 })
 
+test_that("errors before the first expression keep their original condition", {
+  original <- error_cnd("test_error", message = "Original error")
+  handler <- dplyr_error_handler(
+    dots = quos(result = 1),
+    mask = NULL,
+    bullets = NULL,
+    error_call = NULL,
+    frame = env(i = NULL)
+  )
+
+  actual <- catch_cnd(withCallingHandlers(stop(original), error = handler))
+  expect_identical(actual, original)
+})
+
 test_that("warnings are collected for `last_dplyr_warnings()`", {
   skip_if_not_installed("base", "3.6.0")
 

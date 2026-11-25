@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `mutate()`, `summarise()`, and `reframe()` preserve errors raised before the
+  first expression begins evaluating (#7872, @M-Colley).
+
 # dplyr 1.2.1
 
 * dplyr is now fully compliant with the R C API (#7819).

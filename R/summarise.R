@@ -224,6 +224,8 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
   results <- list()
   out_names <- character()
 
+  # The error handler can run before the loop assigns an index.
+  i <- NULL
   local_error_context(dots, 0L, mask = mask)
 
   withCallingHandlers(
